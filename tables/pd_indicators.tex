@@ -1,0 +1,26 @@
+\begin{table}
+    \centering
+    \begin{tabular}{p{0.33\textwidth} p{0.33\textwidth} p{0.33\textwidth}}
+    \hline
+    \textbf{Breakout indicators} &\textbf{Real-time indicators} & \textbf{Post-pump indicators}\\
+    \hline
+    Volume & Has the volume at the current data point been significantly higher than in the estimation window? & Was there a decline in volume after the event window where a pump was detected?\\\\
+    Price & Has the price at the current data point been significantly higher than in the estimation window? & Was there a decline in price after the event window where a pump was detected?\\\\
+    \end{tabular}
+    
+    \begin{tabular}{p{0.33\textwidth} p{0.66\textwidth}}
+    \hline
+    \textbf{Reinforcers} &\textbf{Temporal dimension}\\
+    \hline
+    Market cap & Is the market cap of the coin relatively low? $(+)$\\\\
+    Number of exchanges & Whether the coin is listed on multiple exchanges and the indicators only spike on one $(+)$\\
+                        & Whether the coin is listed on multiple and the indicators spike on multiple exchanges (neutral)\\
+                        & Whether the coin is not listed on multiple exchanges $(+)$\\\\
+    Symbol pair         & Whether the coin is trading for BTC or some other cryptocurrency $(+)$\\
+                        & Whether the coin is trading for USD or some other fiat currency $(-)$\\
+    Time                & Whether the coin is start on the hour or half hour and last a few minutes$(+)$\\
+    \hline
+    \end{tabular}
+    \caption{Indicators of \ac{pd} per temporal dimension and indicator type. (Source: \cite{P&D_to_the_moon, P&D_anatomy})}
+    \label{tab:pd_indicators}
+\end{table}

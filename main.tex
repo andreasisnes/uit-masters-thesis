@@ -1,0 +1,65 @@
+\documentclass[USenglish,glsresetperchapter,a4paper]{uit-thesis}
+
+% Packages
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{cases}
+\usepackage[utf8]{inputenc}
+\usepackage[backend=biber, bibstyle=ieee, citestyle=numeric-comp, sortcites=true]{biblatex}
+\input{chat.tex}
+
+% Acronyms config
+\newglossarystyle{ult-super}{
+    \setglossarystyle{ult-long}
+    \setlength{\glsdescwidth}{0.74\textwidth}
+    \renewcommand*{\glossentry}[2]{
+        \glsentryitem{##1}\glstarget{##1}{\glossentryname{##1}} &
+        \glossentrydesc{##1}\glspostdescription\space ##2\tabularnewline&\tabularnewline%
+    }
+}
+\makeglossaries
+\loadglsentries{acronyms}
+
+% Paths
+\addbibresource{bibliography.bib}
+\graphicspath{{images/}}
+\makeatletter
+\def\input@path{{chapters/}}
+\makeatother
+
+\begin{document}
+
+% Front page
+\title{Title - TBD}
+\subtitle{Subtitle - TBD}
+\author{Andreas Isnes Nilsen}
+\thesisfaculty{Faculty of Science and Technology \\ Department of Computer Science}
+\thesisprogramme{INF-3981 - Master Thesis In Computer Science June 1 2019}
+\maketitle
+\frontmatter
+
+\begin{abstract}
+Kakekai.
+\end{abstract}
+
+\begin{acknowledgement}
+Kakekai.
+\end{acknowledgement}
+
+\tableofcontents
+\printacronyms[style=ult-super]
+
+% Content
+\mainmatter
+%\include{0_notes}
+%\include{images}
+\include{chapters/1_introduction}
+\include{chapters/2_background}
+\include{chapters/3_design}
+\include{chapters/4_implementation}
+
+% Bibliography and appendix
+\backmatter
+\printbibliography
+\end{document}

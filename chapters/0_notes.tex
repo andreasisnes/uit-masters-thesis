@@ -1,0 +1,60 @@
+\chapter{Notes}
+
+\section{Cryptocurrency}
+\begin{enumerate}
+    \item The market for cryptocurrencies is rapidly expanding, and at the time of writing currently had a market capitalization of around 300 billion US dollars (CoinMarketCap 2018) making it comparable to the GDP of Denmark.
+    \item The lack of regulation, combined with their technical complexity, makes them an attractive target for scammers who would seek to prey on the misinformed. One such scam is know as a pump-and-dump (P\&D).
+\end{enumerate}
+
+
+\section{Pump-and-Dump}
+\subsection{What is pump-and-dump}
+\begin{enumerate}
+    \item 
+\end{enumerate}
+
+\subsection{pump-and-dump scheme in context of cryptocurrency}
+\begin{enumerate}
+    \item In the cryptocurrency context there is an overall slightly different modus operandi than in the traditional context of penny stocks; specially, this has been seen in the rise of dedicated public \ac{pd} groups. These groups have emerged in online chat rooms such as Discord and Telegram with the sole purpose of organizing \ac{pd} scams on select cryptocurrencies\cite{P&D_to_the_moon,P&D_MIT_crypto}.
+    \item price increases of up to 950\% have been witnessed, demonstrating the extent of manipulation these groups are capable of\cite{P&D_cointelegraph}.
+    \item The number of members in some of the groups is reported to have been as high as 200,000 with smaller groups still running about 2000\cite{P&D_the_outline}.
+    \item For these \ac{pd} groups to gain most profit, several reports of activity show that they almost exclusively target less popular coins, specially those with a low market cap and low circulation, since they are deemed easier to manipulate \cite{P&D_MIT_crypto}.
+    \item There is some evidence to show that such schemes are generating millions of dollars of trading activity\cite{P&D_to_the_moon, P&D_MIT_crypto}.
+    \item The Wall Street Journal published an investigative article that looked at public \ac{pd} groups and 6 months of trading activity. They found \$825 million linked to pump-and-dump schemes, with one group alone accounting for \$222 million in trades \cite{P&D_WSJ}.
+\end{enumerate}
+
+\subsection{Indicators of pump-and-dump}
+
+Indicators of pump-and-dumps per temporal dimension and indicator type. Breakout indicators of \ac{pd}
+%%% - for an analytically approach - patterns to look out for!
+
+Producing a dataset for machine learning models\cite{P&D_stock_price_manipulation}.
+\begin{table}
+    \centering
+    \begin{tabular}{p{0.33\textwidth} p{0.66\textwidth}}
+        \hline
+        \textbf{Parameters} & \textbf{Description}\\
+        \hline
+         $V_{\text{buy}}^{\text{cancel}} (t) $ & Cancellation volume of buy orders at time $t$\\\\
+         $\exp{[V_{\text{buy}}^{\text{matched}}(t)]}$ & Average volume of buy orders that have been been matched at time $t$\\\\
+         $P_{\text{sell}}^{\text{max}}(t)$ & The highest price of sell orders than have been matched at time $t$\\\\
+         $P_{\text{sell}}^{\text{min}}(t)$ & The lowest price of sell orders that have been matched at time $t$\\\\
+         $P_{\text{bid}}^{\text{max}}(t)$  & The highest bid price that have been matched at time $t$\\\\
+         $P_{\text{bid}}^{\text{min}}(t)$  & The lowest bid price that have been matched at time $t$\\
+         \hline
+    \end{tabular}
+    \caption{Caption}
+    \label{tab:my_label}
+\end{table}
+
+\subsection{Choose coins to monitor}
+For these \ac{pd} groups to achieve the best results, several reports of activity show that they almost exclusively target less popular coins, specially those with low market capitalization and low circulation, since they are deemed easier to manipulate\cite{P&D_avoid_getting_duped, P&D_here_is_how, P&D_how_to_spot}. Market capitalization is defined by \cite{cryptocurrency_market_cap}. 
+\begin{equation}
+    C = \text{Total Current Coins} \cdot \text{Current Price}
+\end{equation}
+NOTE:
+Missing circulation! Redefining formula
+\begin{equation}
+    R = \text{Volume traded for last 24 hours} \cdot \text{Current Price}
+\end{equation}
+Sort all market's $R$. Choose $n$ markets with smallest R.

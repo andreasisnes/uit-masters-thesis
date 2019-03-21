@@ -1,0 +1,8 @@
+\begin{align}
+    \mu_\gamma^p(x) &= \frac{\sum^x_{i=x-\gamma} x_{close}}{\gamma}\\
+    price\_anomaly(x)&=
+    \begin{cases}
+        True  & \text{if $x_{high} >    \epsilon_p \cdot \mu_\gamma^p(x)$}\\
+        False & \text{otherwise}
+    \end{cases}
+\end{align}
