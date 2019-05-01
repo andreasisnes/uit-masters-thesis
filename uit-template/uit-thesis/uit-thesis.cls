@@ -101,7 +101,7 @@
 
 % Option for resetting expansion of acronyms at start of each chapter
 \newif\ifult@resetallglsperchapter
-\ult@resetallglsperchapterfalse % Default to false
+\ult@resetallglsperchaptertrue % Default to false
 \DeclareOption{glsresetperchapter}{\ult@resetallglsperchaptertrue}
 
 % Option for ignoring drawing of List of Figures

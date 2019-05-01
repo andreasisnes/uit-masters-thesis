@@ -1,19 +1,16 @@
-\chapter{Background}\label{ch:background}
+% Fundamentals / environment and related work: 1/3
+% comment on employed hardware and software
+% describe methods and techniques that build the basis of your work
+% review related work(!)
 
-
-
-
-
-
-
-
-
-\newpage\section{Cryptocurrency}\label{sec:cryptocurrencies}
+\chapter{Background and Related Work}\label{ch:background}\glsresetall
+\section{Cryptocurrency}\label{sec:cryptocurrencies}
 % What is cryptocurrency???
 Cryptocurrencies are digital or virtual assets, and they use cryptography as a security and consistency mechanism~\cite{investopedia_cryptocurrency, P&D_to_the_moon}. The majority of cryptocurrencies are decentralized systems built on \emph{blockchain} technology, a public tamper proof transaction ledger. With the blockchain, any arbitrary person can verify the consistency of transactions without linking them to real-world identities. Satoshi Nakamoto is the founder of the first and most prevailing cryptocurrency from 2009, namely Bitcoin. In recent years, the number of other cryptocurrencies called \emph{altcoins} have emerged, and at the time writing, there are now over $2000$ different cryptocurrencies~\cite{coinmarketcap}. The altcoins describe themselves as better substitutes as Bitcoin face various complications which \autoref{sec:blockchain} details. Besides Bitcoin, other popular cryptocurrencies are Ripple, Ethereum, XRP, and Litecoin.
 
 % Incentive
-Traditional payment systems suffer from the inherent weakness of the trust based model. Completely non-reversible transactions are not possible since financial institutions cannot avoid mediating disputes. With the possibility of reversal, the need for trust spreads making merchants prompt customers for their confidential~\cite{bitcoin}. In contrast, cryptocurrency transactions are irreversible, Bitcoin defines an electronic payment as a chain of digital signatures, each transfer are digitally signed with the previous transaction~\cite{bitcoin, ethereum_white}. Cryptocurrency systems are pseudonymous; the public sees all the transactions, but without linking them to real-world identities.
+Traditional payment systems suffer from the inherent weakness of the trust based model. Completely non-reversible 
+transactions are not possible since financial institutions cannot avoid mediating disputes. With the possibility of reversal, the need for trust spreads making merchants prompt customers for their confidential~\cite{bitcoin}. In contrast, cryptocurrency transactions are irreversible, Bitcoin defines an electronic payment as a chain of digital signatures, each transfer are digitally signed with the previous transaction~\cite{bitcoin, ethereum_white}. Cryptocurrency systems are pseudonymous; the public sees all the transactions, but without linking them to real-world identities.
 
 \begin{figure}[ht]
     \includegraphics[width=\textwidth]{cryptocurrency_model.pdf}
@@ -35,28 +32,25 @@ A blockchain~\cite{bitcoin_book} is an ever growing list of blocks, equivalent t
 \end{figure}
 
 % Miners and PoW
-For nodes (miners) in cryptocurrency systems to solve the double-spending problem and agree on the succeeding block of pending transactions, they all must agree on a single block that comes next in line in the blockchain. The majority of cryptocurrencies use the consensus protocol \ac{pow} to elect the next block, which we define as following: Miners collect broadcasted pending transactions into a block; they are fussy and exclusively pick the transactions with the highest fees~\cite{trends_fee, trans_fee}. Then, the miners must play a cryptographic puzzle. They start hashing the new block with the hash of the previous block until the digest is below a defined threshold. Each try is pseudo-stochastic so it requires indefinite attempts, and miners can flip a bit in the block-field \emph{nonce}, so they do not reuse the same digest. The first miner to solve the puzzle broadcasts the block to the other miners which add the new block into the blockchain. Statistically, systems that use \ac{pow} remain the integrity as long as honest nodes possess more than $50\%$ of the total hashing rate in the system.
+For nodes (miners) in cryptocurrency systems to solve the double-spending problem and agree on the succeeding block of pending transactions, they all must agree on a single block that comes next in line in the blockchain. The majority of cryptocurrencies use the consensus protocol \ac{pow} to elect the next block, which we define as follows: Miners collect broadcasted pending transactions into a block; they are fussy and exclusively pick the transactions with the highest fees~\cite{trends_fee, trans_fee}. Then, the miners must play a cryptographic puzzle. They start hashing the new block with the hash of the previous block until the digest is below a defined threshold. Each try is pseudo-stochastic, so it requires indefinite attempts, and miners can flip a bit in the block-field \emph{nonce}, so they do not reuse the same digest. The first miner to solve the puzzle gets a minting reward and has to sign the blocks and broadcast it to the other miners which add the new block into the blockchain. Statistically, systems that use \ac{pow} remain their integrity as long as honest nodes possess more than $50\%$ of the total hashing rate in the system.
 % Possibly add some inline definitions and functions for properly formalize it.
 % NEED TO FIX: 
 %   Each try is pseudostochastic so it... 
 
 
 % Propegation time
-The Bitcoin protocol defines the issuing rate of new blocks to be approximately ten minutes. After the immense interest in cryptocurrency, the amount of miner has skyrocket which results in high electricity expenditure and a longer verification time of transactions due to the slower propagation time of blocks. Bitcoin miners electrical consumption alone can power five million U.S households and the emission of CO$_2$ for producing the required electricity is $275$ kilogram per transaction~\cite{bitcoin_power}. As the number of miners escalate, the longer propagation time of blocks, thus, the time-gap of where two or more block being proposed and integrated by miners at the same time expand~\cite{trans_fee}. When the miners have a different vision of the blockchain, they have created a \emph{branch}. Any branch is fixable though producing the longest branch as the \ac{pow} protocol looks at the longest branch as the true main branch. The blocks that are mined but was cut off from the main branch are invalid and called \emph{orphaned block}. And because of the possibility of orphaning, a rule of thumb in verification of Bitcoin transactions is to wait until a block with your payment is confirmed (buried under other blocks) six times~\cite{bitcoin_verification_1, bitcoin_verification_2}.
+The Bitcoin protocol defines the issuing rate of new blocks to be approximately ten minutes. After the immense interest in cryptocurrency, the amount of miner has skyrocket which results in high electricity expenditure and longer verification time of transactions due to the slower propagation time of blocks. Bitcoin miners electrical consumption alone can power five million U.S households and the emission of CO$_2$ for producing the required electricity is $275$ kilogram per transaction~\cite{bitcoin_power}. As the number of miners escalates, the longer propagation time of blocks, thus, the time-gap of where two or more block being proposed and integrated by miners at the same time expand~\cite{trans_fee}. When the miners have a different vision of the blockchain, they have created a \emph{branch}. Any branch is fixable though producing the longest branch as the \ac{pow} protocol looks at the longest branch as the true main branch. The blocks that are mined but was cut off from the main branch are invalid and called \emph{orphaned block}. And because of the possibility of orphaning, a rule of thumb in verification of Bitcoin transactions is to wait until a block with your payment is confirmed (buried under other blocks) six times~\cite{bitcoin_verification_1, bitcoin_verification_2} which is around one hour.
 
-\section{Exchanges}\label{sec:exchanges}
+\subsection{Exchanges}\label{sec:exchanges}
 % what are exchanges?
-% regulated
-% numbers of exchanges
-Cryptocurrency exchanges are centralized online platforms where traders can exchange cryptocurrency for another cryptocurrency or fiat\footnote{Money made by the government\cite{fiat}}. They are typically market makers that take \emph{bid-ask} spreads as transaction commissions for their services or charge fees as a matching platform~\cite{norton_rose}. Currently, they lack regulation\footnote{Application of law by the government} which makes them not trustworthy and susceptible to price manipulation schemes and con artists~\cite{exchange_scammers, exchange_scammers_2}. There are over $200$ different cryptocurrency exchanges where some of the most appealing are Coinbase, Binance, Bittrex, and Poloniex~\cite{exchange_best_1, exchange_best_2} having a monthly trading volume of more than \$$20$ billion~\cite{coinmarketcap_exchange}.
+Cryptocurrency exchanges are centralized online platforms where traders can exchange cryptocurrency for another cryptocurrency or fiat\footnote{Money made by the government\cite{fiat}}. They are typically market makers that take \emph{bid-ask} spreads as transaction commissions for their services or charge fees as a matching platform~\cite{norton_rose}. Currently, they lack regulation\footnote{Application of law by the government} which makes them not trustworthy and susceptible to price manipulation schemes and con artists~\cite{exchange_scammers, exchange_scammers_2}. There are over $200$ different cryptocurrency exchanges where some of the most appealing are Coinbase, Binance, Bittrex, and Poloniex~\cite{exchange_best_1, exchange_best_2}, where Binance has a monthly trading volume of more than \$$20$ billion~\cite{coinmarketcap_exchange}.
 
 % trading pairs
 Cryptocurrency exchanges list various symbol pairs denoting a \emph{base} and \emph{quote}. The currency pairs compare the value of one currency to another - the base currency versus the quote. It indicates how much of the quote currency is needed to purchase one unit of the base currency~\cite{investopedia_cryptocurrency}. Furthermore, exchanges categorize symbol pairs in markets, where the quote are typically the name of the market. For example, to trade Ethereum (ETH) for Bitcoin (BTC), the symbol pair "ETH/BTC" is in the Bitcoin market along with countless other symbol pairs.
 
 % tokens
 Trades on cryptocurrency exchanges are with \emph{tokens} which makes them off-blockchain~\cite{exchange_off_chain}, but in return, there is no need for verification as trades happening instantly. However, traders seemingly prefer to use multiple exchanges simultaneously, and transaction between exchanges are registered on the cryptocurrency's blockchain, see \autoref{fig:exchanges}. Exchanges are contradictory to the incentive of cryptocurrencies as they are decentralized systems while exchanges are centralized, but still, $99\%$ of cryptocurrency trades happen on exchanges~\cite{coinsutra}.
-
-%% NEED TO REWRITE!!!
+%% NEED TO REWRITE
 
 \begin{figure}[ht]
     \centering
@@ -65,38 +59,50 @@ Trades on cryptocurrency exchanges are with \emph{tokens} which makes them off-b
 \label{fig:exchanges}
 \end{figure}
 
-\subsection{Market data}
+\subsubsection{Market data}
 % rest api
-Before the internet, trading, in general, took place over the phone, in the post-internet age, trading take effect over an exchange's \ac{api}~\cite{exchange_api} allowing software to interact with the exchange. \acp{api} are useful for traders who have algorithmic models that are fueled by live price data and need to issue orders within milliseconds.
-
-% price
-% volume
-% time
+Before the internet, trading, in general, took place over the phone, in the post-internet age, trading takes effect over an exchange's \ac{api}~\cite{exchange_api} allowing software to pull data and interact with the exchange. \acp{api} are useful analytics and for traders who have algorithmic models that are fueled by live data and need to issue orders within milliseconds.
 
 \subsubsection{OHLCV}
 Graphical illustrations of price movements for specific time intervals goes by the name \emph{kline} or \emph{candlestick} chart. Such graphs utilize a set of \acp{ohlcv} points, describing the trading trends in a time window. \autoref{tab:ohlcv} illustrates a candle in its crude form, and \autoref{fig:pd-gxsbtc} shows processed \acp{ohlcv} values making a candlestick chart. The top and bottom wicks represent the highest and lowest trade price respectively in the time interval, while the color portrays whether the closing price was higher or lower than the opening price~\cite{P&D_to_the_moon}. Candles can define trading trends in any time interval, but exchange’s \ac{api} mostly allows a discrete selection of timeframes that commonly range from one minute to several days.
 \input{tables/ohlcv.tex}
 
 \subsubsection{Order Book}
+% Order book
+% Level 1 & Level 2
 An order book also aliased market depth is an electronic list of buying and sell orders on an exchange for a specific symbol pair, see \autoref{tab:order_book}~\cite{investopedia_depth}. Sell orders are in an \emph{asks} list in a descending order while buy orders are arranged descendingly in a \emph{bids} list~\cite{invest_order_book, coincodex_order_book}. The order book is dynamic and constantly change throughout the day as traders are issuing new orders. There are many ways to interpret an order book; for instance, a massive imbalance of buy orders versus sell orders may indicate a price increase due to buying pressure~\cite{invest_order_book}.
 \input{tables/order_book.tex}
 
-% Level 1 & Level 2
-
-\newpage
-\section{Pump-and-Dump}\label{sec:pd}
-A \ac{pd} scheme is a type of fraud in which the offenders accumulate a commodity over a period, then artificially inflate the price through means of spreading misinformation (pumping), before selling off what they bought to unsuspecting buyers at the higher price (dumping)\cite{P&D_to_the_moon}. After the emergence of cryptocurrency trading, \ac{pd} has become a popular legitimate price manipulation scheme among scammers, who leach assets from the misinformed. Two researchers at the Imperial College London revealed that on average, at least two \ac{pd} schemes are carried out daily, producing \$$7$ million in daily trading volume~\cite{P&D_MIT_crypto}. Price increases of up to 950\% have been witnessed, demonstrating the amount of potential profit for the participants~\cite{P&D_cointelegraph}.
+\subsection{Pump-and-Dump}\label{sec:pd}
+A \ac{pd} scheme is a type of fraud in which the offenders accumulate a commodity over a period, then artificially inflate the price through means of spreading misinformation (pumping), before selling off what they bought to unsuspecting buyers at the higher price (dumping)\cite{P&D_to_the_moon}. After the emergence of cryptocurrency trading, \ac{pd} has become a popular legitimate price manipulation scheme among scammers, who leach assets from the misinformed. Two researchers at the Imperial College London revealed that on average, at least two \ac{pd} schemes are carried out daily, producing \$$7$ million in daily trading volume~\cite{P&D_MIT_crypto}. Price increases of up to 950\% have been witnessed, demonstrating the amount of potential profit~\cite{P&D_cointelegraph}.
 
 % stock market
-On the modern stock market, \ac{pd} schemes are internet-based focusing on \emph{penny} or \emph{microcap} stocks, which are smaller companies that do not comply with the standards to being listed on the larger exchanges~\cite{stock_bouraoui, stock_temple}. Microcap stock exchanges are not held to the same standard of regulation, which implies that there are usually not as much information about the companies that are listed making them easier to manipulate~\cite{P&D_to_the_moon}. Misinformation about the stocks are usually spread through email spam which have a net positive effect on the stock price~\cite{stock_bouraoui}. It is illegal to run price manipulation schemes on regulated markets, and there are multiple cases where participants in a \ac{pd} are prosecuted~\cite{P&D_to_the_moon}.
+On the modern stock market, \ac{pd} schemes are internet-based focusing on \emph{penny} or \emph{microcap} stocks, which are smaller companies that do not comply with the standards to being listed on the larger exchanges~\cite{stock_bouraoui, stock_temple, P&D_anatomy}. Microcap stock exchanges are not held to the same standard of regulation, which implies that there are usually not as much information about the companies that are listed making them easier to manipulate~\cite{P&D_to_the_moon}. Misinformation about the stocks are usually spread through email spam which have a net positive effect on the stock price~\cite{stock_bouraoui}. It is illegal to run price manipulation schemes on regulated markets, and there are multiple cases where participants in a \ac{pd} are prosecuted~\cite{P&D_to_the_moon}.
 
 % cryptocurrency market
-There is a slightly different M.O. of \acp{pd} on the cryptocurrency market. The pump is a coordinated, intentional, short-term increase in the demand of a symbol pair~\cite{P&D_anatomy} organized by dedicated groups. These groups are often public channels in chat applications like Discord or Telegram and are joined by naive traders, who believe they will become wealthy in a short amount of time. The number of members in some of the prominent groups have peaked at proximately $200,000$~\cite{P&D_the_outline}.
+There is a slightly different approach of \acp{pd} on the cryptocurrency market. The pump is a coordinated, intentional, short-term increase in the demand of a symbol pair~\cite{P&D_anatomy} organized by dedicated groups. These groups are often public channels in chat applications like Discord or Telegram and are joined by naive traders, who believe they will become wealthy in a short amount of time. The number of members in some of the prominent groups have peaked at circa $200,000$~\cite{P&D_the_outline}.
 
-\input{tables/pd_characteristics.tex}
-% accumulative
+\subsubsection{Pump Groups}\label{sec:pump_groups}
+% Group setup
+In the cryptocurrency market, \ac{pd} organizers (admins) create groups in encrypted chatting application such as Telegram and Discord. They advertise themselves through social media platforms and forums~\cite{P&D_anatomy, P&D_scheme} as exciting groups that ensures profit with little or no risk of losing assets. The group admins start to organize \ac{pd} when the group typically consists of over $1,0000$ optimistic traders~\cite{P&D_anatomy}. Only the admins are allowed to post messages in the group restricting regular members to just see the messages posted by the admins; this functionality is enabled by the admins to avoid member interference~\cite{P&D_anatomy}.
 
-% pump
+% Accumulate
+Before a \ac{pd}, the group admins announce details regarding it a few days ahead. The information they provide is the exact time and date, the quote which is more or less always Bitcoin, and the exchange. With the information, the member can buy sufficient funds on the targeted exchange in advance~\cite{P&D_anatomy}. The same day the \ac{pd} is scheduled, the admins purchase a commodity in the base coin over a period without raising the price. And they send out countdowns and reminds the members of previous successfully \acp{pd} to motivate them to participate, and the "rules" during the upcoming \ac{pd}. According to \cite{P&D_anatomy}, the typical rules are.
+
+\begin{enumerate}
+    \item Make sure to buy fast.
+    \item \emph{Shill}\footnote{Cryptocurrency jargon for "promote" or "advertise" coin.} the announced coin on social media to attract outsiders.
+    \item \emph{HODL}\footnote{Cryptocurrency jargon for Hold.} the coin for several minutes to give outsiders the possibility of joining.
+    \item Sell in pieces at profit, not in chunks.
+\end{enumerate}
+
+% pump-and-dump
+When the admins announce the coin, each member tries to be the first to buy the published coin to ensure profit before the inevitable inflation. If they are to slow, they might buy at the peak and are unable to make a profit. The pressure of being the first is high because the coin peak within seconds to max ten minutes~\cite{P&D_the_outline, P&D_anatomy}. After they have bought a significant amount of the coin, they shill, in an attempt to trick outsiders into buying it, allowing them to sell easier~\cite{P&D_anatomy}. The misinformation varies, but some common tactics include false news stories, non-existent projects, fake partnerships, or fake celebrity endorsements~\cite{P&D_the_outline}. Simultaneously, the admins encourage the members to hold while they sell off what they bought earlier on that day making them maximize their profit before the inevitable price dump. As soon as the first fall in price appears, the members start to panic-sell. If the price dips below the start price, the second wave of traders buys to bounce the price up to where it began allowing them to gain a small profit~\cite{P&D_anatomy}.
+
+% post pump
+Minutes to hours later, when the coin recover to its initial state. The admins publish results that showcases the members impact and the potential profit. \autoref{fig:chat_pump} shows real messages from \ac{pd} organized by the pump group Crypto Pump Island, and the \autoref{fig:pd-gxsbtc} shows the impact.
+
+Nevertheless, in the end, only the admins and a few members are profiting from a \ac{pd} while the majority are loosing. So why are there still people enthusiastic about partaking a \ac{pd}, given the risk of being ripped off by the admins? Because people believe that there are greater fools out there, who would buy the coins at an even higher price than their original purchase price~\cite{P&D_anatomy}. The greater fools theory is also what thrives many other price manipulation schemes~\cite{dissecting}.
 \begin{figure}[ht]
     \begin{leftbubbles}
     30 minutes left to pump on Binance. $\color{gray}_{\text{18:30}}$
@@ -110,14 +116,7 @@ There is a slightly different M.O. of \acp{pd} on the cryptocurrency market. The
     Coin name: gxs $\color{gray}_{\text{19:00}}$
     
     Go go go.. $\color{gray}_{\text{19:00}}$
-    \end{leftbubbles}
-    \caption{Messages from the telegram group Crypto Pump Island on 10 February 2019.}
-    \label{fig:chat_pump}
-\end{figure}
 
-% dump
-\begin{figure}[ht]
-    \begin{leftbubbles}
     Buy and Hold. And sell in parts $\color{gray}_{\text{19:01}}$
     
     Amazing... $\color{gray}_{\text{19:02}}$
@@ -126,33 +125,55 @@ There is a slightly different M.O. of \acp{pd} on the cryptocurrency market. The
     Good holding $\color{gray}_{\text{19:05}}$
     \end{leftbubbles}
     \caption{Messages from the telegram group Crypto Pump Island on 10 February 2019.}
-    \label{fig:chat_dump}
+    \label{fig:chat_pump}
 \end{figure}
 
-% summarize
-\input{tables/pd_indicators.tex}
-
 \begin{figure}[ht]
-    \centering
     \includegraphics[width=\textwidth]{GXS-BTC.png}
+    \centering
     \caption{\ac{pd} organized by the group Crypto Pump Island on 2019-02-10 19:00. The target symbol was GXS/BTC on the exchange Binance.}
     \label{fig:pd-gxsbtc}
 \end{figure}
 
+\subsubsection{Characteristics}
+Detection of \ac{pd} schemes requires insights in their operations to have the ability to identify patterns that occur during a \ac{pd}. \autoref{tab:pd_characteristics} which is defined by two researchers at the University College London \cite{P&D_anatomy} summarizes some of the fundamental similarities and differences with respect to the target, tactic and timescale of traditional penny stock and cryptocurrency \ac{pd} schemes. It clearly shows that traditional and cryptocurrency \ac{pd} schemes target the same type of markets, but the tactic and timescale differ. The lack of trust among members in the pump groups can explain the short timescale of cryptocurrency \acp{pd}, as they all want their piece of the cake and sell as soon as they profit instead of holding. Spreading of misinformation must happen in real-time because of the short time pressure.
+
+\input{tables/pd_characteristics.tex}
+
+Using the characteristics, the same two researchers \cite{P&D_anatomy} formulated criterion's that can be helpful when detecting \ac{pd} patterns in exchange data (\autoref{tab:pd_indicators}). The indicators are split into \emph{breakout} and \emph{reinforcers}. The breakout indicators point out patterns that are present during the beginning of a \ac{pd}. And the reinforcers are external aspects to strengthening our confidence in an alleged \ac{pd}. The signs $(+)$ and $(-)$ are a confidential boost; the former denotes an increase while the latter denotes a decrease. The volume and price factors in the breakout indicators are discussed with an estimation window, referring to a collection of previous data points, of some user-specified length~\cite{P&D_anatomy}.
+
+\input{tables/pd_indicators.tex}
+ 
 \newpage
 \section{Machine Learning}
-\subsection{Neural Network}
-\subsection{Support Vector Machine}
-\subsection{Random Forest}
+% what is Machine learning? unsupervised and supervised
+\ac{ml} is a fast-growing field in computer science, and it refers to the ability to make a computer recognize specific patterns in data using various complex algorithmic models. Selecting a model is tough because it requires a fundamental understanding of the data that suits the model and the model itself to produce first-class results. Models are commonly subdivided into two major paradigms, \emph{unsupervised} and \emph{supervised} learning. In supervised learning, the models require data and prior knowledge of each sample, called \emph{labels} or \emph{ground truth}. The models in unsupervised learning need only data.
 
+% Classification and Regression clustering and
+
+
+\subsection{Neural Networks}
+
+\subsection{Long short-term Memory}
+\cite{lstm}
+
+\newpage
 \section{Related Work}\label{sec:related_work}
 % Stock Price Manipulation Detection Based on Mathematical Models
-An article from ICACI\footnote{International Conference on Advanced Computational Intelligence} 2016, \cite{P&D_stock_price_manipulation} presented a model to detect \ac{pd} schemes on the stock market and did so with $88\%$ accuracy. The article describes how badly \ac{pd} schemes are executed and organized. And from the patterns a \ac{pd} scheme leaves behind, the article proposed mathematical definitions based on level $2$ order book data with a depth of $10$ to generate a training set consisting of buying and sell orders. The researchers implemented a feedforward neural network and trained it with the generated dataset, and achieved an accuracy of precisely $88.28\%$.
+An article from ICACI\footnote{International Conference on Advanced Computational Intelligence} 2016, \cite{P&D_stock_price_manipulation} presented a model that detects \ac{pd} schemes on the stock market and did so with $88\%$ accuracy. The article describes how badly \ac{pd} schemes are executed and organized. And from the patterns a \ac{pd} scheme leaves behind, the article proposed mathematical definitions based on level $2$ order book data with a depth of $10$ to generate a training set consisting of buying and sell orders. The researchers implemented a feedforward neural network and trained it with the generated dataset, and achieved an accuracy of precisely $88.28\%$.
+
+% Cryptocurrency Pump Predictions: A novel approach to identifying Pump-and-Dump Scheme
+Two students from Standford Unversity recreated the stock market model~\cite{P&D_stock_price_manipulation} and made it compatible with cryptocurrency exchanges in 2017. In their work, they used level $1$ order book data to generate a training set to train a neural network and a Support Vector Machine. They labeled the dataset by identifying \acp{pd} by comparing a market's price movement to BTC. The final test result of their models was $78.13\%$ with Support Vector Machine and $82.5$\% with the neural network. 
+
+The following articles two were recently published, both in late November 2018.
 
 % To the moon: defining and detecting cryptocurrency pump-and-dumps
-A late published article in 2018, \cite{P&D_to_the_moon} defined how the execution of \ac{pd} schemes differ from the stock market and cryptocurrency exchanges. In addition, the article proposed a novel anomaly detection approach based on a set of criteria for locating suspicious transactions patterns on cryptocurrency exchanges. The most balanced parameters for their anomaly detection algorithm resulted in about $1.6$ \acp{pd} per market for a total of $2150$ over $20$ days of data. Moreover, $75\%$ of the alleged pump were to found to have corresponding price dumps. 
+Kleinberg and Kamps from the University College London\cite{P&D_to_the_moon} defined specific patterns in \acp{pd} and how they differ from the stock market. Also, the article proposed a novel anomaly detection approach based on a set of criteria for locating suspicious transactions patterns on cryptocurrency exchanges. The most balanced parameters for their anomaly detection algorithm resulted in about $1.6$ \acp{pd} per market for a total of $2150$ over $20$ days of data. Moreover, $75\%$ of the alleged pump were to found to have corresponding price dumps.
 
 % The Anatomy of a Cryptocurrency Pump-and-Dump Scheme
+Another two researchers in London, but from the Imperial College London, wrote an article that analyzes features of pumped markets and market movement of coins before, and after \acp{pd}.
 
-% Cryptocurrency Pump Predictions: A novel approach to identifying Pump-and-Dump Schemes 
+This article received a lot recognition and attention~\cite{P&D_MIT_crypto, P&D_cointelegraph, } on media platform
+
+in the cryptocurrency community is Xu and Livshits 
 

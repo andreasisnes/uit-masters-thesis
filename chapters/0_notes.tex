@@ -58,3 +58,27 @@ Missing circulation! Redefining formula
     R = \text{Volume traded for last 24 hours} \cdot \text{Current Price}
 \end{equation}
 Sort all market's $R$. Choose $n$ markets with smallest R.
+
+
+\section{Data source selection}
+% exchange selection
+% Binance, Bittrex, Kraken, Kucoin, LBank.
+
+% Cryptopia
+\href{https://www.cryptopia.co.nz/}{Cryptopia} suffered a security breach January 14, 2019~\cite{cryptopia_breach_2} and was forced to shut down for a period as the breach also led to an investigation by the New Zealand Police~\cite{cryptopia_breach_1}, the law enforcement says they were acquainted with potentially unauthorized transaction activity of significant amount of cryptocurrency. Cryptopia later announced on twitter Mars 18, 2019 that they "completed their maintenance and the site is back up.", Nevertheless, we are still a bit skeptical and choose to avoid Cryptopia.
+
+% Yobit
+\href{https://yobit.net/en/}{Yobit} to all surprise on multiple occasions has announced through their official Twitter account with over 160 thousand followers~\cite{yobit_twitter}, that they are launching a coin-pump on a random coin. They even have a countdown timer on their web-page for signalizing when the coin-pump starts. In addition, various forums and articles are accusing Yobit of selling fake coins~\cite{yobit_fake_1, yobit_fake_2, yobit_fake_3}, which are most likely to be true when they have over four thousand different symbol-pairs in their Bitcoin market~\cite{yobit_market}, while there are only slightly over two thousand cryptocurrencies registered on CoinMarketCap~\cite{coinmarketcap}. We believe that Yobit has the elements of a casino where the house always wins and choosing not to play them on their own game, and collecting coin-pumps organized by Yobit may cause noise in the dataset as it necessarily do not reflect a \ac{pd}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{yobit.pdf}
+    \caption{Yobit announcing a coin-pump through their official Twitter account}
+    \label{fig:yobit}
+\end{figure}
+
+% Bittrex - banning pd
+
+% kraken - low occurrences of pump and dump
+
+% Binance - high volume, - lots of markets - appealing

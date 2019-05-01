@@ -1,32 +1,30 @@
 \begin{table}[ht]
     \centering
-    \begin{tabular}{p{0.20\textwidth} p{0.80\textwidth}}
+    \begin{tabular}{p{0.30\textwidth} p{0.70\textwidth}}
         \hline
         \textbf{Feature} & \textbf{Description}\\
         \hline
-        Market cap percentage       & Extracting cryptocurrencies' daily market capitalization from CoinMarketCap\footnote{https://coinmarketcap.com/} \ac{api}.\\
+        \ac{ohlcv}                      & Latest \ac{ohlcv} values \\
         \hline
-        Price change on exchanges   & Price change on all exchanges of a currency.\\
+        \ac{ohlcv} multiple exchanges   & Aggregated \ac{ohlcv} values from multiple exchanges.\\
         \hline
-        Average price               & Price change percent on an exchange.\\
+        Order book                      & Level $1$ (aggregated price and volume) order book with a depth of $5$.\\
         \hline
-        Order book                  & Level $1$ (aggregated price and volume) order book with a depth of $10$.\\
+        Base capitalization rate        & Base capitalization rate \\
         \hline
-        \acs{ohlc}                  & \ac{ohlc} for the last $24$ hours.\\
+        Volume traded                   & Base and quote volume traded for the last $24$ hours. \\
         \hline
-        Base and quote volume       & Base and quote volume traded for the last $24$ hours. \\
+        number of trades                & Number of completed trades for the last $24$ hours.\\      
         \hline
-        Best bid and ask price      & Best bid and ask price for the last $24$ hours.\\
+        Best bid and ask price          & Best bid and ask price for the last $24$ hours.\\
         \hline
-        Best bid and ask volume     & Best bid and ask quantity for the last $24$ hours on Binance. \\
+        Best bid and ask volume         & Best bid and ask quantity for the last $24$ hours. \\
         \hline
-        Average price               & Price change percent on Binance.\\
+        Average price                   & Average price for the last $24$ hours.\\
         \hline
-        symbol-pair listed          & The ratio of how many exchanges that lists the symbol-pair.\\ 
+        symbol-pair exchange rate       & The rate of how many exchanges that lists the symbol-pair.\\ 
         \hline
-        Time                        & TBD.\\
-        \hline
-        Circulation                 & TBD.\\
+        Time                            & Current time.\\
         \hline
     \end{tabular}
     \caption{Features Description}
