@@ -157,23 +157,18 @@ Using the characteristics, the same two researchers \cite{P&D_anatomy} formulate
 \subsection{Long short-term Memory}
 \cite{lstm}
 
-\newpage
 \section{Related Work}\label{sec:related_work}
 % Stock Price Manipulation Detection Based on Mathematical Models
 An article from ICACI\footnote{International Conference on Advanced Computational Intelligence} 2016, \cite{P&D_stock_price_manipulation} presented a model that detects \ac{pd} schemes on the stock market and did so with $88\%$ accuracy. The article describes how badly \ac{pd} schemes are executed and organized. And from the patterns a \ac{pd} scheme leaves behind, the article proposed mathematical definitions based on level $2$ order book data with a depth of $10$ to generate a training set consisting of buying and sell orders. The researchers implemented a feedforward neural network and trained it with the generated dataset, and achieved an accuracy of precisely $88.28\%$.
 
 % Cryptocurrency Pump Predictions: A novel approach to identifying Pump-and-Dump Scheme
-Two students from Standford Unversity recreated the stock market model~\cite{P&D_stock_price_manipulation} and made it compatible with cryptocurrency exchanges in 2017. In their work, they used level $1$ order book data to generate a training set to train a neural network and a Support Vector Machine. They labeled the dataset by identifying \acp{pd} by comparing a market's price movement to BTC. The final test result of their models was $78.13\%$ with Support Vector Machine and $82.5$\% with the neural network. 
+Two students from Standford Unversity recreated the stock market model~\cite{P&D_stock_price_manipulation} and made it compatible with cryptocurrency exchanges in 2017. In their work, they used level $1$ order book data to generate a training set to train a neural network and a Support Vector Machine. They labeled the dataset by identifying \acp{pd} by comparing a market's price movement to BTC. The final test results of their models was $78.13\%$ with Support Vector Machine and $82.5$\% with the neural network. 
 
 The following articles two were recently published, both in late November 2018.
 
 % To the moon: defining and detecting cryptocurrency pump-and-dumps
-Kleinberg and Kamps from the University College London\cite{P&D_to_the_moon} defined specific patterns in \acp{pd} and how they differ from the stock market. Also, the article proposed a novel anomaly detection approach based on a set of criteria for locating suspicious transactions patterns on cryptocurrency exchanges. The most balanced parameters for their anomaly detection algorithm resulted in about $1.6$ \acp{pd} per market for a total of $2150$ over $20$ days of data. Moreover, $75\%$ of the alleged pump were to found to have corresponding price dumps.
+Kleinberg and Kamps from the University College London\cite{P&D_to_the_moon} defined specific patterns in \acp{pd} and how they differ from the stock market. Also, the article proposed a novel anomaly detection approach based on a set of criteria for locating suspicious transactions patterns on cryptocurrency exchanges. The most balanced parameters for their anomaly detection algorithm resulted in about $1.6$ \acp{pd} per market for a total of $2150$ over $20$ days of data. Moreover, $75\%$ of the alleged pump were to found to have corresponding price dumps. They state in their conclusion; Ultimately, it is the hope that the information presented in this paper is useful for further research into the detection of this fraudulent scheme~\cite{P&D_to_the_moon}. For us, this article proved to be indeed helpful.
 
 % The Anatomy of a Cryptocurrency Pump-and-Dump Scheme
-Another two researchers in London, but from the Imperial College London, wrote an article that analyzes features of pumped markets and market movement of coins before, and after \acp{pd}.
-
-This article received a lot recognition and attention~\cite{P&D_MIT_crypto, P&D_cointelegraph, } on media platform
-
-in the cryptocurrency community is Xu and Livshits 
+Another two researchers in London, but from the Imperial College London, wrote an article~\cite{P&D_anatomy} that analyzes features of pumped markets and market movement of coins before, and after \acp{pd}. They implemented a predictive Random Forest model that gives the likelihood of each possible coin being pumped prior to the actual pump event. With an AUC of the ROC curve of over 0.9, the model exhibits high accuracy and is indicative of the “pumpability” of coins~\cite{P&D_anatomy}. This article has actually received a lot of recognition and attention~\cite{P&D_MIT_crypto, P&D_cointelegraph, P&D_UTB} on media platforms that covers cryptocurrencies.
 

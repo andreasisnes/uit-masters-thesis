@@ -34,15 +34,15 @@
 TBW
 \section{Experimental Setup}
 
-
-
-\subsection{Data cleansing}
-
-\subsection{Normalize all markets}
-
-\subsection{Reduce Features}
-
-\subsection{Layers and model}
-
 \section{Results}
-% with points lag 0, 0 correct classified...
+\input{results/cm.tex}
+\input{results/confusion_matrix.tex}
+\input{results/model.tex}
+\input{results/performance.tex}
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{results/roc.pdf}
+    \caption{Roc Curve}
+    \label{fig:my_label}
+\end{figure}
+\input{results/f_score.tex}

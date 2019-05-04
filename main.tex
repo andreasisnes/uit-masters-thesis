@@ -5,6 +5,7 @@
 \usepackage{xspace}
 \usepackage{tabularx}
 \usepackage{amsmath}
+\usepackage{numprint}
 \usepackage{cases}
 \usepackage{csquotes}
 \usepackage{textgreek}
@@ -29,6 +30,11 @@
 \makeatletter
 \def\input@path{{chapters/}}
 \makeatother
+
+\newcommand{\singlespacing}{\renewcommand{\baselinestretch}{10}\selectfont}
+\newcommand{\doublespacing}{\renewcommand{\baselinestretch}{10}\selectfont}
+\newcommand{\tab}{\hspace*{10em}}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
 
 % Project name
 \newcommand{\project}{Limelight\xspace}
@@ -55,14 +61,15 @@ Kakekai hehehe. KNEGGSTA
 
 % Content
 \mainmatter
-\input{chapters/1_introduction}
-\input{chapters/2_background}
+% \input{chapters/1_introduction}
+% \input{chapters/2_background}
 \input{chapters/3_design}
-\input{chapters/4_implementation}
+% \input{chapters/4_implementation}
 \input{chapters/5_evaluation.tex}
-\input{chapters/6_conclusion.tex}
+% \input{chapters/6_conclusion.tex}
 
 % Bibliography and appendix
-\printbibliography
+% \printbibliography
+
 \backmatter
 \end{document}
