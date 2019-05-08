@@ -76,6 +76,13 @@ An order book also aliased market depth is an electronic list of buying and sell
 \subsection{Pump-and-Dump}\label{sec:pd}
 A \ac{pd} scheme is a type of fraud in which the offenders accumulate a commodity over a period, then artificially inflate the price through means of spreading misinformation (pumping), before selling off what they bought to unsuspecting buyers at the higher price (dumping)\cite{P&D_to_the_moon}. After the emergence of cryptocurrency trading, \ac{pd} has become a popular legitimate price manipulation scheme among scammers, who leach assets from the misinformed. Two researchers at the Imperial College London revealed that on average, at least two \ac{pd} schemes are carried out daily, producing \$$7$ million in daily trading volume~\cite{P&D_MIT_crypto}. Price increases of up to 950\% have been witnessed, demonstrating the amount of potential profit~\cite{P&D_cointelegraph}.
 
+\begin{figure}[ht]
+    \includegraphics[width=\textwidth]{GXS-BTC.png}
+    \centering
+    \caption{\ac{pd} organized by the group Crypto Pump Island on 2019-02-10 19:00. The target symbol was GXS/BTC on the exchange Binance.}
+    \label{fig:pd-gxsbtc}
+\end{figure}
+
 % stock market
 On the modern stock market, \ac{pd} schemes are internet-based focusing on \emph{penny} or \emph{microcap} stocks, which are smaller companies that do not comply with the standards to being listed on the larger exchanges~\cite{stock_bouraoui, stock_temple, P&D_anatomy}. Microcap stock exchanges are not held to the same standard of regulation, which implies that there are usually not as much information about the companies that are listed making them easier to manipulate~\cite{P&D_to_the_moon}. Misinformation about the stocks are usually spread through email spam which have a net positive effect on the stock price~\cite{stock_bouraoui}. It is illegal to run price manipulation schemes on regulated markets, and there are multiple cases where participants in a \ac{pd} are prosecuted~\cite{P&D_to_the_moon}.
 
@@ -84,7 +91,7 @@ There is a slightly different approach of \acp{pd} on the cryptocurrency market.
 
 \subsubsection{Pump Groups}\label{sec:pump_groups}
 % Group setup
-In the cryptocurrency market, \ac{pd} organizers (admins) create groups in encrypted chatting application such as Telegram and Discord. They advertise themselves through social media platforms and forums~\cite{P&D_anatomy, P&D_scheme} as exciting groups that ensures profit with little or no risk of losing assets. The group admins start to organize \ac{pd} when the group typically consists of over $1,0000$ optimistic traders~\cite{P&D_anatomy}. Only the admins are allowed to post messages in the group restricting regular members to just see the messages posted by the admins; this functionality is enabled by the admins to avoid member interference~\cite{P&D_anatomy}.
+In the cryptocurrency market, \ac{pd} organizers (admins) create groups in encrypted chatting application such as Telegram and Discord. They advertise themselves through social media platforms and forums~\cite{P&D_anatomy, P&D_scheme} as exciting groups that ensures profit with little or no risk of losing assets. The group admins start to organize \ac{pd} when the group typically consists of over $\numprint{1000}$ optimistic traders~\cite{P&D_anatomy}. Only the admins are allowed to post messages in the group restricting regular members to just see the messages posted by the admins; this functionality is enabled by the admins to avoid member interference~\cite{P&D_anatomy}.
 
 % Accumulate
 Before a \ac{pd}, the group admins announce details regarding it a few days ahead. The information they provide is the exact time and date, the quote which is more or less always Bitcoin, and the exchange. With the information, the member can buy sufficient funds on the targeted exchange in advance~\cite{P&D_anatomy}. The same day the \ac{pd} is scheduled, the admins purchase a commodity in the base coin over a period without raising the price. And they send out countdowns and reminds the members of previous successfully \acp{pd} to motivate them to participate, and the "rules" during the upcoming \ac{pd}. According to \cite{P&D_anatomy}, the typical rules are.
@@ -128,13 +135,6 @@ Nevertheless, in the end, only the admins and a few members are profiting from a
     \label{fig:chat_pump}
 \end{figure}
 
-\begin{figure}[ht]
-    \includegraphics[width=\textwidth]{GXS-BTC.png}
-    \centering
-    \caption{\ac{pd} organized by the group Crypto Pump Island on 2019-02-10 19:00. The target symbol was GXS/BTC on the exchange Binance.}
-    \label{fig:pd-gxsbtc}
-\end{figure}
-
 \subsubsection{Characteristics}
 Detection of \ac{pd} schemes requires insights in their operations to have the ability to identify patterns that occur during a \ac{pd}. \autoref{tab:pd_characteristics} which is defined by two researchers at the University College London \cite{P&D_anatomy} summarizes some of the fundamental similarities and differences with respect to the target, tactic and timescale of traditional penny stock and cryptocurrency \ac{pd} schemes. It clearly shows that traditional and cryptocurrency \ac{pd} schemes target the same type of markets, but the tactic and timescale differ. The lack of trust among members in the pump groups can explain the short timescale of cryptocurrency \acp{pd}, as they all want their piece of the cake and sell as soon as they profit instead of holding. Spreading of misinformation must happen in real-time because of the short time pressure.
 
@@ -145,18 +145,45 @@ Using the characteristics, the same two researchers \cite{P&D_anatomy} formulate
 \input{tables/pd_indicators.tex}
  
 \newpage
-\section{Machine Learning}
-% what is Machine learning? unsupervised and supervised
-\ac{ml} is a fast-growing field in computer science, and it refers to the ability to make a computer recognize specific patterns in data using various complex algorithmic models. Selecting a model is tough because it requires a fundamental understanding of the data that suits the model and the model itself to produce first-class results. Models are commonly subdivided into two major paradigms, \emph{unsupervised} and \emph{supervised} learning. In supervised learning, the models require data and prior knowledge of each sample, called \emph{labels} or \emph{ground truth}. The models in unsupervised learning need only data.
+\section{Deep Learning}
+\Acf{ml} is a fast-growing field in computer science, and it refers to the ability to make a computer recognize specific patterns in data using various complex algorithmic models. In the broader field of \ac{ml}, recent years have witnessed a proliferation of deep neural networks, with fantastic results across various application domains. Deep learning is a subset of machine learning that achieves excellent performance and flexibility that surpasses conventional \ac{ml} algorithms~\cite{mike_voets, dl_anomaly}.
 
-% Classification and Regression clustering and
+\begin{quote}
+    \emph{A breakthrough in machine learning would be worth ten Microsoft.} - Bill Gates
+\end{quote}
 
+As \Ac{ml} has become a buzzword and categorized as state of the art and "the solution" for every kind of problem, it is important to remember that \ac{ml} is not always the optimal solution for every type of problem. There are certain cases where rule-based solutions perform better than \ac{ml}, cases, where we can directly predict values by using simple rules, computations, or predetermined steps that are easily programmable~\cite{aws}. So when should we use \ac{ml}? According to \cite{aws}, we should use \ac{ml} in following situations:
+
+\begin{itemize}
+    \item When tasks cannot be adequately solved using deterministic rule-based solutions. A considerable number of factors like features, patterns, correlated features, etc., can influence the answer. When rules depend on too many factors, and many of these rules overlap or need to be tuned very finely, it quickly becomes complicated to define these rules accurately.
+    \item When tasks do not scale, e.g., manual detection of spam mail which will be a tedious process if there are millions of emails. \ac{ml} solutions are effective at handling large-scale problems.
+\end{itemize}
+
+Algorithms in \Ac{ml} are commonly subdivided into two major paradigms, \emph{unsupervised} and \emph{supervised} learning. In supervised learning, the algorithms require data and prior knowledge of each sample, called \emph{labels} or \emph{ground truth}, and the algorithms in unsupervised learning need only data. There are two terms that circumstance under supervised learning, regression, and classification. Both share the same concept of using data to make a prediction. Classification problems refer to the ability to recognize a discrete set of classes, while a regression problem, estimates a value from input data.
+
+Deep learning allows computational models that are composed of multiple processing layers to learn representations of data with various levels of abstraction~\cite{lecun2015deep}. Each layer's output is the connected layer's input~\cite{mike_voets}. These deep learning models learn like many other \ac{ml} models, by iteratively minimizing a cost function to adjust its internal parameters (weights) using a training data set. When the weights are appropriately adjusted, it evaluates its performance by making classifications on a test data set. \ac{ml} model facilitates the automatic classification of data, which, when deployed, removes the need for a person to classify the data manually~\cite{mike_voets}.
+
+Considering the amount of \ac{pd} events in trading data, a \ac{pd} can be categorized as an anomaly as it exists significant more regular trading activity than \acp{pd}. The choice of a deep neural network architecture in anomaly detection methods primarily depends on the nature of input data. One distinguishes Input data into sequential (e.g., voice, text, music, time series, protein sequences) and non-sequential data (e.g., images)~\cite{dl_anomaly}. Cryptocurrency sources produce sequential data, more specifically \emph{time series} data. Time series data are linearly ordered sequence of values of a variable at equally spaced time intervals~\cite{stat_handbook}. Anomaly detection in multivariate time series data is a challenging task, but \ac{rnn} and \ac{lstm} networks are shown to perform well in detecting anomalies within time series~\cite{dl_anomaly}.
 
 \subsection{Neural Networks}
+A traditional \ac{ml} model do not have any perception of its previous predictions, and when working with non-sequential data, it is not needed. However, when having sequential data, a point only yields information within a specific context. For example us humans do not start our thinking from scratch every second. When we read an essay, we understand each word based on our understanding of previous words. We do not throw everything away and start thinking from scratch again. Our thoughts have persistence~\cite{colah}. The same concept can we apply to the cryptocurrency market, we do not know if the price of a coin has increased unless we know the previous values, and the purpose with a \ac{pd} is to raise the price. Hence, if we were to detect \ac{pd} without having any perception of change in price, both humans and \ac{ml} algorithms would have a hard time detecting them.
 
-\subsection{Long short-term Memory}
-\cite{lstm}
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{nn.pdf}
+    \caption{Structure of an artificial neural network}
+    \label{fig:nn}
+\end{figure}
 
+An \ac{ann} (\autoref{fig:nn}) is a powerful learning model, and it is one of the most frequently used model~\cite{hunt1992neural} that achieve state-of-the-art results in a wide range of supervised learning tasks~\cite{lipton2015critical}. A vanilla \ac{ann} does not have a perception of previous samples. Thus, it can not catch the trend in data. \ac{rnn} is a type of network that has an internal state (memory) allowing it to set samples in a specific context. Yet, a standard \ac{rnn} suffers from the \emph{vanishing} and the \emph{exploding} gradient problems~\cite{bengio1994learning}. \ac{lstm} is a type of \ac{rnn} that solves said problems by using standard cells in addition to memory cells. The structure of \ac{lstm} networks is similar to \autoref{fig:nn}, and compose of three different layers, called \emph{input layer}, \emph{hidden layer}, and \emph{output layer}.
+
+The cells in the input layer are mostly passive, meaning they do not make any calculations nor modifying the data somehow, and the number of cells is equal to the number of features in the data. Their task is to duplicate their received data and propagate it every cell in the first column in the hidden layer.
+
+The hidden layer has no interaction with the outside of the network. Hence, the name hidden~\cite{data_science, stanford}. This layer can comprise multiple layers with an arbitrary number of cells but with more cells the complexity of the network increase. Each cell algorithmic structure depends on the type of network we want to build(\ac{ann}, \ac{rnn}), \emph{perceptron} and \emph{lstm} are two cells that are used, where \ac{lstm} is good at detecting pattern in sequential data, while a perceptron are good at detecting pattern in non-sequential. However, all cells have at least two things in common; they all have an input and an output, and the output from one cell is the succeeding cells in the input of the next layer. 
+
+The cells in the output layer take input from the last set of cells in the hidden layer. Their algorithmic structure is similar to the cells in the hidden layer, but their output is also the final prediction from the network.
+
+\newpage
 \section{Related Work}\label{sec:related_work}
 % Stock Price Manipulation Detection Based on Mathematical Models
 An article from ICACI\footnote{International Conference on Advanced Computational Intelligence} 2016, \cite{P&D_stock_price_manipulation} presented a model that detects \ac{pd} schemes on the stock market and did so with $88\%$ accuracy. The article describes how badly \ac{pd} schemes are executed and organized. And from the patterns a \ac{pd} scheme leaves behind, the article proposed mathematical definitions based on level $2$ order book data with a depth of $10$ to generate a training set consisting of buying and sell orders. The researchers implemented a feedforward neural network and trained it with the generated dataset, and achieved an accuracy of precisely $88.28\%$.
@@ -167,8 +194,7 @@ Two students from Standford Unversity recreated the stock market model~\cite{P&D
 The following articles two were recently published, both in late November 2018.
 
 % To the moon: defining and detecting cryptocurrency pump-and-dumps
-Kleinberg and Kamps from the University College London\cite{P&D_to_the_moon} defined specific patterns in \acp{pd} and how they differ from the stock market. Also, the article proposed a novel anomaly detection approach based on a set of criteria for locating suspicious transactions patterns on cryptocurrency exchanges. The most balanced parameters for their anomaly detection algorithm resulted in about $1.6$ \acp{pd} per market for a total of $2150$ over $20$ days of data. Moreover, $75\%$ of the alleged pump were to found to have corresponding price dumps. They state in their conclusion; Ultimately, it is the hope that the information presented in this paper is useful for further research into the detection of this fraudulent scheme~\cite{P&D_to_the_moon}. For us, this article proved to be indeed helpful.
+Kleinberg and Kamps from the University College London\cite{P&D_to_the_moon} defined specific patterns in \acp{pd} and how they differ from the stock market. Also, they proposed a novel anomaly detection approach based on a set of criteria for locating suspicious transactions patterns on cryptocurrency exchanges. The most balanced parameters for their algorithm resulted in about $1.6$ \acp{pd} per market for a total of $2150$ over $20$ days of data. Moreover, $75\%$ of the alleged pump were to found to have corresponding price dumps. They state in their conclusion; Ultimately, it is the hope that the information presented in this paper is useful for further research into the detection of this fraudulent scheme~\cite{P&D_to_the_moon}. For us, this article proved to be indeed helpful.
 
 % The Anatomy of a Cryptocurrency Pump-and-Dump Scheme
 Another two researchers in London, but from the Imperial College London, wrote an article~\cite{P&D_anatomy} that analyzes features of pumped markets and market movement of coins before, and after \acp{pd}. They implemented a predictive Random Forest model that gives the likelihood of each possible coin being pumped prior to the actual pump event. With an AUC of the ROC curve of over 0.9, the model exhibits high accuracy and is indicative of the “pumpability” of coins~\cite{P&D_anatomy}. This article has actually received a lot of recognition and attention~\cite{P&D_MIT_crypto, P&D_cointelegraph, P&D_UTB} on media platforms that covers cryptocurrencies.
-

@@ -1,7 +1,10 @@
-\begin{align}
-    x_\Delta(x_{\textbf{unix}}, t) &= \frac{x_\textbf{unix}\mod t}{t} \\
-    t(x_\Delta, \mu, \sigma) &= \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{x_\Delta-\mu}{2\sigma^2}} \quad \text{where} \begin{cases}
-        \mu = 0.5\\
-        \sigma = 0.1
+\begin{align*}
+    x_\delta(x_{\textbf{unix}}) &= \frac{x_\textbf{unix}\mod 3600}{3600}
+\end{align*}
+\begin{align*}
+    t(x_\delta, \mu, \sigma) &= \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{x_\delta-\mu}{2\sigma^2}}, \quad \text{where}
+    \begin{cases}
+    \mu = 0.5 \\
+    \sigma = 0.1 
     \end{cases}
-\end{align}
+\end{align*}

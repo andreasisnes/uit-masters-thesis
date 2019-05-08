@@ -9,11 +9,7 @@
 % For the application to have the ability to make accurate predictions, we need to carefully define a suitable algorithmic model that fits currently existing data to reverse engineer \acp{pd}. We find two paradigms \emph{financial} and \emph{\ac{ml}} as appealing fields for finding suitable algorithmic models. We encounter some problems in the field of finance, typically, financial institutions do not share their algorithms for competitive reasons, and we can not either find any models that are compatible for detecting \ac{pd} in real-time on cryptocurrency exchanges. We believe that using \ac{ml} to detect \acp{pd} is currently the optimal solution, and to reinforce that assumption, a recent PwC\footnote{Price Waterhouse Coopers is the largest network of accountants, lawyers and advisors, and deliver services within audit, consulting and tax.} study found that over the next two to three years \ac{ml} are the single most crucial technology impacting the finance function~\cite{pwc} as \ac{ml} models seem to excel financial models.
 
 %XXX Explaining ML => background
-% In recent years, \ac{ml} has become a buzzword and categorized as state of the art and "the solution" for every kind of problem, but it is important to remember that \ac{ml} is not always the optimal solution for every type of problem. There are certain cases where rule-based solutions perform better than \ac{ml}, cases, where we can directly predict values by using simple rules, computations, or predetermined steps that are easily programmable~\cite{aws}. So when should we use \ac{ml}? According to \cite{aws}, we should use \ac{ml} in following situations:
-% \begin{itemize}
-    % \item When tasks cannot be adequately solved using deterministic rule-based solutions. A considerable number of factors like features, patterns, correlated features, etc., can influence the answer. When rules depend on too many factors, and many of these rules overlap or need to be tuned very finely, it quickly becomes complicated to define these rules accurately.
-    % \item When tasks do not scale, e.g., manual detection of spam mail which will be a tedious process if there are millions of emails. \ac{ml} solutions are effective at handling large-scale problems.
-% \end{itemize}
+
 
 % Looking at the amount of data that cryptocurrency exchanges and other cryptocurrency sources continuously produce, defining a \ac{ml} model is way more tempting than defining a rule-based solution. There are too much data and various types of data that currently exists that makes ruled-based solutions infeasible.
 
@@ -61,7 +57,7 @@ The first step in the pipeline pulls data from various cryptocurrency sources. T
 
 The next step branches the retrieved data in two, live and historical data. Since we are trying to detect \acp{pd} in real-time we need to store live data continuously. When "captured" a compelling amount of \acp{pd} in the stored live data, we use an anomaly detection algorithm~\cite{P&D_to_the_moon} to detect \ac{pd} in the gathered live data. This algorithm is not compliant with live data, so we need to pull aggregated historical data that span throughout the collected live data. As previously mentioned, anomaly detection algorithms tend to have a high false positive rate. Thus, we need to remove these false positive and keep the true positive manually.
 
-The input data ultimately determine the performance of a \ac{ml} deep learning model~\cite{mike_voets}, so training a model with the raw gathered live data is ineffective. Hence, we need to define new convenient data set containing features created by processing the collected live data; this is a highly critical process and will later determine the classification performance of the deep learning model. The gathered live data also need to go through a cleansing process as it most likely contains irrelevant information that has nothing to with \acp{pd}.
+The input data ultimately determine the performance of a \ac{ml} deep learning model~\cite{mike_voets}, so training a model with the raw gathered live data is ineffective. Hence, we need to define new convenient data set containing features created by processing the collected live data; this is a highly critical process and will later determine the classification performance of the deep learning model. The gathered live data also need to go through a cleansing process as it most likely not contains relevant \ac{pd} information.
 
 With filtered anomalies containing \ac{pd} and a dataset, we can create a labeled dataset and train our model. Obtaining good classification results depends, as mentioned, on the features, but also how we decide to preprocess the dataset. Typical preprocessing strategies include dimensionality reduction and normalization. Having a labeled preprocessed dataset we can finally begin to the train the deep learning model, this a cyclical and a long process, as it requires many trial and error attempts to find the optimal weights for the model. In each cycle, we store the model's weights because it is not always the case that each iteration will improve the classification performance of the model.
 
@@ -124,10 +120,10 @@ Some features like a coin's capitalization are available at \href{https://coinma
 \input{tables/feature_discription.tex}
 
 \newpage
-\subsection{Preparing Data}
+\subsection{Preparing Data}\label{sec:prep}
 In practice, it has shown that data cleaning and preparation takes approximately $80\%$ of the total data engineering effort, as it requires solid domain knowledge of the subject. Data preparation is, therefore, an important research topic. Data preparation comprises those techniques concerned with analyzing raw data to yield quality data, mainly including data collecting, data integration, data transformation, data cleaning, data reduction, and data discretization~\cite{zhang2003data}.
 
-For the reason that we fetch data from multiple sources and markets to create a general model, we must prepare the data for it. Since markets are distinct, they surely have various numerical values, such as different trading price and volume, and making predictions with these numerical values that fluctuate from market to market is nonviable. E.g., assume a \ac{pd} occurs on a coin with a low cost, and the price is increasing at $300\%$. Despite the high increase, the coin is still almost worthless compared to other expensive coins. The model cannot distinguish between markets and their price. It looks at each feature as "more" or "less" of something. Thus, we must transform all these numerical values into some other values.
+For the reason that we fetch data from multiple sources and markets to create a general model, we must prepare the data for it. Since markets are distinct, they surely have various numerical values, such as different trading price and volume, and making predictions with these numerical values that fluctuate from market to market is nonviable. E.g., assume a \ac{pd} occurs on a coin with a low cost, and the price is increasing with $300\%$. Despite the high increase and profit, the coin is still almost worthless compared to other expensive coins, and the model do not distinguish between markets, all markets are equally weighted. It looks at each feature as "more" or "less" of something. Thus, we must transform all these numerical values into some other values.
 
 \subsubsection{Data Cleansing}
 Data cleaning, also called data \emph{cleansing} or \emph{scrubbing} deals with detecting and removing errors, inconsistencies, and unproductive features from data in order to improve the quality of data~\cite{data_cleaning}.
@@ -150,22 +146,37 @@ Feature engineering is the process of using domain knowledge of the data to crea
 \end{displayquote}
  
 \subsubsection{Processing Order Book}
-As previously in \autoref{sec:pump_groups}, \ac{pd} organizers invests in the market before the \ac{pd} without raising the price. We believe that the order book in said market oscillates in before the pump, and especially during the pump. Therefore, we calculate an imbalance between sell and bids order; this is a multidimensional problem considering an order book contains both a list with prices along with its volume. \autoref{eq:imbalance} reduces this multidimensional problem and calculates the imbalance between asks and bids orders with equal respect to price and volume down to a single value.
+As previously mentioned in \autoref{sec:pump_groups}, \ac{pd} organizers invests in the market before the \ac{pd} without raising the price. We believe that the order book in said market oscillates in before the pump, and especially during the pump. Therefore, we calculate an imbalance between sell and bids order; this is a multidimensional problem considering an order book contains both a list with prices along with its volume as we saw in \autoref{tab:order_book}. \autoref{eq:imbalance} reduces this multidimensional problem to a single value with equal weight to price and volume. $p$ and $v$ is respectively the lists with prices and volumes, and the annotations $a$ and $b$ denotes asks and bids orders. If \autoref{eq:imbalance} yields a value between $(0,1)$, then it weigh more bidders, if it yields a value between $(1, \infty]$, then askers, and $1$, there is an equal weight of bidders and askers.
+
 \input{equations/imbalance.tex}
 
 \subsubsection{Processing Trading Data}
+We process trading data such as price and volume by calculating the percentages of change, which makes each market comparable and eliminates the need for the model to adjust to prices. For example, if ETH is up \$$10$ from a starting value of \$$100$, and ADA is up \$$5$ from a starting value of \$$50$, then both coins are up $10$\%.
+
+We define the function $pct$ to calculate the percentage of change. It calculates the percentage change in point $x$ concerning a previous value $v$ with a time lag $\gamma$. We consider $x$ and $v$ to be a single value like the price or volume, while $\gamma$ indicates moving backward in time from point $x$. We must be vigilant when using this technique, if the data contains values that are zero, we might perform a zero-division that can clutter with the data unpredictably. However, since we scrubbed the data first and removed this zero-values, this should not be a concern.
+
+\input{equations/pct.tex}
+
+Differentiating and take the tangent line instead could be a solution, but since we are fetching data from multiple markets, the tangent would always favor expensive markets. Using the tangent would be illogical when \ac{pd} organizers tend to target low-cost markets.
 
 \subsubsection{Processing Time}
+According to \cite{P&D_anatomy}, the time is essential when classifying \acp{pd}, as they are typically executed at the hour (6:00, 7:00, etc.) because organizers usually does not choose a random time.
+
 \input{equations/time.tex}
-\begin{figure}[ht]
+
+Data retrieved from sources are getting timestamped, and we can take advantage of these timestamps to check whether data was generated at the hour or not. The function $x_\delta$ transforms a Unix\footnote{unix timestamp is a way to track time as a running total of seconds.} timestamp to a value in the interval $[0, 1)$. The closer $x_\delta$ is to the margins, the closer the time is at the hour, but since $0$ and $1$ symbolizes the same, we have to process it further.
+
+We define a Gaussian distribution function $t$ with the parameters $\mu=0.5$ and $\sigma=0.1$ which creates the graph illustrated in \autoref{fig:unixtime}. The graph shows when given $t$ a $x_\delta$ close to $0$ or $1$ (6:00, 7:00, etc.), $t$ returns a value close to $0$, but when given $0.5$ (6:30, 7:30, etc.) it returns a value close to $4$. $t$ demonstrate that we can separate data by how close it was generated at the hour. Also, we can always tweak $\sigma$ to adjust the width of the wave. Adjusting the wave allows us to be more strict, the wider the curve, the more strict.
+
+\begin{figure}
     \centering
     \includegraphics[width=\textwidth]{time.pdf}
-    \caption{Time processing}
+    \caption{Gaussian distribution}
     \label{fig:unixtime}
 \end{figure}
 
 \subsection{Collecting Pump-and-Dumps}
-Manually collecting \ac{pd} events from chat applications to label our datasets, seems infeasible in the long run — even tough Livshits and Xu \cite{P&D_anatomy} hand-picked $220$ pump-events from July to November in 2018 from $358$ different Telegram groups to train a Random Forest. They still did miss out on plenty of other executed \ac{pd} schemes as there are numerous of other chatting applications and private organizers~\cite{blockonomi}. Also, searching for \ac{pd} events is a time-consuming process, and incorrect labeling occurs when we lack membership to all of \ac{pd} groups, which results in more mediocre prediction capacity~\cite{label_noise}. We also have to be aware if a \ac{pd} was successfully executed or not; labeling failed attempts as positive only contributes to label noise. Instead of manually collecting \acp{pd} from groups in chatting applications, we believe that it is possible to hand-pick \acp{pd} by \emph{reasoning abductively} with the help of an anomaly detection algorithm to pinpoint suspicious time intervals in historical data.
+Manually collecting \ac{pd} events from chat applications to label our collected data, seems infeasible in the long run — even tough Livshits and Xu \cite{P&D_anatomy} hand-picked $220$ pump-events from July to November in 2018 from $358$ different Telegram groups to train a Random Forest. They still did miss out on plenty of other executed \ac{pd} schemes as there are numerous of other chatting applications and private organizers~\cite{blockonomi}. Also, searching for \ac{pd} events is a time-consuming process, and incorrect labeling occurs when we lack membership to all of \ac{pd} groups, which results in more mediocre prediction capacity~\cite{label_noise}. We also have to be aware if a \ac{pd} was successfully executed or not; labeling failed attempts as positive only contributes to label noise. Instead of manually collecting \acp{pd} from groups in chatting applications, we believe that it is possible to hand-pick \acp{pd} by \emph{reasoning abductively} with the help of an anomaly detection algorithm to pinpoint suspicious time intervals in historical data.
 
 The anomaly detection algorithm identifies local \emph{contextual anomalies} based on fixed recent history called a \emph{sliding time window}. Contextual or conditional anomalies are abnormal data points within a specific context and are prevalent in linearly ordered data called \emph{sequence data}~\cite{anomaly_survey}. A sliding window is a period that stretches back in time (lag factor) from the present containing events at specified intervals. The event intervals can overlap with each other, or they can be disjunct. As events exceed the lag factor, they fall out of the sliding window, and they are no longer matching against the rules applied to the sliding window~\cite{redhat}. With a sliding window, we can compare values in a given period~\cite{P&D_to_the_moon}, contrary to using single values, which not yield much information alone in sequence data.
 
@@ -179,6 +190,10 @@ We compute the price anomaly threshold by a simple moving average $\mu_\gamma^p$
 Calculating the volume anomaly threshold is almost identical to the above, we are only substituting $x_{closing}$ and $x_{high}$ with $x_{volume}$, which prompts the following expression.
 \input{equations/volume.tex}
 
+\subsubsection{Filtering}
+Anomaly detection algorithms has a high false alarm rate~\cite{grill2017reducing}, which makes them difficulty to use. When training a deep learning model to detect these anomalies it is, with high importance, to minimize label noise, and especially false positives. Otherwise, training a model with false \acp{pd} will ruin the model, and the result will be an high occurrences of false positives which is already a problem in detection of anomalies. Therefore, we have to remove the all the false positives collected in the anomalies.
+
+\subsubsection{Labeling}
 
 \subsection{Deep Learning}
 
@@ -187,6 +202,12 @@ Calculating the volume anomaly threshold is almost identical to the above, we ar
 % dimensionality reduction
 
 \subsubsection{Model}
+\begin{figure}[ht]
+    \centering
+    \includegraphics{lstm.pdf}
+    \caption{Structure of the model}
+    \label{fig:my_label}
+\end{figure}
 % LSTM
 % Neural Network
 
