@@ -8,10 +8,6 @@
 
 % For the application to have the ability to make accurate predictions, we need to carefully define a suitable algorithmic model that fits currently existing data to reverse engineer \acp{pd}. We find two paradigms \emph{financial} and \emph{\ac{ml}} as appealing fields for finding suitable algorithmic models. We encounter some problems in the field of finance, typically, financial institutions do not share their algorithms for competitive reasons, and we can not either find any models that are compatible for detecting \ac{pd} in real-time on cryptocurrency exchanges. We believe that using \ac{ml} to detect \acp{pd} is currently the optimal solution, and to reinforce that assumption, a recent PwC\footnote{Price Waterhouse Coopers is the largest network of accountants, lawyers and advisors, and deliver services within audit, consulting and tax.} study found that over the next two to three years \ac{ml} are the single most crucial technology impacting the finance function~\cite{pwc} as \ac{ml} models seem to excel financial models.
 
-%XXX Explaining ML => background
-
-
-% Looking at the amount of data that cryptocurrency exchanges and other cryptocurrency sources continuously produce, defining a \ac{ml} model is way more tempting than defining a rule-based solution. There are too much data and various types of data that currently exists that makes ruled-based solutions infeasible.
 
 % Supervised learning problem
 % binary classification problem
@@ -164,7 +160,7 @@ According to \cite{P&D_anatomy}, the time is essential when classifying \acp{pd}
 
 \input{equations/time.tex}
 
-Data retrieved from sources are getting timestamped, and we can take advantage of these timestamps to check whether data was generated at the hour or not. The function $x_\delta$ transforms a Unix\footnote{unix timestamp is a way to track time as a running total of seconds.} timestamp to a value in the interval $[0, 1)$. The closer $x_\delta$ is to the margins, the closer the time is at the hour, but since $0$ and $1$ symbolizes the same, we have to process it further.
+Data retrieved from sources are getting timestamped, and we can take advantage of these timestamps to check whether data was generated at the hour or not. The function $x_\delta$ transforms a Unix\footnote{unix timestamp is a way to track time as a running total of seconds.} timestamp to a value in the interval $[0, 1)$. The closer $x_\delta$ is to the margins, the closer the time is at the hour, but since $0$ and $1$ symbolizes the same, we have to process it further before we can use it as a valuable feature.
 
 We define a Gaussian distribution function $t$ with the parameters $\mu=0.5$ and $\sigma=0.1$ which creates the graph illustrated in \autoref{fig:unixtime}. The graph shows when given $t$ a $x_\delta$ close to $0$ or $1$ (6:00, 7:00, etc.), $t$ returns a value close to $0$, but when given $0.5$ (6:30, 7:30, etc.) it returns a value close to $4$. $t$ demonstrate that we can separate data by how close it was generated at the hour. Also, we can always tweak $\sigma$ to adjust the width of the wave. Adjusting the wave allows us to be more strict, the wider the curve, the more strict.
 
@@ -187,18 +183,33 @@ We compute the price anomaly threshold by a simple moving average $\mu_\gamma^p$
 \input{equations/price.tex}
 
 \subsubsection{Volume Anomaly}
-Calculating the volume anomaly threshold is almost identical to the above, we are only substituting $x_{closing}$ and $x_{high}$ with $x_{volume}$, which prompts the following expression.
+Calculating the volume anomaly threshold is almost identical to the above, we are only substituting $x_{closing}$ and $x_{high}$ with $x_{volume}$, which form the following expression.
 \input{equations/volume.tex}
 
-\subsubsection{Filtering}
-Anomaly detection algorithms has a high false alarm rate~\cite{grill2017reducing}, which makes them difficulty to use. When training a deep learning model to detect these anomalies it is, with high importance, to minimize label noise, and especially false positives. Otherwise, training a model with false \acp{pd} will ruin the model, and the result will be an high occurrences of false positives which is already a problem in detection of anomalies. Therefore, we have to remove the all the false positives collected in the anomalies.
+\subsubsection{Filtering Anomalies}
+Anomaly detection algorithms, in overall, have a high false alarm rate~\cite{grill2017reducing}, which makes them difficult to use. Since we want to use these anomalies we collected to train a model with, it is, with high importance, to remove false \acp{pd}. Otherwise, training a model with false \acp{pd} will make the model perform worse, and results in a high occurrence of false positives which is already a problem. Therefore, we manually remove all the false positives anomalies, but removing them requires prior knowledge of \acp{pd}, which we do not have.
 
-\subsubsection{Labeling}
+Since the anomaly detection algorithm checks whether a \ac{pd} occurred in a specific interval, and not exactly when. We visualize one-minute \ac{ohlc} from that interval in a chart, by plotting these values we can compare them to a few charts containing real \ac{pd}. Additionally, a market's capitalization, if the pairing coin is BTC, or how many exchanges that list the market, can be helpful when filtering \ac{pd}. E.g., if the anomaly detection algorithm flagged a suspicious interval in the ETH-BTC market, and it visually looks like a \ac{pd}, then it still would with a high likelihood not be a \ac{pd} because ETH is the coin with second highest capitalization~\cite{coinmarketcap_eth}, and that would break the pattern where the organizers target coin with low capitalization. Further helpful characteristics regarding \acp{pd} is described in \autoref{tab:pd_characteristics} and \autoref{tab:pd_indicators}.
+
+\subsubsection{Labeling Pump-And-Dumps}
+With the new features generated by the collected data and filtered anomalies containing \acp{pd}, we can label the new features and define a dataset, but first, the filtered anomalies still contains intervals where \acp{pd} occurred, and not exactly when it was executed. So, we need to precisely define where every \ac{pd} started end ended, before labeling.
+
+Because the purpose of \acp{pd} is to raise the price of an asset, makes us believe that, where the price change is highest in an interval, that is where the \ac{pd} peaked. If we have the peak of a \ac{pd}, we can search from the peak and down the descending slopes on each side of it. Left side, pump. Right side, dump. From each side we search until the change in price is equal or smaller than $0$. Finally, when have defined the start and end of every \ac{pd}, we label all the new features positive where there are \acp{pd}, and negative otherwise.
 
 \subsection{Deep Learning}
+% intro
+% 
 
-\subsubsection{Preprocessing}
-% normalizing
+\subsubsection{Data Transformation}
+Before training a model with the generated dataset, we transform it by \emph{normalizing} and \emph{reducing dimensions} in it.
+
+Since the features in our dataset have various scales, some percentages, some other numerical values, then, a common technique do is to \emph{normalize} the input data. Normalization creates new values from the dataset, but still maintain the general distribution and ratios in the source data while keeping values within a scale applied across all used features~\cite{normalize_data}. Also, normalization, in some cases, improves the performance of the model~\cite{normalize_google} and the faster convergence speed resulting in shorter training time~\cite{sola1997importance}.
+
+There are several ways to normalize data, and which normalization technique one use may have an impact on the performance of the model. Since \acp{pd} are anomalies, they will look like outliers in the data, and a traditional method called \emph{min-max} normalization is repeatedly used in detection of outliers~\cite{campos2016evaluation, goldstein2016comparative}. This technique provides a linear transformation of the data~\cite{panda2014smoothing}, allowing us to keep the distance ratio. It scales every value into the range $[0,1]$.
+
+\input{equations/min-max.tex}
+
+\autoref{eq:minmax}
 % dimensionality reduction
 
 \subsubsection{Model}
@@ -206,7 +217,7 @@ Anomaly detection algorithms has a high false alarm rate~\cite{grill2017reducing
     \centering
     \includegraphics{lstm.pdf}
     \caption{Structure of the model}
-    \label{fig:my_label}
+    \label{fig:lstm}
 \end{figure}
 % LSTM
 % Neural Network
