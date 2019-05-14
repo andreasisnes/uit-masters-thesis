@@ -1,9 +1,75 @@
-\chapter{Implementation of \project}\label{ch:implementation}\glsresetall
+%XXX Since design will focus on each component, this section can mirror the previous chapter, but instead of high level overview, describe how you implemented the description from the design chapter, programming language, libraries etc.
+
 % Python
 % Data collection - ccxt, binance, coinmarketcap
 % historica data - anomaly detection - matplotlib -ohlcv - pandas - numpy 
 % labeling - matplotlib - ohlcv - anomaly d
 % generating dataset
 
-%XXX Since design will focus on each component, this section can mirror the previous chapter, but instead of high level overview, describe how you implemented the description from the design chapter, programming language, libraries etc.
+\chapter{Implementation of \project}\label{ch:implementation}\glsresetall
+This chapter describes the implementation of \project. It first, define which programming language and modules we use during the implementation. Then it details how we implement each component.
 
+We implement the system in the programming language \href{https://www.python.org/}{Python}, which we believe is a powerful high-level scripting language that is excellent for building prototypes and conducting experiments. It has an extensive and superb standard library, but it also has an active community which provides specialized software that implements various protocols, \acp{api}, etc. It has roots in multiple programming paradigms like procedural, object-oriented, and functional. In recent year, it has climbed to the very top of being the most popular programming language according to PYPL\footnote{Popularity of Programming Languge}~\cite{pypl_python}.
+
+Python has an interpreter, a program that executes the code.  Each python interpreter has a \ac{gil}, which is a mutex that protects access to the Python object, preventing multiple threads from executing Python bytecodes at once. This lock is necessary mainly because CPython's memory management is not thread-safe~\cite{python_gil}. Because of the \ac{gil}, a single interpreter cannot execute threads in parallel. To run parallel code in python,  we must launch multiple interpreters. Hence, if we refer to a process, we refer to an interpreter, and we use a thread, then we refer to a thread that's running within an interpreter.
+
+The modules we use are all available from PyPI\footnote{Python Package Index}, a python software repository, and they are all easily installable by using PyPI's package installer pip. The following modules we take advantage of are:
+
+\begin{itemize}
+    \item \textbf{ccxt} - package containing a uniform \ac{api} for supporting numerous exchanges.
+    \item \textbf{keras} - high-level deep learning network \ac{api}.
+    \item \textbf{numpy} - fundamental scientific computing module.
+    \item \textbf{pandas} - library containing data structures and data analysis tools.
+    \item \textbf{matpotlib} - plotting library.
+    \item \textbf{time-series} - module for working with time-series data.  
+    \item \textbf{scikit-learn} - tools for data mining and analysis.
+    \item \textbf{python-binance} - Python implementation of the exchange Binance.
+    \item \textbf{CoinMarketCapAPI} - Python implementation of the cryptocurrency tracking site CoinMarketCap.
+\end{itemize}
+
+\section{Data Retriever}
+%% MS
+% Multiprocessing
+% Master
+% Slaves - polymorphism
+% Dataframe
+% Sources
+% CoinMarketCap
+% Binance
+% ccxt - reverse mapping
+%% 
+We implement our data retriever like a \ac{ms} architecture in Python as we mentioned in \autoref{sec:ms}, where the master and its slave are processes. We implements the slaves in such a way that they will continuously pull data as long as they not exceed their designated source request rate. Then, in a fixed interval, the master collects all the data from the slaves. All the slaves are different types, but they has the same \emph{interface}, allowing the master to exploit the computer science concept \emph{polymorphism} when pulling the data from the slaves. The first batch of data from the slaves the master receive, the master parses and stores all the keys/headers as the first row in a file, making it similar to a dataframe where the columns is named, while the rows is numerated. The data is then parsed such each feature in the data is added to the correct column.
+
+With the succeeding the batches the master receive, it can each sample to the file.
+
+\begin{lstlisting}[language=Python, caption={Slave interface}, label=code:interface]
+    class Slave(Process)
+        def header(self):
+        def start(self):
+        def stop(self):
+        def row(self, market):
+\end{lstlisting}
+
+
+\section{Data Processing}
+%% Pandas
+% remove polluted files
+% cleanse
+% Batch processing
+% pct
+% interpolation
+% differentiate
+% time processing
+% normalize
+
+\section{Collecting pump-and-dumps}
+% Anomaly Detection Algorithm
+% Filtering plotting
+% Labeling dataset 
+% 
+
+\section{Deep Learning}
+% keras
+% sampling
+% training
+% evaluating
