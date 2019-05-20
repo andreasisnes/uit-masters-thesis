@@ -12,16 +12,21 @@
 \usepackage{listings}
 \usepackage[utf8]{inputenc}
 \usepackage[backend=biber, bibstyle=ieee, citestyle=numeric-comp, sorting=none]{biblatex}
-
+\usepackage[binary-units=true]{siunitx}
 
 % Code listings
 \definecolor{deepblue}{rgb}{0,0,0.5}
 \definecolor{deepred}{rgb}{0.6,0,0}
 \definecolor{deepgreen}{rgb}{0,0.5,0}
+\colorlet{punct}{red!60!black}
+\definecolor{background}{HTML}{EEEEEE}
+\definecolor{delim}{RGB}{20,105,176}
+\colorlet{numb}{magenta!60!black}
+
 \DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
 \DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
 \lstset{
-    language=Python,
+    language=python,
     basicstyle=\ttm,
     otherkeywords={self},             % Add keywords here
     keywordstyle=\ttb\color{deepblue},
@@ -31,6 +36,33 @@
     frame=tb,                         % Any extra options here
     showstringspaces=false            % 
 }
+
+\lstdefinelanguage{json}{
+    basicstyle=\ttm,
+    numberstyle=\scriptsize,
+    stepnumber=1,
+    numbersep=8pt,
+    showstringspaces=false,
+    breaklines=true,
+    literate=
+     *{0}{{{\color{numb}0}}}{1}
+      {1}{{{\color{numb}1}}}{1}
+      {2}{{{\color{numb}2}}}{1}
+      {3}{{{\color{numb}3}}}{1}
+      {4}{{{\color{numb}4}}}{1}
+      {5}{{{\color{numb}5}}}{1}
+      {6}{{{\color{numb}6}}}{1}
+      {7}{{{\color{numb}7}}}{1}
+      {8}{{{\color{numb}8}}}{1}
+      {9}{{{\color{numb}9}}}{1}
+      {:}{{{\color{punct}{:}}}}{1}
+      {,}{{{\color{punct}{,}}}}{1}
+      {\{}{{{\color{delim}{\{}}}}{1}
+      {\}}{{{\color{delim}{\}}}}}{1}
+      {[}{{{\color{delim}{[}}}}{1}
+      {]}{{{\color{delim}{]}}}}{1},
+}
+
 \renamedefname{lstlistlisting}{List of Code Listings}
 \renamedefname{lstlisting}{Code Listing}
 \renameautorefname{lstlisting}{code listing}
@@ -86,12 +118,12 @@ Kakekai hehehe. KNEGGSTA
 
 % Content
 \mainmatter
-% \input{chapters/1_introduction}
-% \input{chapters/2_background}
-% \input{chapters/3_design}
-\input{chapters/4_implementation}
-% \input{chapters/5_evaluation}
-% \input{chapters/6_conclusion}
+%\input{chapters/1_introduction}
+%\input{chapters/2_background}
+%\input{chapters/3_design}
+%\input{chapters/4_implementation}
+%\input{chapters/5_evaluation}
+\input{chapters/6_conclusion}
 
 % Bibliography and appendix
 \printbibliography[heading=bibintoc,title=References]
