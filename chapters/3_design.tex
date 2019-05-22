@@ -36,12 +36,6 @@ TBW
 \section{Overview}
 We are modeling \project as a \ac{ml} pipeline, but with some few extensions. It is designed to extract raw data from different cryptocurrency sources and transform it into valuable features in order to classify \acp{pd}. The term \ac{ml} pipeline can be misleading as it implies a one-way flow of data when some elements in the pipeline are cyclical and iterative where every iteration intends to improve the accuracy of the model~\cite{ml_pipeline_3}. Some of the advantages a pipeline provides is~\cite{ml_pipeline_2};
 
-\begin{itemize}
-    \item \textbf{Flexibility} - Processing elements are easy to replace and to modify without changing the system.
-    \item \textbf{Extensibility} - The system is partitioned into pieces making it easy to add new functionality.
-    \item \textbf{Scalability} – Each processing element is separately scalable because they are independent.
-\end{itemize}
-
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{overview.pdf}
@@ -72,7 +66,7 @@ Training a model in real-time by pulling data is impractical because we do not h
 From the reinforcers field in \autoref{tab:pd_indicators}, to reverse engineer \acp{pd}, we have to fetch data from various sources. An exchange alone does not produce data regarding a coin's capitalization, nor a coin's price on a different exchange. Other sources than exchanges produce such metadata of coins, while exchanges only produce internal trading data.
 
 \subsubsection{Master Slave Approach}
-We shape our data retriever like a \ac{ms} model. The term \ac{ms} is through a quiet ongoing debate in the coding community~\cite{giz_master, reg_master, med_master}, as some may interpret it offensively and relate to the institution of slavery. Our intention is not to insult anyone, but we are still using this term because none have yet proposed a lasting substitution to it.
+We shape our data retriever like a \ac{ms} model.\autoref{fig:ms} is an example that illustrates our data retriever with a master and its three data pulling slaves. Each slave in our data retriever is assigned a source that can be, e.g., an exchange. The communication between slaves and the master is intuitive. The master broadcasts a pull signal to the slaves, and they pull the data from their assigned source, then the master gathers the data from them and parses it, and augments it to a sample. Each sample the master generate gets stored. This procedure takes effect in a fixed interval for obtaining clean time series data, such that each sample's time gap is equal. The advantages and disadvantages of this structure are:
 
 \begin{figure}[ht]
     \centering
@@ -81,7 +75,6 @@ We shape our data retriever like a \ac{ms} model. The term \ac{ms} is through a 
     \label{fig:ms}
 \end{figure}
 
-Nevertheless, In computing networking, \ac{ms} is a model for a communication protocol in which one process (master) controls one or more processes (slaves)~\cite{ms_bs}. \autoref{fig:ms} is an example that illustrates our data retriever with a master and its three data pulling slaves. Each slave in our data retriever is assigned a source that can be, e.g., an exchange. The communication between slaves and the master is intuitive. The master broadcasts a pull signal to the slaves, and they pull the data from their assigned source, then the master gathers the data from them and parses it, and augments it to a sample. Each sample the master generate gets stored. This procedure takes effect in a fixed interval for obtaining clean time series data, such that each sample's time gap is equal. The advantages and disadvantages of this structure are:
 
 \textbf{Advantages}
 \begin{enumerate}

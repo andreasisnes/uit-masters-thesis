@@ -8,35 +8,62 @@
 %XXX Re-iterate thesis, implementation, experiment og summary av resultat.
 
 \section{Contributions}
-\begin{table}[ht]
-        \centering
-        \begin{tabularx}{\textwidth}{ |R|R|R|R|R| }\hline
-        Language    & Files                 & Blank                 & Comment               & Code              \\\hline
-        Python      & $\numprint{13}$       & $\numprint{383}$      & $\numprint{1125}$     & $\numprint{863}$  \\
-        Markdown    & $\numprint{1}$        & $\numprint{27}$       & $\numprint{0}$        & $\numprint{81}$   \\
-        Make        & $\numprint{1}$        & $\numprint{10}$       & $\numprint{0}$        & $\numprint{25}$   \\\hline
-        Sum         & $\numprint{15}$       & $\numprint{420}$      & $\numprint{1125}$     & $\numprint{969}$  \\\hline
-        \end{tabularx}
-        \caption{CoinMarketCapAPI - cloc -- Count Lines of Code}
-        \label{tab:cloc_coin}
-\end{table}
-
-\begin{table}[ht]
-        \centering
-        \begin{tabularx}{\textwidth}{ |R|R|R|R|R| }\hline
-        Language    & Files                 & Blank                 & Comment               & Code              \\\hline
-        Python      & $\numprint{13}$       & $\numprint{383}$      & $\numprint{1125}$     & $\numprint{863}$  \\
-        Markdown    & $\numprint{1}$        & $\numprint{27}$       & $\numprint{0}$        & $\numprint{81}$   \\
-        Make        & $\numprint{1}$        & $\numprint{10}$       & $\numprint{0}$        & $\numprint{25}$   \\\hline
-        Sum         & $\numprint{15}$       & $\numprint{420}$      & $\numprint{1125}$     & $\numprint{969}$  \\\hline
-        \end{tabularx}
-        \caption{CoinMarketCapAPI - cloc -- Count Lines of Code}
-        \label{tab:cloc_coin}
-\end{table}
-
-
-
 %XXX List opp contributions til PyPI (eller hvor det nå var). Husk å inkluder info om testing, publisering og antall kodelinjer.
+We published two packages on PyPi,  \texttt{CoinMarketCapAPI} and \texttt{timeseries}, the former to extract data from the cryptocurrency tracking site CoinMarketCap, and the latter to work with time series data. Both modules can be easily installed with pypi package install pip. There written uni tests for both modules, there was also written integration tests for the CoinMarketCapAPI module as this module required multiple classes to cooperate. We use the module \texttt{pytest}, a testing framework in Python, to execute all the tests and calculate the percentage of code that was covered. In the timeseries package, we were able to cover $100\%$ of the module, while in the CoinMarketCapAPI, we were able to cover $86\%$. The following tables show code statistics regarding \project, CoinMarketCapAPI, and timeseries.
+
+\begin{table}[ht]
+        \centering
+        \begin{tabularx}{\textwidth}{ |R|R|R|R|R|R| }\hline
+        Language    & Files             & Lines             & Blank             & Comment           & Code              \\\hline
+        Python      & $\numprint{13}$   & $\numprint{2371}$ & $\numprint{383}$  & $\numprint{26}$   & $\numprint{1962}$ \\
+        Markdown    & $\numprint{1}$    & $\numprint{108}$  & $\numprint{27}$   & $\numprint{0}$    & $\numprint{81}$   \\
+        Makefile    & $\numprint{1}$    & $\numprint{35}$   & $\numprint{10}$   & $\numprint{0}$    & $\numprint{25}$   \\
+        Text        & $\numprint{1}$    & $\numprint{3}$    & $\numprint{0}$    & $\numprint{0}$    & $\numprint{3}$    \\\hline
+        Sum         & $\numprint{16}$   & $\numprint{2517}$ & $\numprint{420}$  & $\numprint{26}$   & $\numprint{2071}$ \\\hline
+        \end{tabularx}
+        \caption{CoinMarketCapAPI - Lines of Code}
+        \label{tab:cloc_coin}
+\end{table}
+
+\begin{table}[ht]
+        \centering
+        \begin{tabularx}{\textwidth}{ |R|R|R|R|R|R| }\hline
+        Language    & Files             & Lines             & Blank             & Comment           & Code              \\\hline
+        Python      & $\numprint{5}$    & $\numprint{207}$  & $\numprint{48}$   & $\numprint{6}$    & $\numprint{153}$  \\
+        Markdown    & $\numprint{1}$    & $\numprint{48}$   & $\numprint{13}$   & $\numprint{0}$    & $\numprint{35}$   \\
+        Makefile    & $\numprint{1}$    & $\numprint{29}$   & $\numprint{8}$    & $\numprint{0}$    & $\numprint{21}$   \\\hline
+        Sum         & $\numprint{7}$    & $\numprint{284}$  & $\numprint{69}$   & $\numprint{6}$    & $\numprint{209}$  \\\hline
+        \end{tabularx}
+        \caption{timeseries - Lines of Code}
+        \label{tab:cloc_timeseries}
+\end{table}
+
+\begin{table}[ht]
+        \centering
+        \begin{tabularx}{\textwidth}{ |R|R|R|R|R|R| }\hline
+        Language    & Files             & Lines             & Blank             & Comment           & Code              \\\hline
+        Python      & $\numprint{39}$   & $\numprint{2026}$ & $\numprint{377}$  & $\numprint{156}$  & $\numprint{1493}$ \\
+        Makefile    & $\numprint{1}$    & $\numprint{32}$   & $\numprint{9}$    & $\numprint{0}$    & $\numprint{23}$   \\
+        JSON        & $\numprint{1}$    & $\numprint{10}$   & $\numprint{0}$    & $\numprint{0}$    & $\numprint{10}$   \\
+        Text        & $\numprint{1}$    & $\numprint{3}$    & $\numprint{0}$    & $\numprint{0}$    & $\numprint{3}$    \\
+        Markdown    & $\numprint{1}$    & $\numprint{1}$    & $\numprint{0}$    & $\numprint{0}$    & $\numprint{1}$    \\\hline
+        Sum         & $\numprint{43}$   & $\numprint{2072}$ & $\numprint{386}$  & $\numprint{156}$  & $\numprint{1530}$ \\\hline
+        \end{tabularx}
+        \caption{\project - Lines of Code}
+        \label{tab:cloc_thesis}
+\end{table}
+
+\subsubsection{Dataset}
+The data to reproduce our results is available at the following two links:
+\begin{itemize}
+    \item \href{https://mega.nz/#!CIU3BIIC!xI3AdBz0TwLeb-j-xFrz3Ra_WX2yB94EmmFkzt6FB5c}{Raw Data}
+    \item \href{https://mega.nz/#!PcMHTSIZ!BRAbYj_upGS6QHl2a1G6N93ac5S3wlL3vVjih8FjwJA}{Dataset}
+\end{itemize}
+
 
 \section{Future Work}
+
+\subsubsection{Feature Enhancement}
+
+\subsubsection{Applications}
 %XXX List opp potensielle forbedringer, eller utvidelser \project kan ha.
