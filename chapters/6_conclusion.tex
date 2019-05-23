@@ -3,13 +3,17 @@
 % write conclusions that can be drawn from the results found and the discussion presented in the paper
 % future work (be very brief, explain what, but not much how)
 
-\chapter{Concluding Remarks}\label{ch:conclusion}\glsresetall
+\chapter{Conclusion}\label{ch:conclusion}\glsresetall
+Since the emergence of cryptocurrencies, exchanges has and still plays a central role in the cryptocurrency ecosystem. With Over $99\%$ of all trades happens on these exchanges, one can say that they are an appealing platform for investors, despite that they are mostly unregulated. Unregulated investment platforms attract scammers who organize various price manipulation schemes like \acp{pd}, and this have become troublesome on exchanges as the scammers produce in total \$$7$ million in daily trading volume.
 
-%XXX Re-iterate thesis, implementation, experiment og summary av resultat.
+Our objective in this thesis was to detect \acp{pd} in real-time by using deep learning, and we did so by defining the system \project. We modeled it like a \ac{ml} pipeline, where the first stage collected data from Binance, CoinMarketCap, and aggregated data from multiple exchanges. then, with the collected data we defined a new dataset by cleaning it and engineering new features of it. To label our dataset we used an anomaly detection algorithm to pinpoint potential \acp{pd}, and to reduce the occurrences of false \acp{pd} we manually removed them. With a labeled dataset, we normalized it, and trained a \ac{lstm} network.
+
+To train our \ac{lstm} network, we collected data over a period of $33$ days resulting in total \SI{47}{\giga\byte} of data. The anomaly detection algorithm pinpointed $280$ anomalies over the period we collected data, and from these anomalies we removed $80$ false \acp{pd}. The \ac{lstm} network we trained has an accuracy of $97.82\%$ and an \ac{auc} of $0.979$.
 
 \section{Contributions}
-%XXX List opp contributions til PyPI (eller hvor det nå var). Husk å inkluder info om testing, publisering og antall kodelinjer.
-We published two packages on PyPi,  \texttt{CoinMarketCapAPI} and \texttt{timeseries}, the former to extract data from the cryptocurrency tracking site CoinMarketCap, and the latter to work with time series data. Both modules can be easily installed with pypi package install pip. There written uni tests for both modules, there was also written integration tests for the CoinMarketCapAPI module as this module required multiple classes to cooperate. We use the module \texttt{pytest}, a testing framework in Python, to execute all the tests and calculate the percentage of code that was covered. In the timeseries package, we were able to cover $100\%$ of the module, while in the CoinMarketCapAPI, we were able to cover $86\%$. The following tables show code statistics regarding \project, CoinMarketCapAPI, and timeseries.
+We published two packages on PyPi,  \texttt{CoinMarketCapAPI} and \texttt{timeseries}, the former to extract data from the cryptocurrency tracking site CoinMarketCap, and the latter to work with time series data. Both modules can be easily installed with PyPi's package install pip. There is written uni tests for both modules, and integration tests for the CoinMarketCapAPI module as this module required multiple classes to cooperate. We use the module \texttt{pytest}, a testing framework in Python, to execute all the tests and calculate the percentage of code that was covered. In the timeseries package, we were able to cover $100\%$ of the module, while in the CoinMarketCapAPI, we were able to cover $86\%$. The following tables show code statistics regarding \project, CoinMarketCapAPI, and timeseries.
+
+The following tables shows lines of code of each project, and it was calculated by using a tool called \texttt{loc}. It seems like docstrings in Python is counted as a code line and not as a comment.
 
 \begin{table}[ht]
         \centering
@@ -54,16 +58,20 @@ We published two packages on PyPi,  \texttt{CoinMarketCapAPI} and \texttt{timese
 \end{table}
 
 \subsubsection{Dataset}
-The data to reproduce our results is available at the following two links:
-\begin{itemize}
-    \item \href{https://mega.nz/#!CIU3BIIC!xI3AdBz0TwLeb-j-xFrz3Ra_WX2yB94EmmFkzt6FB5c}{Raw Data}
-    \item \href{https://mega.nz/#!PcMHTSIZ!BRAbYj_upGS6QHl2a1G6N93ac5S3wlL3vVjih8FjwJA}{Dataset}
-\end{itemize}
+We could not find any existing dataset containing data that was collected in real-time, nor a dataset with \acp{pd}. Therefore, we had to define our own dataset. The first of the two following datasets contains raw data that are directly extracted from Binance, CoinMarketCap, and aggregated data from multiple sources, and is available at \url{https://mega.nz/#!CIU3BIIC!xI3AdBz0TwLeb-j-xFrz3Ra_WX2yB94EmmFkzt6FB5c}. The second dataset, the one we used to train our \ac{lstm} network produce the presented results, is available at \url{https://mega.nz/#!PcMHTSIZ!BRAbYj_upGS6QHl2a1G6N93ac5S3wlL3vVjih8FjwJA}.
 
+\section{Concluding Remark}
+Through designing, implementing and evaluating \project, we prove that it is achievable detect \ac{pd} in real-time using deep learning. In addition to \project, we implemented two other Python modules that we published on PyPI, a repository for publishing Python software. Finally, the results proves that it is possible to detect \ac{pd} with $97.82\%$ accuracy.
 
 \section{Future Work}
 
-\subsubsection{Feature Enhancement}
+\subsubsection{Improvement Suggestions}
+Labeling \ac{pd} samples in the dataset, is and will remain problematic as long as we do not have any prior knowledge regarding whether a \ac{pd} actually happened or not. Optimally, knowing every \ac{pd} events that happen during the phase where \project collects data allows us to label the samples with a higher precision, which results in more accurate results. Hence, if some publish accurate and detailed \ac{pd} events, or if we improve the anomaly detection such that we get more accurate measures, then we can also be more precise when labeling samples.
+
+In this thesis, \project only uses a few features among tens from CoinMarketCap. We only used those features we genuinely believe is useful in detecting \ac{pd}, but since this is not a problem that can be easily solved, so with more features may improve the performance of the model. Thus, we can utilize more data from CoinMarketCap in the future. The same terms can we apply to the cryptocurrency source that aggregate data from multiple sources, we can probably extract way more data from it, then just \ac{ohlc} values.
+
+A typical preprocessing stage is to reduce the number of dimensions in the data, but because of the huge class imbalance and that samples are timeseries data, we have to be careful when reducing dimensions. A method that we believe is optimal when reducing dimensions is a method called backward selection.
 
 \subsubsection{Applications}
-%XXX List opp potensielle forbedringer, eller utvidelser \project kan ha.
+We believe that
+

@@ -8,6 +8,9 @@ TBW
 \section{Experimental Setup}
 Evaluation of our system solely depends on how the deep learning mode perform with the datasets we generated. We retrieved real-time data from $138$ different markets over a period of $33$ days, and the pairing coin of each market is Bitcoin. The data retriever fetched data in a fixed interval of $5$ seconds, resulting approximately $\numprint{570 000}$ samples per market. In total we collected \SI{47}{\giga\byte} of data. We processed the data, and the time lag we choose when calulcating the percentage of change was $10$ minutes, or approximaltely 120 points.
 
+% 280 anomalies
+% 200 pd
+
 The computer we used to train our model with has the following scpecifications:
 \begin{itemize}
     \item CPU - Intel Xeon E5-1620 \SI{3.9}{\giga\hertz}
