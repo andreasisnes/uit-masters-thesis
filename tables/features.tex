@@ -1,0 +1,45 @@
+\begin{table}
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+    \hline
+            Source          & Symbol        & Feature Description           & Operation \\\hline
+            Local           & $dt$          & Local timestamp               & Time      \\
+            Binance         & $e$           & Event type                    & Removed   \\
+            Binance         & $E$           & Event time                    & Removed   \\
+            Binance         & $s$           & Symbol                        & Removed   \\
+            Binance         & $P$           & Price change percent          & None      \\
+            Binance         & $p$           & Price change                  & PoC       \\
+            Binance         & $w$           & Weighted average price        & PoC       \\
+            Binance         & $x$           & First trade(F)-1 price        & PoC       \\
+            Binance         & $c$           & Last price                    & PoC       \\
+            Binance         & $Q$           & Last quantity                 & PoC       \\
+            Binance         & $b$           & Best bid price                & PoC       \\
+            Binance         & $B$           & Best bid quantity             & PoC       \\
+            Binance         & $a$           & Best ask price                & PoC       \\
+            Binance         & $A$           & Best ask quantity             & PoC       \\
+            Binance         & $o$           & Open price                    & PoC       \\
+            Binance         & $h$           & High Price                    & PoC       \\
+            Binance         & $l$           & Low Price                     & PoC       \\
+            Binance         & $v$           & Base asset volume             & PoC       \\
+            Binance         & $q$           & Quote asset volume            & PoC       \\
+            Binance         & $O$           & Statistics open time          & Removed   \\
+            Binance         & $C$           & Statistics close time         & Removed   \\
+            Binance         & $F$           & First trade ID                & Removed   \\
+            Binance         & $L$           & Last trade ID                 & Removed   \\
+            Binance         & $n$           & Total number of trades        & PoC       \\
+            Binance         & $ap\_[0-4]$   & $5$x depth - asks price       & PoC       \\
+            Binance         & $av\_[0-4]$   & $5$x depth - asks volume      & PoC       \\
+            Binance         & $bp\_[0-4]$   & $5$x depth - bids price       & PoC       \\
+            Binance         & $av\_[0-4]$   & $5$x depth - asks volume      & PoC       \\
+            Binance         & $dep$         & Depth imbalance               & Imbalance \\
+            ccxt            & $oc$          & Aggregated open price         & PoC       \\
+            ccxt            & $hc$          & Aggregated high price         & PoC       \\
+            ccxt            & $lc$          & Aggregated low price          & PoC       \\
+            ccxt            & $cc$          & Aggregated close price        & PoC       \\
+            ccxt            & $ic$          & Exchange to market rate       & None      \\
+            CoinMarketCap   & $cap$         & Capitalization rate           & None      \\
+    \hline
+    \end{tabular}
+    \caption{Feature Table}
+    \label{tab:feature_table}
+\end{table}

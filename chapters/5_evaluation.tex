@@ -4,21 +4,14 @@
 % caution: each result/graph must be discussed! what’s the reason for this peak or why have you ovserved this effect
 
 \chapter{Evaluation}\label{ch:evaluation}\glsresetall
-TBW
 \section{Experimental Setup}
-Evaluation of our system solely depends on how the deep learning mode perform with the datasets we generated. We retrieved real-time data from $138$ different markets over a period of $33$ days, and the pairing coin of each market is Bitcoin. The data retriever fetched data in a fixed interval of $5$ seconds, resulting approximately $\numprint{570 000}$ samples per market. In total we collected \SI{47}{\giga\byte} of data. We processed the data, and the time lag we choose when calulcating the percentage of change was $10$ minutes, or approximaltely 120 points.
+To evaluate \project, we investigate its model prediction capabilities, and we did so by retrieving real-time data from $138$ different markets throughout $33$ days. The pairing coin of each market was Bitcoin. The interval between each data point was $5$ seconds, resulting in approximately $\numprint{570 000}$ samples per market. Over these days, we collected in total \SI{47}{\giga\byte} of data. The sources that we use to fetch data from was those we presented in the \autoref{ch:implementation}, namely, Binance, CoinMarketCap, and aggregated data from multiple sources. 
 
-% 280 anomalies
-% 200 pd
+\autoref{tab:feature_table} contains details regarding every feature that were fetched. The operation fields describe how we decided to process a specific feature. The data were cleaned by removing features that we believe was unproductive in the detection of \ac{pd}, these were tagged as \emph{Remove}. The field that contains \emph{PoC}, was first interpolated and then calculated the percentage of change, and the time lag we chose was $10$ minutes because the time from where a \ac{pd} start, to where it peak is $10$ minutes, like described in \autoref{ch:techincal}. The field \emph{Imbalance} and \emph{Time} are the order book imbalance and how close the timestamp is on the hour.
 
-The computer we used to train our model with has the following scpecifications:
-\begin{itemize}
-    \item CPU - Intel Xeon E5-1620 \SI{3.9}{\giga\hertz}
-    \item RAM - \SI{64}{\mebi\byte} DDR3 
-    \item GPU - Nvidia GeForce GTX 770
-\end{itemize}
+\input{tables/features.tex}
 
-We used the anomaly detection algorithm as we have previously outlined to detect anomalies from Binance, and filtered out the all anomalies that looked like a \ac{pd}. The following charts shows some of intervals that where labeled.
+We used the anomaly detection algorithm which we have previously described to pinpoint \ac{pd} intervals. We fetched \ac{ohlc} values that span over the period we collected data, and these \ac{ohlc} values had an interval of $1$ hour. The threshold parameters we chose for the algorithm is a price increase of $1.10$ and a volume of increase threshold of $3.00$, and the time lag we chose was $6$ hour. By using this algorithm we were able to identify in total $280$ anomalies. Of these anomalies we manually removed $80$, which we believe was false. \autoref{fig:label_true} shows three \acp{pd} charts we believe was true, while \autoref{fig:label_false} shows three \ac{pd} charts we believe was false.
 
 \begin{figure}
     \centering
@@ -38,20 +31,30 @@ We used the anomaly detection algorithm as we have previously outlined to detect
     \label{fig:label_false}
 \end{figure}
 
-We choose to split our dataset into a training and test set, where the training set takes up $75\%$ ($104$ markets), and the test consists of the remaining $25\%$ ($33$ markets) of the dataset.  With the training dataset that we generated, we undersampled the dataset to create a blanaced dataset to trained a \ac{lstm} network with, where the hidden layer contain a single layer with $50$ \ac{lstm} cells, we also added dropout the \ac{lstm} cells, to prevent over-fitting as \ac{lstm} tends to often overfit their training data~\cite{overfit}. The output layer contained a single perceptron. We trained the network with balanced dataset in  $\numprint{5000}$ epochs. Also, we use the \emph{adam} optimizer, which is an extension to stochastic gradient descent~\cite{kingma2014adam}, the optimizer has shown that the model's weights will converge faster that results in great performance rapidly~\cite{adam}. To classify the performance of the model, we classified all samples in the test dataset.
+To create a dataset, we used the anomalies to label all the processed, collected data. The generated dataset was then normalized by using the min-max normalization method. We split the dataset into a training set and a test set. The training set was consist of $75\%$ of the dataset, resulting in data from approximately $104$ markets, while the test set contains the remaining $25\%$ of the markets, resulting in $33$ markets. The training dataset was undersampled in order to create a balanced dataset.
+
+The network we used was a \ac{lstm} network, where its hidden layer contains a single layer with $50$ \ac{lstm} cells, where each cell had a "short memory" of $10$ points, which results in $50$ seconds of memory considering that interval between each sample is $5$ seconds. We also added dropout to prevent over-fitting as \ac{lstm} cells tend to overfit their training data often~\cite{overfit}. The output layer contained a single perceptron. The optimizer we used was \emph{adam}, which is an extension to stochastic gradient descent~\cite{kingma2014adam}, the optimizer has shown that the model's weights will converge faster that results in greater performance rapidly~\cite{adam}. The network was trained in over $5000$ epochs with the training dataset, where the batch size was $10$. To define the performance of the network, we classified all the samples in the test dataset and rounded the probabilistic prediction to either $0$ (\ac{pd}) or $1$ (not \ac{pd}). 
+
+The computer we used to train our model with had the following specifications:
+\begin{itemize}
+    \item CPU - Intel Xeon E5-1620 \SI{3.9}{\giga\hertz}
+    \item RAM - \SI{64}{\gibi\byte} DDR3 
+    \item GPU - Nvidia GeForce GTX 770
+\end{itemize}
+\newpage
 
 \section{Results}
-We evaluate our model by using several metrics, the first metric we use is a confusion matrix like \autoref{tab:confmat}. A confusion matrix shows the number of correct and incorrect classifies samples. \autoref{tab:model_performance} shows the results we obtained by using the parameters described. With the confusion matrix we can define a various performance measures as \autoref{tab:performance} illustrates.
+The first metric we use is a confusion matrix, which is structured like \autoref{tab:confmat}. A confusion matrix shows the number of correct and incorrect classified samples, and help define further scores. True positive $tp$ are samples that are correctly classified as \ac{pd}, while true negative, $tn$, is samples that are correctly classified as not \ac{pd}. $fp$ are samples that are incorrect classified as \ac{pd}, and false negatives, $fn$, are samples that are \ac{pd}, but classified as not \ac{pd}. $p$ and $n$ are the true total numbers of samples in each class, while $p'$ and $n'$ are the total numbers of predicted samples in each class. Finally, $N$ is the total number of samples.
 
 \input{results/confusion_matrix.tex}
 \input{results/model.tex}
+
+As we can see from \autoref{tab:model_performance}, the test dataset, as well as the training dataset is hugely imbalanced. Only $\numprint{8821}$ samples are \ac{pd}, while $\numprint{18321816}$ is not a \ac{pd}. Over one of every $\numprint{2000}$ sample is a \ac{pd}!
+
 \input{results/performance.tex}
 
-From \autoref{tab:performance}, we can see that the model itself achieve a respective accuracy, in total it achieve around $98\%$ accuracy. The true positive rate is approximately $90\%$ and true negative ratio is circa $98\%$. These ratios is in general are good, if and only if the problem itself is hard to solve and if the dataset is balanced. Detecting \ac{pd} is a hard problem, it is hard even for us to identify \acp{pd}, there was multiple occasions during the filtering phase where we had problems with distinguishing \acp{pd}. Also, considering the type of data we had to work with, and how few \acp{pd} samples we have compared to regular trading data, there was over $\numprint{2000}$ times more samples that is categorized as negative than positive,....
+From \autoref{tab:performance}, we see various metrics that we can use when defining the capabilities of the \ac{lstm} network, the metrics \emph{accuracy} and \emph{error}, are measures that are opposite of each other. The accuracy is the percentage of how many samples we classified correct. The error, says how many samples we misclassified. 
 
-In terms of \emph{specificity}, the model almost scores flawlessly, $99.99\%$. Specificity is ratio of how often we not classifies a positive \ac{pd} as negative. From the \autoref{tab:confmat}, we see that the model classified $911$ positive points as negative, while we classified $\numprint{17933021}$ correctly negative. Hence, the model is very precise when it boils down to classify negative samples as negative.
-
-\autoref{fig:roc} illustrate the \ac{roc} curve of our model, and it gives us a visual perspective of the performance of the model. Ideally, a classifier has a tp-rate of $1$ and an fp-rate of $0$, and hence a classifier is better the more its \ac{roc} curve gets closer to the upper-left corner. On the diagonal, we make as many true decisions as false ones, and this is the worst case~\cite[p.~563]{alpaydin2014introduction}. Our \ac{roc} curve also shows that our model has accurate predictable capabilities. The \ac{auc} score represents the probability that a randomly chosen positive example is correctly classified ranked with greater suspicion than a randomly chosen negative example~\cite{bradley1997use}.
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{results/roc.pdf}
@@ -59,10 +62,26 @@ In terms of \emph{specificity}, the model almost scores flawlessly, $99.99\%$. S
     \label{fig:roc}
 \end{figure} 
 
-Currently, some metrics clearly shows that the model has good predictable capabilities in terms of accuracy. Another metric that reveal  the weakness of our model, is the f-score. As the \ac{roc} curve focuses on the relationship between tp-rate and fp-rate, the f-score measure our model test's accuracy with the weight on the measures \emph{recall} and \emph{precision}. Precision is an important measure when it comes to imbalanced dataset because the precision says something regarding the accuracy of correctly classified positive predicted samples. Our model only achieve a disappointing precision on $2\%$, and that value clearly demonstrate that $2\%$ of the samples that we classify as \acp{pd} truly are \acp{pd}, and regarding the f-score. An ideal f-score is $1$, and the worst is $0$. This measure is flexible in terms that we can weigh both recall and precision differently by adjusting the parameter $\gamma$. Where the closer $\gamma$ is to $0$, the more we weigh precision, when $\gamma$ is $1$ we wight them equally, and finally when $\gamma$ is over $1$, we weigh recall most.
+The tp-rate is percentage of how often we correctly classify \ac{pd} samples. So given a \ac{pd} sample, there an $89.67\%$ chance of classifying it correctly. The fp-rate is similar in terms of, given a negative sample. Then there is a $2.12\%$ change of classifying it at as a \acp{pd}. These measures can also be visualized through \ac{roc} curve illustrated in \autoref{fig:roc}. It gives us a visual perspective of the performance of the model. Ideally, a classifier has a tp-rate of $1$ and an fp-rate of $0$, and a classifier is better the more its \ac{roc} curve gets closer to the upper-left corner. On the diagonal, we make as many true decisions as false ones, and this is the worst case~\cite[p.~563]{alpaydin2014introduction}. Our \ac{roc} curve also shows that our model has accurate predictable capabilities. The \ac{auc} score represents the probability that a randomly chosen positive example is correctly classified ranked with greater suspicion than a randomly chosen negative example~\cite{bradley1997use}.
+The \emph{sensitivity} and \emph{specificity} balance the classes, they tells us, given a negative or positive samples, what is the percentage of classifying it correctly. The sensitivity, is the percentage of given a positive sample, the percentage of classifying it correctly, is $89.67\%$. The specificity, is the opposite, given a negative sample, the percentage of classifying it correctly is $97.87\%$. 
+
+Clearly, the metrics we presented now shows that the model has good predictable capabilities. However, the metrics that reveal the flaws of the model, are the measures \emph{recall} and \emph{precision}. Recall are exactly like the tp-rate and sensitivity, it is the percentage of, given a \ac{pd} sample, then there is $89.67\%$ chance of classifying it correctly. \emph{precision} on the other hand, is, when classifying a sample as a \ac{pd}, then what is the percentage that the sample truly is a \ac{pd}. In our case, a disappointing $1.99\%$. so whenever our model predict that this may be a \ac{pd}, then there is only a $1.99\%$ that it is correct, and this results in plenty of false alarms. 
+
 \input{results/f_score.tex}
+
+A frequently used score that relies on recall and precision is the \emph{f-score}. The f-score formula is showed in \autoref{fig:f_score}, and an ideal f-score is $1$, and the worst is $0$. This measure is flexible in terms that we can weigh both recall and precision differently by adjusting the parameter $\gamma$. Where the closer $\gamma$ is to $0$, the more we weigh precision, when $\gamma$ is $1$ we wight them equally, and finally when $\gamma$ is over $1$, we weigh recall most. As we see, when weighing precision most, by giving  $\gamma=0.5$, the score only yield $0.0247$. When equally weighing them, by giving $\gamma=1$, the score increase slightly. Finally, when weighting recall most, the score is $0.0912$, which is better than the other.
 
 The following results shows the confusion matrix of each classified market.
 
 \input{results/cm.tex}
+
+\newpage
 \section{Discussion}
+To interpret the results reasonable, we need to define the consequence of misclassifications. Assume our real job was to classify whether a patient has cancer or not, and given a patient's sample,  we classify it as not cancer (negative), but the patient does truly has cancer (positive). Only with a simple misclassification, we can have resulted in the death of the patient, which would have been unforgivable. However, this example pushes the consequence of misclassification to the extreme, but it demonstrates the potential harm it can do.
+
+So to apply an example to the detection of \ac{pd}. Assume that exchange uses our model and want to ban users that participate in \acp{pd}. Eventually, our model classifies a sample as a \ac{pd} (positive), and the exchange ban all the user that participated, but later, it was shown that it was not a \ac{pd}. This Results in an inconsistent ban of investors, and we all can agree on, if an exchange bans an investor, they have to be confident in their case.
+
+Assume a second scenario where investors want to use the model to participate in \acp{pd}. Given market data, and after a while, the model predicts positive to \ac{pd}. The investors then buy assets in the coin, but the coin never gets pumped. Most likely, there will be no consequences as the markets, in general, do not change a lot in a short amount of time.
+
+
+

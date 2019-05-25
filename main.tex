@@ -1,6 +1,7 @@
 \documentclass[USenglish,glsresetperchapter,a4paper]{uit-thesis}
 
 % Packages
+\usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{xspace}
 \usepackage{tabularx}
@@ -10,7 +11,6 @@
 \usepackage{csquotes}
 \usepackage{textgreek}
 \usepackage{listings}
-\usepackage[utf8]{inputenc}
 \usepackage[backend=biber, bibstyle=ieee, citestyle=numeric-comp, sorting=none]{biblatex}
 \usepackage[binary-units=true]{siunitx}
 
@@ -105,11 +105,17 @@
 \maketitle
 \frontmatter
 
+% quotes
+\newcommand{\thesisquote}[2]{\emph{“#1”} -- #2 \\[2\baselineskip]}
+\input{chapters/0_quotes.tex}
+
 % Abstract
 \input{chapters/0_abstract.tex}
 
 \begin{acknowledgement}
-Kakekai hehehe. KNEGGSTA
+R0bertoViz1337
+axaxaxa
+coucheronny
 \end{acknowledgement}
 
 \tableofcontents
@@ -118,12 +124,12 @@ Kakekai hehehe. KNEGGSTA
 
 % Content
 \mainmatter
-\input{chapters/1_introduction}
-\input{chapters/2_background}
-\input{chapters/3_design}
-\input{chapters/4_implementation}
+% \input{chapters/1_introduction}
+% \input{chapters/2_background}
+% \input{chapters/3_design}
+% \input{chapters/4_implementation}
 \input{chapters/5_evaluation}
-\input{chapters/6_conclusion}
+% \input{chapters/6_conclusion}
 
 % Bibliography and appendix
 \printbibliography[heading=bibintoc,title=References]
