@@ -66,12 +66,12 @@ Training a model in real-time by pulling data is impractical because we do not h
 From the reinforcers field in \autoref{tab:pd_indicators}, to reverse engineer \acp{pd}, we have to fetch data from various sources. An exchange alone does not produce data regarding a coin's capitalization, nor a coin's price on a different exchange. Other sources than exchanges produce such metadata of coins, while exchanges only produce internal trading data.
 
 \subsubsection{Master Slave Approach}
-We shape our data retriever like a \ac{ms} model.\autoref{fig:ms} is an example that illustrates our data retriever with a master and its three data pulling slaves. Each slave in our data retriever is assigned a source that can be, e.g., an exchange. The communication between slaves and the master is intuitive. The master broadcasts a pull signal to the slaves, and they pull the data from their assigned source, then the master gathers the data from them and parses it, and augments it to a sample. Each sample the master generate gets stored. This procedure takes effect in a fixed interval for obtaining clean time series data, such that each sample's time gap is equal. The advantages and disadvantages of this structure are:
+We shape our data retriever like a master/slave model.\autoref{fig:ms} is an example that illustrates our data retriever with a master and its three data pulling slaves. Each slave in our data retriever is assigned a source that can be, e.g., an exchange. The communication between slaves and the master is intuitive. The master broadcasts a pull signal to the slaves, and they pull the data from their assigned source, then the master gathers the data from them and parses it, and augments it to a sample. Each sample the master generate gets stored. This procedure takes effect in a fixed interval for obtaining clean time series data, such that each sample's time gap is equal. The advantages and disadvantages of this structure are:
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{ms.pdf}
-    \caption{\acf{ms} structure}
+    \caption{Master/slave structure}
     \label{fig:ms}
 \end{figure}
 
