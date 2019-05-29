@@ -1,0 +1,10 @@
+\newglossarystyle{ult-super}{
+    \setglossarystyle{ult-long}
+    \setlength{\glsdescwidth}{0.74\textwidth}
+    \renewcommand*{\glossentry}[2]{
+        \glsentryitem{##1}\glstarget{##1}{\glossentryname{##1}} &
+        \glossentrydesc{##1}\glspostdescription\space ##2\tabularnewline&\tabularnewline%
+    }
+}
+\makeglossaries
+\loadglsentries{acronyms}
