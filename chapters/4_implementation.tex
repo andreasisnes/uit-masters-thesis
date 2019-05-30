@@ -34,7 +34,7 @@ The modules we use are all available from PyPI\footnote{Python Package Index}, a
 % Dataframe
 We implement the data retriever as a master/slave architecture like described in \autoref{sec:master_slave}, where the master is a process, and the slaves are threads. So the master and the slaves are running inside a single interpreter. The slaves are assigned a source, and they will continuously pull data from the markets as long as they do not exceed their designated source request rate. Then, in a fixed interval, the master collects all the data from the slaves. All the slaves are different object instances, but they have the same \emph{interface}, allowing the master to exploit the concept of \emph{polymorphism} when retrieving the data from the slaves.
 
-\begin{lstlisting}[language=python, caption={Slave interface}, label=code:interface]
+\begin{lstlisting}[language=python, caption={Data retriever's slave interface}, label=code:interface]
     class Slave(Thread):
         def __init__(self, markets):
         def header(self):
@@ -57,7 +57,7 @@ We implement three slaves who are assigned different sources. The first slave is
 \subsubsection{Binance}
 The exchange Binance provides various types of services through their \ac{api}. We only require the newest trading data regarding the markets given when initialized. We use their WebSocket \ac{api} that takes form as a \emph{pubsub} client where Binance pushes data to us. The first function that we subscribe on is the \emph{ticker} service, a $24$ hour rolling window containing statistics for a subscribed symbol that gets pushed every second~\cite{binance_git}. \autoref{code:binance_tick} shows the \ac{json} structure of the response of a ticker, and this response is returned for each market we subscribe on. In the ticker response, there are \ac{ohlcv} values for the past 24 hour and other additional features that may prove valuable when classifying \acp{pd}.
 
-\begin{lstlisting}[language=json, caption={Ticker response from Binance (Source \cite{binance_git})}, label=code:binance_tick, firstnumber=1]
+\begin{lstlisting}[language=json, caption={Ticker response from Binance (Source \cite{binance_git})}, label=code:binance_tick]
 {
   "e": "24hrTicker",  // Event type
   "E": 123456789,     // Event time
@@ -87,7 +87,7 @@ The exchange Binance provides various types of services through their \ac{api}. 
 
 Furthermore, we also want the order book from Binance, who has proved to be valuable by two researchers at Standford as they were able to detect \ac{pd} with an accuracy of around $80\%$. So, in addition to subscribing on the ticker symbol, we also subscribe to Binance's \emph{depth} function. This function will return a response equal to \autoref{code:binance_depth}.
 
-\begin{lstlisting}[language=json, caption={Depth response from Binance (Source \cite{binance_git})}, label=code:binance_depth, firstnumber=1]
+\begin{lstlisting}[language=json, caption={Depth response from Binance (Source \cite{binance_git})}, label=code:binance_depth]
 {
   "lastUpdateId": 160,  // Last update ID
   "bids": [             // Bids
@@ -113,7 +113,7 @@ So, we first create a reverse map, where we map markets to a list of exchanges. 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{marketpull.pdf}
-    \caption{overview of fetching data from multiple sources.}
+    \caption[\project's Publish/Subscribe system]{overview of fetching data from multiple sources.}
     \label{fig:ccxt}
 \end{figure}
 
@@ -152,7 +152,7 @@ The algorithm uses sliding a window containing a fixed number of \ac{ohlcv} valu
 
 \autoref{code:binance_kline} illustrates a response from Binance that contains historical \ac{ohlc} values. With these values and a sliding window, we start to continuously add \ac{ohlcv} values that span over the period we collected data, as we iteratively calculate whether the newest added \ac{ohlc} is an anomaly compared to the other \ac{ohlc} values in the window. The fields we use from \autoref{code:binance_kline} are \texttt{close} and \texttt{high} when calculating whether the price surpasses a specified price threshold, while we use the field \texttt{volume} when calculating whether volume exceeds a specified volume threshold.
 
-\begin{lstlisting}[language=json, caption={Historical kline response from Binance (Source \cite{binance_git})}, label=code:binance_kline, firstnumber=1]
+\begin{lstlisting}[language=json, caption={Historical kline response from Binance (Source \cite{binance_git})}, label=code:binance_kline]
 [
   [
     1499040000000,      // Open time

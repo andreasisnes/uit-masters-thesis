@@ -4,15 +4,28 @@
 % caution: each result/graph must be discussed! what’s the reason for this peak or why have you ovserved this effect
 
 \chapter{Evaluation}\label{ch:evaluation}\glsresetall
-\section{Experimental Setup}\label{sec:experimental_setup}
-To evaluate \project, we investigate its model prediction capabilities, and we did so by retrieving real-time data from $138$ different markets throughout $33$ days. The pairing coin of each market was Bitcoin. The interval between each data point was $5$ seconds, resulting in approximately $\numprint{570 000}$ samples per market. Over these days, we collected in total \SI{47}{\giga\byte} of data. The sources that we use to fetch data from was those we presented in the \autoref{ch:implementation}, namely, Binance, CoinMarketCap, and aggregated data from multiple sources. 
+To evaluate \project, we investigate its model prediction capabilities,
 
-\autoref{tab:feature_table} contains details regarding every feature that were fetched. The operation fields describe how we decided to process a specific feature. The data were cleaned by removing features that we believe was unproductive in the detection of \ac{pd}, these were tagged as \emph{Remove}. The field that contains \emph{PoC}, was first interpolated and then calculated the percentage of change, and the time lag we chose was $10$ minutes because the time from where a \ac{pd} start, to where it peak is $10$ minutes, like described in \autoref{ch:background}. The field \emph{Imbalance} and \emph{Time} are the order book imbalance and how close the timestamp is on the hour.
+
+
+
+
+
+\section{Experimental Setup}\label{sec:experimental_setup}
+We started by retrieving real-time data from $138$ different markets throughout $33$ days. The pairing coin of each market was Bitcoin. The interval between each data point was $5$ seconds, resulting in approximately $\numprint{570 000}$ samples per market. Over these days, we collected in total \SI{47}{\giga\byte} of data. The sources that we used to fetch data from was those we presented in the \autoref{ch:implementation}, namely Binance, CoinMarketCap, and aggregated data from multiple sources. 
+
+\autoref{tab:feature_table} contains details regarding every feature that were fetched. The operation column describe how we decided to process a specific feature. The data were cleaned by removing features that we believe was unproductive in the detection of \ac{pd}, these were tagged as \emph{Removed}. The field that contains \emph{PoC}, was first interpolated and then calculated the percentage of change. We chose $10$ minutes for the time lag, because the time from where a \ac{pd} start to where it peak is around $10$ minutes, like described in \autoref{ch:background}. The field \emph{Imbalance} and \emph{Time} are the order book imbalance and how close the timestamp is on the hour.
 
 \input{tables/features.tex}
 
-We used the anomaly detection algorithm which we have previously described to pinpoint \ac{pd} intervals. We fetched \ac{ohlc} values that span over the period we collected data, and these \ac{ohlc} values had an interval of $1$ hour. The threshold parameters we chose for the algorithm is a price increase of $1.10$ and a volume of increase threshold of $3.00$, and the time lag we chose was $6$ hour. By using this algorithm we were able to identify in total $280$ anomalies. Of these anomalies we manually removed $80$, which we believe was false. \autoref{fig:label_true} shows three \acp{pd} charts we believe was true, while \autoref{fig:label_false} shows three \ac{pd} charts we believe was false.
+We used the anomaly detection algorithm which we have previously described in \autoref{ch:design} to pinpoint \ac{pd} intervals. We fetched \ac{ohlc} values that span over the period we collected data, and these \ac{ohlc} values had an interval of $1$ hour. The threshold parameters we chose for the algorithm is a price increase of $1.10$ and a volume of increase threshold of $3.00$, and the time lag we chose was $6$ hour. By using this algorithm we were able to identify in total $280$ anomalies. Of these anomalies we manually removed $80$, which we believe was false.
 
+\autoref{fig:label_true} shows three \acp{pd} charts we believe was true, while \autoref{fig:label_false} shows three \ac{pd} charts we believe was false. From \autoref{fig:label_true} the price suddenly increases by approximately $20\%$. This sudden increase only lasts for a few minutes before the price dumps straight down to what it was before the increase. These price characteristics are exactly like the patterns we have previously defined that describe \acp{pd}. 
+
+%From the other figures that illustrate anomalies that we believe do not contain \acp{pd} (\autoref{fig:label_false}). 
+\autoref{fig:label_false} on the other hand show anomalies that we do not believe is \acp{pd}. It seems like the price fluctuates substantially, and the price does indeed fluctuate, but the scale in these charts is different from the other. The difference between the lowest and the highest price is only around $5\%$ in each of the anomalies. If any these allegedly false \acp{pd} is true, then these fail in raising the price significantly. In addition to having a longer time scale to those we believe is true as there are no sudden increase in price, which breaks the current patterns of \acp{pd}.
+
+\if0
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{true_1.pdf}
@@ -27,9 +40,51 @@ We used the anomaly detection algorithm which we have previously described to pi
     \includegraphics[width=\textwidth]{false_1.pdf}
     \includegraphics[width=\textwidth]{false_2.pdf}
     \includegraphics[width=\textwidth]{false_3.pdf}
-    \caption{Anomalies that not seems like a \ac{pd}}
+    \caption{Anomalies that not seems like a \ac{pd}.}
     \label{fig:label_false}
 \end{figure}
+\fi
+
+\begin{figure}[hbt!]
+    \centering
+    \begin{subfigure}{.49\textwidth}
+        \centering
+        \begin{subfigure}{\textwidth}
+            \includegraphics[trim={3.6cm 1.3cm 2.95cm 1.3cm},clip,width=\textwidth]{true_1.pdf}
+            \caption*{SNT-BTC}
+        \end{subfigure}
+        \begin{subfigure}{\textwidth}
+            \includegraphics[trim={3.6cm 1.3cm 2.95cm 1.3cm},clip,width=\textwidth]{true_2.pdf}
+            \caption*{AST-BTC}
+        \end{subfigure}
+        \begin{subfigure}{\textwidth}
+            \includegraphics[trim={3.6cm 1.3cm 2.95cm 1.3cm},clip,width=\textwidth]{true_3.pdf}
+            \caption*{EDO-BTC}
+        \end{subfigure}
+        \caption{Anomalies that seems like a \ac{pd}.}
+        \label{fig:label_true}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{.49\textwidth}
+        \centering
+        \begin{subfigure}{\textwidth}
+            \includegraphics[trim={3.6cm 1.3cm 2.95cm 1.3cm},clip,width=\textwidth]{false_1.pdf}
+            \caption*{MDA-BTC}
+        \end{subfigure}
+        \begin{subfigure}{\textwidth}
+            \includegraphics[trim={3.6cm 1.3cm 2.95cm 1.3cm},clip,width=\textwidth]{false_2.pdf}
+            \caption*{EOS-BTC}
+        \end{subfigure}
+        \begin{subfigure}{\textwidth}
+            \includegraphics[trim={3.6cm 1.3cm 2.95cm 1.3cm},clip,width=\textwidth]{false_3.pdf}
+            \caption*{STEEM-BTC}
+        \end{subfigure}
+        \caption{Anomalies that not seems like a \ac{pd}.}
+        \label{fig:label_false}    
+    \end{subfigure}
+    \caption[Anomalies in the dataset]{These anomalies are only $6$ out of $280$ anomalies that were collected. The three anomalies on right were later removed as we believe those are false, while the three on the left we kept as they seems legitimate.}
+\end{figure}
+
 
 To create a dataset, we used the anomalies to label all the processed, collected data. The generated dataset was then normalized by using the min-max normalization method. We split the dataset into a training set and a test set. The training set was consist of $75\%$ of the dataset, resulting in data from approximately $104$ markets, while the test set contains the remaining $25\%$ of the markets, resulting in $33$ markets. The training dataset was undersampled in order to create a balanced dataset.
 
@@ -41,7 +96,7 @@ The computer we used to train our model with had the following specifications:
     \item RAM - \SI{64}{\gibi\byte} DDR3 
     \item GPU - Nvidia GeForce GTX 770
 \end{itemize}
-\newpage
+%\newpage
 
 \section{Results}
 The first metric we use is a confusion matrix, which is structured like \autoref{tab:confmat}. A confusion matrix shows the number of correct and incorrect classified samples, and help define further scores. True positive $tp$ are samples that are correctly classified as \ac{pd}, while true negative, $tn$, is samples that are correctly classified as not \ac{pd}. $fp$ are samples that are incorrect classified as \ac{pd}, and false negatives, $fn$, are samples that are \ac{pd}, but classified as not \ac{pd}. $p$ and $n$ are the true total numbers of samples in each class, while $p'$ and $n'$ are the total numbers of predicted samples in each class. Finally, $N$ is the total number of samples.
@@ -49,16 +104,16 @@ The first metric we use is a confusion matrix, which is structured like \autoref
 \input{results/confusion_matrix.tex}
 \input{results/model.tex}
 
-As we can see from \autoref{tab:model_performance}, the test dataset, as well as the training dataset is hugely imbalanced. Only $\numprint{8821}$ samples are \ac{pd}, while $\numprint{18321816}$ is not a \ac{pd}. Over one of every $\numprint{2000}$ sample is a \ac{pd}!
+As we can see from \autoref{tab:model_performance}, the test dataset, as well as the training dataset, is hugely imbalanced. Only $\numprint{8821}$ samples are \ac{pd}, while $\numprint{18321816}$ is not a \ac{pd}. Over one of every $\numprint{2000}$ sample is a \ac{pd}! \autoref{tab:model_performance} contains the aggregated results of every market we tested the model on. The confusion matrix of each market will be presented later. It is more feasible to present the model's prediction capabilities by using a single matrix, instead of going through all the market's confusion matrices.
 
 \input{results/performance.tex}
 
-From \autoref{tab:performance}, we see various metrics that we can use when defining the capabilities of the \ac{lstm} network, the metrics \emph{accuracy} and \emph{error}, are measures that are opposite of each other. The accuracy is the percentage of how many samples we classified correct. The error, says how many samples we misclassified. 
+From \autoref{tab:performance}, we see various metrics that we can use when defining the capabilities of the \ac{lstm} network, the metrics \emph{accuracy} and \emph{error}, are measures that are opposite of each other. The accuracy is the percentage of how many samples we classified correct. The error, is the percentage how many samples we misclassified.
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{results/roc.pdf}
-    \caption{Roc Curve}
+    \caption[\project's \acf{roc} curve]{Roc Curve}
     \label{fig:roc}
 \end{figure} 
 
@@ -71,7 +126,7 @@ Clearly, the metrics we presented now shows that the model has good predictable 
 
 A frequently used score that relies on recall and precision is the \emph{f-score}. The f-score formula is showed in \autoref{fig:f_score}, and an ideal f-score is $1$, and the worst is $0$. This measure is flexible in terms that we can weigh both recall and precision differently by adjusting the parameter $\gamma$. Where the closer $\gamma$ is to $0$, the more we weigh precision, when $\gamma$ is $1$ we wight them equally, and finally when $\gamma$ is over $1$, we weigh recall most. As we see, when weighing precision most, by giving  $\gamma=0.5$, the score only yield $0.0247$. When equally weighing them, by giving $\gamma=1$, the score increase slightly. Finally, when weighting recall most, the score is $0.0912$, which is better than the other.
 
-The following results shows the confusion matrix of each classified market.
+\autoref{tab:results} shows the confusion matrix of each classified market. We colorize the cells to visualize the performance of the model. The green cells on the diagonal contain the number of correctly classified sample, and the color illustrates the percentage of correctly classified samples in its class — the more intense green on the diagonal, the more correct predictions the model does. The red cell on the anti-diagonal consist of the number of misclassified samples, and this color represents the percentage of misclassified samples in its class. The red present the same as green, only that the insensitivity presents misclassification. How white cells are has a split meaning, it is a good sign on the anti-diagonal (red), but an awful one on the diagonal (green). A noticeable observation, there are markets containing no \acp{pd}. They are colored green in the true positive cell and e white in the false positive cell.
 
 \input{results/cm.tex}
 
@@ -79,15 +134,15 @@ The following results shows the confusion matrix of each classified market.
 \section{Discussion}
 To interpret the results reasonable, we need to define the potential consequences of a misclassification. So, to push it to the extreme, assume our real job was to classify whether a patient has cancer using machine learning. The model we use to predict cancer has already be trained and does have accurate predictions, but like many other models, it is not entirely flawless, and occasionally it makes an incorrect prognosis of cancer. At some point, the model makes a wrong decision, and it predicts that a patient has cancer, while the patient is actually cancer free. The consequences are that the patient is starting a treatment, it can also have other side effects that impact her or him in a somatic and psychological way, but the patient will live. If we turn the table, and the model predicts that a patient does not have cancer, while the patient truly has. Then, at some point in time, the patient will die of cancer, which is an unforgivable fault made by us. This example only clarifies the potential harm of misclassifications, and it is not like that any will die from misclassifying \acp{pd}, hopefully.
 
-So to apply the consequence of misclassifications in the detection of \acp{pd}. Assume that, an exchange uses our model to detect \acp{pd} in order to ban users that participate in them. As we have seen, our model is not perfect, it makes wrong decisions occasionally, and just like Murphy's law, everything that can happen will happen. So, at some point, our model makes a wrong decision and predicts a \ac{pd} and the exchange ban a set of investors from using their platform. Banning investors on false terms, will undermine the exchange's credibility, and have various additional long-term consequences for them. On the other hand, missing \acp{pd} are not harmful. Despite that some investors avoid getting banned, but if the investors ever try again, they might not be so lucky.
+So to apply the consequence of misclassifications in the detection of \acp{pd}. Assume that, an exchange uses our model to detect \acp{pd} in order to ban users that participate in them. As we have seen, our model is not perfect, it makes wrong decisions occasionally, and at some point, our model makes a wrong decision and predicts a \ac{pd}. The exchange bans a set of investors from using their platform. By banning investors on false terms, will undermine the exchange's credibility, and have various additional long-term consequences for them. On the other hand, missing \acp{pd} are not harmful. Despite that some investors avoid getting banned, but if the investors ever try again, they might not be so lucky.
 
-As we saw from our results, all the metrics except f-score and precision performs excellent and excels other models that detect \acp{pd}. The f-score and precision is a fatal flaw of our model, and as the model currently is, deploying it now will be remarkably hard as there would be too many false alarms. However, there are ways to adjust the precision, but at a particular cost. Improving it will with a high likelihood cost us our current tp-rate and make that worse, but due to the nature of the metrics, increasing precision will also increase some other measures. As changing the precision means, either increase the true positives or decrease false positives.
+As we saw from our results, all the metrics except the f-score and precision performs excellent and excels other models that detect \acp{pd}. However, The f-score and precision illustrates a fatal flaw our model, and as the model currently is, deploying it now will be remarkably hard as there would be too many false alarms. However, there are ways to adjust the precision, but at a particular cost. Improving it will with a high likelihood cost us our current tp-rate and make that worse, but due to the nature of the metrics, increasing precision will also increase some other measures. As changing the precision means, either increase the true positives or decrease false positives.
 
 Increasing true positives in our case can make precision worse, as we must try to make the model fit to additional positives samples simultaneously as there are over $\numprint{2000}$ more negative samples. So, our angle should be to decrease the false positives, in order to increase precision, but that may result in a decrease of true positives. 
 
 To adjust the false positives, we can be more strict in terms when classifying, as mentioned in end of \autoref{sec:experimental_setup}, we rounded each prediction, probabilities over $0.5$ is classified as negative, while probabilities under $0.5$ is classified as positive. If the prediction is precisely on the $0.5$ threshold, then the model can not separate it, but this case is scarce, and a case we often entirely ignore. However, the point is that we can adjust this $0.5$ threshold in terms of strict we want to be. By lowering this threshold, we can be more strict, we can be more "sure" of whether it genuinely is a \ac{pd} or not. This method also very flexible as the threshold is simple to adjust and do not require us to train our network again.
 
-Other methods to adjust false positives is, with a purpose, to train a network with an imbalanced dataset that inclines the negative class. However, this method is not preferred as it requires to retrain the model over and over again to evaluate it. This method was also our first trial, which, when evaluating it resulted in an astonishing $99.99\%$. However, there was only one problem, it could not recognize any \acp{pd}, it classified all samples as negative.
+Other methods to adjust false positives is, with a purpose, to train a network with an imbalanced dataset that inclines the negative class. However, this method is not preferred as it requires us to retrain the model over and over again to evaluate it. This method was also our first trial, which, when evaluating resulted in an astonishing $99.99\%$. There was only one problem, it could not recognize any \acp{pd}, it classified all samples as negative.
 
 We also tried to adjust the loss cost of each the classes during training, such that it favored positive over negative. So when making a wrong decision of a \ac{pd}, the model's weight will adjust more then it would when making a wrong decision on the other way around. Ultimately, this method was error-prone and incredibly hard to control as we had to guess how much the weights should change.
 

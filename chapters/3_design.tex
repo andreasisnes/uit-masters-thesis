@@ -1,55 +1,24 @@
-% Developed architecture / system design / implementation:
-% start with a theoretical approach
-% describe the developed system/algorithm/method from a high-level point of view
-% go ahead in presenting your developments in more detail
-
 \chapter{\project's Design}\label{ch:design}\glsresetall
-% Our application is building entirely on decision making. If it seems like a \ac{pd} is coming up, buy, then sell on profit. Otherwise, wait for a \ac{pd}. Simple, yet effective if and only if the application can make accurate predictions. Our prediction algorithm needs to either detect \acp{pd} before it happens or exactly when it begins, because of the period where \ac{pd} peak span from seconds to max $10$ minutes as described in \autoref{sec:pd}. Are we too late with buying assets we may end up buying at or right before the peak which will result in a substantial loss because of the forthcoming dump. However, if we can manage to purchase assets just a few seconds in or before the \ac{pd} starts we can profit well by selling only a short time later when the coin peaks.
+This chapter presents the design of \project. First, it briefly describes the system and all the components within it. Then, it goes further into details regarding every component in terms of their structure, function, and intent. Finally, it describes the two phases \project has.
 
-% For the application to have the ability to make accurate predictions, we need to carefully define a suitable algorithmic model that fits currently existing data to reverse engineer \acp{pd}. We find two paradigms \emph{financial} and \emph{\ac{ml}} as appealing fields for finding suitable algorithmic models. We encounter some problems in the field of finance, typically, financial institutions do not share their algorithms for competitive reasons, and we can not either find any models that are compatible for detecting \ac{pd} in real-time on cryptocurrency exchanges. We believe that using \ac{ml} to detect \acp{pd} is currently the optimal solution, and to reinforce that assumption, a recent PwC\footnote{Price Waterhouse Coopers is the largest network of accountants, lawyers and advisors, and deliver services within audit, consulting and tax.} study found that over the next two to three years \ac{ml} are the single most crucial technology impacting the finance function~\cite{pwc} as \ac{ml} models seem to excel financial models.
-
-
-% Supervised learning problem
-% binary classification problem
-% Pump are anomalies
-% choosing a model
-
-% Moving on with \ac{ml}, we can define detection of \ac{pd} as a supervised \emph{binary classification} problem, \ac{pd} or not \ac{pd}. As with every supervised problem we need data that is labeled which are struggling to get.
-
-
-% Our application only requires the knowledge of the pump part in a \ac{pd} to function. Our application wants to buy before or at the beginning of a pump and sell when the coin peak.
-
-% Our application only requires the knowledge of the pump part in a \ac{pd}, as our application want to buy before or at the beginning of a pump and sell when the coin peak. We can ignore the dump part because it do not affect the decision made by our application. We can define this as a \emph{binary classification} problem, pump or not pump, or from our application perspective buy or sell.
-
-% \acp{pd} are a common price manipulation scheme one observe on cryptocurrency exchanges, but in vast amount of existing data that exchanges produce a \ac{pd} is an \emph{anomaly}. It exist way more regular data than \ac{pd} data. This becomes problem when we want to  create a dataset containing regular data and \ac{pd} data because of the huge imbalance between the two classes, and \acp{pd} are rare entities hence it is also challenging to obtain a significant amount of \acp{pd} required to train a \ac{ml} model.
-
-% Choosing a \ac{ml} model primarily depends on the nature of the input data. Input data can be broadly classified into sequential (e.g., voice, text, music, time series, protein sequences) or non-sequential data (e.g., images, other data)~\cite{dl_anomaly}. Cryptocurrency sources produce sequential data, more specifically \emph{time series} data. Time series data are linearly ordered sequence of values of a variable at equally spaced time intervals~\cite{stat_handbook}. 
-
-% Anomaly detection in sequential data has attracted significant interest in the literature due to its applications in a wide range of engineering problems. \ac{lstm} neural network based algorithms for anomaly detection have been investigated and reported to produce significant performance gains over conventional methods  (Ergenet al. [2017]).
-
-% Supervised anomaly detection techniques are superior in performance compared to unsupervised anomaly detection techniques since these techniques use labeled samples (G ̈ornitz et al. [2013]).  Supervised anomaly detection learnsthe separating boundary from a set of annotated data instances (training) and then, classify a test instance into eithernormal or anomalous classes with the learned model (testing).
-
-% Moreover, the performance of deep supervised classifier used an anomaly detector is sub-optimal due to class imbalance (the total number of positive class instances are far more than the total number of negative class of data)~\cite{dl_anomaly}.
-
-% Labels indicate whether a chosen data instance is normal or an outlier. Anomalies are rare entities hence it is challenging to obtain their labels~\cite{dl_anomaly}.
-TBW
 \section{Overview}
-We are modeling \project as a \ac{ml} pipeline, but with some few extensions. It is designed to extract raw data from different cryptocurrency sources and transform it into valuable features in order to classify \acp{pd}. The term \ac{ml} pipeline can be misleading as it implies a one-way flow of data when some elements in the pipeline are cyclical and iterative where every iteration intends to improve the accuracy of the model~\cite{ml_pipeline_3}. Some of the advantages a pipeline provides is~\cite{ml_pipeline_2};
+We are modeling \project as a \ac{ml} pipeline, but with some few extensions. \project is designed to extract raw data from different cryptocurrency sources and transform it into valuable features in order to classify \acp{pd}. The term \ac{ml} pipeline can be misleading as it implies a one-way flow of data when some elements in the pipeline are cyclical and iterative where every iteration intends to improve the accuracy of the model~\cite{ml_pipeline_3}. 
+%Some of the advantages a pipeline provides is~\cite{ml_pipeline_2};
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{overview.pdf}
-    \caption{Architectural overview of \project}
+    \caption[\project's architecture]{Architectural overview of \project}
     \label{fig:overview}
 \end{figure}
 
-The first step in the pipeline pulls data from various cryptocurrency sources. The data is mostly incomplete and lacks behaviors or trends making it currently pointless to train a model with. This process is tedious because sources tend to have different request rates, \acp{api}, and the data can have various formats like \ac{json} or \ac{xml}.
+The first step in the pipeline pulls data over the internet from sources that has information regarding \acp{pd} in cryptocurrencies. The data is mostly incomplete by lacking trends or being unprocessed, making it potentially challenging to train a model and obtain good results. This process is tedious because sources tend to have different request rates, \acp{api}, and the data can have various formats like \ac{json} or \ac{xml}.
 
-The next step branches the retrieved data in two, live and historical data. Since we are trying to detect \acp{pd} in real-time we need to store live data continuously. When captured a compelling amount of \acp{pd} in the stored live data, we use an anomaly detection algorithm~\cite{P&D_to_the_moon} to detect \ac{pd} in the gathered live data. This algorithm is not compliant with live data, so we need to pull aggregated historical data that span throughout the collected live data. As previously mentioned, anomaly detection algorithms tend to have a high false positive rate. Thus, we need to remove these false positive and keep the true positive manually.
+The next step branches the retrieved data in two, live and historical data. Since we are trying to detect \acp{pd} in real-time we need to store live data continuously. When we have captured a compelling amount of \acp{pd}, we use an anomaly detection algorithm~\cite{P&D_to_the_moon} to detect \acp{pd} in the gathered live data. This algorithm is not compliant with live data, so we need to pull aggregated historical data that span throughout the collected live data. As previously mentioned, anomaly detection algorithms tend to have a high false positive rate. Thus, we need to remove these false positives and keep the true positive manually.
 
-The input data ultimately determine the performance of a \ac{ml} deep learning model~\cite{mike_voets}, so training a model with the raw gathered live data is ineffective. Hence, we need to define new convenient dataset containing features created by processing the collected live data; this is a highly critical process and will later determine the classification performance of the deep learning model. The gathered live data also need to go through a cleansing process as it most likely does not contains relevant \ac{pd} information.
+The input-data ultimately determine the performance of a \ac{ml} deep learning model~\cite{mike_voets}. Training a model with the raw gathered live data is ineffective. Hence, we need to define a new convenient dataset containing features created by processing the collected live data; this is a highly critical process and will later determine the classification performance of the deep learning model. The gathered live data also need to go through a cleansing process as it most likely does not contains relevant \ac{pd} information.
 
-With filtered anomalies containing \ac{pd} and a dataset, we can create a labeled dataset and train our model. Obtaining good classification results depends, as mentioned, on the features, but also how we decide to pre-process the dataset. Typical pre-processing strategies include dimensionality reduction and normalization. Having a labeled pre-processed dataset we can finally begin to the train the deep learning model, this a cyclical and a long process, as it requires many trial and error attempts to find the optimal weights for the model. In each cycle, we store the model's weights because it is not always the case that each iteration will improve the classification performance of the model.
+With filtered anomalies containing \ac{pd}, we can create a labeled dataset and train our model. Obtaining good classification results depends, as mentioned, on the features, but also how we decide to preprocess the dataset. Typical preprocessing strategies include dimensionality reduction and normalization. Having a labeled preprocessed dataset we can finally begin to train the deep learning model. This a cyclical and a long process, as it requires many trial and error attempts to find the optimal weights for the model. In each cycle, we store the model's weights because it is not always the case that each iteration will improve the classification performance of the model.
 
 For applications to utilize \project, they need to select a model and let live data flow through the same processing stages as the dataset that was used to train the model.
 
@@ -57,71 +26,50 @@ For applications to utilize \project, they need to select a model and let live d
 TBW
 
 \subsection{Retrieving Data}
-Every problem that is solved using \ac{ml} requires data, the more, the merrier when training a model. As previously mentioned, cryptocurrency sources like exchanges produce time series data containing, e.g., price and volume of a coin. Such data is continuously produced in a restricted amount with proportion to time.
+Every problem that is solved using \ac{ml} requires data. The more data, the better the results will be when training a model. As previously mentioned, cryptocurrency sources like exchanges produce time series data containing, e.g., price and volume of a coin. The data is continuously produced in a restricted amount with proportion to time.
 
-Since we want to detect \acp{pd} on exchanges in real-time, the nature of the data we want to make classifications on is  live fine-grained data so that the model can detect them as early and accurate as possible. Aggregated historical data is too coarse-grained because exchanges generally only allow a discrete time interval selection of data where the smallest is typically one minute. The duration where they start to where they peaks varies from a few seconds to max ten minutes~\cite{P&D_MIT_crypto, P&D_to_the_moon}, and the ability to make accurate predictions with one-minute data is questionable.
+Since we want to detect \acp{pd} on exchanges in real-time, the nature of the data we want to make classifications on is live fine-grained data so that the model can detect them as early and accurately as possible. Aggregated historical data is too coarse-grained because exchanges generally only allow a discrete time interval selection of data where the smallest is typically one minute. The duration where they start to where they peak varies from a few seconds to a maximum of ten minutes~\cite{P&D_MIT_crypto, P&D_to_the_moon}, and the ability to make accurate predictions with one-minute data is questionable.
 
-Training a model in real-time by pulling data is impractical because we do not have the \acp{pd} labels then, and sources can only produce a limited amount of data at a time which will create a bottleneck of data supply to the model. To cope with these problems, we have to pull and store current live data continuously; this is an endless dreary process for we have to wait weeks until we have "captured" enough \ac{pd} events in our collected data to start training. If anything fails, we may have to start all over again as we are missing out on trends, which results in noisy data.
+Training a model in real-time by pulling data is impractical because it will not be labeled. In addition, sources can only produce a limited amount of data at a time which will create a bottleneck of data supply to the model. To cope with these problems, we have to pull and store current live data continuously; this is a time consuming process for we have to wait until we have captured enough \ac{pd} events before we can start training. If anything fails, we may have to start all over again as we are missing out on trends, which results in noisy data.
 
-From the reinforcers field in \autoref{tab:pd_indicators}, to reverse engineer \acp{pd}, we have to fetch data from various sources. An exchange alone does not produce data regarding a coin's capitalization, nor a coin's price on a different exchange. Other sources than exchanges produce such metadata of coins, while exchanges only produce internal trading data.
+From the reinforcers field in \autoref{tab:pd_indicators}, we see that we have to fetch data from various sources. An exchange alone does not produce data regarding a coin's capitalization, nor a coin's price on a different exchange. Sources other than exchanges produce such metadata of coins, while exchanges only produce internal trading data.
 
 \subsubsection{Master Slave Approach}
-We shape our data retriever like a master/slave model.\autoref{fig:ms} is an example that illustrates our data retriever with a master and its three data pulling slaves. Each slave in our data retriever is assigned a source that can be, e.g., an exchange. The communication between slaves and the master is intuitive. The master broadcasts a pull signal to the slaves, and they pull the data from their assigned source, then the master gathers the data from them and parses it, and augments it to a sample. Each sample the master generate gets stored. This procedure takes effect in a fixed interval for obtaining clean time series data, such that each sample's time gap is equal. The advantages and disadvantages of this structure are:
+We shape our data retriever like a master/slave model. \autoref{fig:ms} is an example that illustrates our data retriever with a master and its three data-pulling slaves. Each slave in our data retriever is assigned a source that can e.g. be an exchange. The communication between slaves and the master is as follows. The master broadcasts a pull signal to the slaves, and they pull the data from their assigned source. Then the master gathers the data from them and parses it, and augments it to a sample. Each sample the master generate gets stored. This procedure takes effect in a fixed interval for obtaining. By letting the master signalize the slaves to retrieve data simultaneously, we collect clean time series data where each sample's time gap circa equal. 
 
-\begin{figure}[ht]
+\begin{figure}[hbt!]
     \centering
     \includegraphics[width=0.8\textwidth]{ms.pdf}
-    \caption{Master/slave structure}
+    \caption{\project's data retriever}
     \label{fig:ms}
 \end{figure}
 
-
-\textbf{Advantages}
-\begin{enumerate}
-    \item \emph{asynchronous requests} - Each pull-broadcast issued by the master starts a series of requests in parallel from the slaves. Thus, each request is roughly issued simultaneously making features in a sample equally spaced in terms of time.
-    % Frequently fetching of data from the internet is an \ac{io} bound problem, and are typically solved with multiprocessing or concurrency if needed. If we choose a single process to make synchronous requests, a bottleneck could have occurred, and requests would be issued separately that results in various time gap among features in each sample.
-    
-    \item \emph{removes race condition} - Since each data sample is \emph{sequentially} written to disk by the master, a race condition can not take place. 
-    % If the slaves processed their data and wrote to the same location, at some point in time, a race condition would take place and corrupt the data. Even though these race conditions are rare, anything that can happen will happen, Murphy's law.
-    
-    \item \emph{horizontal scaling} - Scales by adding slaves instances~\cite{ms_hor}; there is no upper limit of them. In the end, the bottleneck is the master if its have too many of them to communicate with.
-    
-    \item \emph{faulty slave tolerance} - If a slave crash, the data retriever is still progressing, but it also results in partial storage of data. Hence, this will most likely corrupt a good portion of the collected data.
-\end{enumerate}
-
-\textbf{Disadvantages}
-\begin{enumerate}
-    \item \emph{\ac{spof}} - If the master crash, the slaves will not retrieve data.
-\end{enumerate}
-
 \subsubsection{Collecting Trading Data From Multiple Markets}
-Previous work in detection of \acp{pd}~\cite{P&D_to_the_moon}, estimated that $1.6$ \acp{pd} is carried out daily per market, this raises several problems. First, multiple exchanges have the same market, and we can not know which exchange they target unless we have prior knowledge from their \ac{pd} group. Second, gathering data from a single market is inadequate, the data retriever would with an estimate captured $48$ \ac{pd} occurrences, if it gathered every \ac{pd} event on a single market in a whole month. Training a model with $48$ instances is insufficient. 
+Previous work in detection of \acp{pd}~\cite{P&D_to_the_moon} estimated that $1.6$ \acp{pd} is carried out daily per market, and this raises several problems. First, multiple exchanges have the same market, and we can not know which exchange they target unless we have prior knowledge from their \ac{pd} group. Second, gathering data from a single market is inadequate, the data retriever would with an estimate capture $48$ \ac{pd} occurrences, if it gathered every \ac{pd} event on a single market for a whole month. Training a model with $48$ \ac{pd} instances is highly insufficient. 
 
-Therefore, we collect data from all the markets from a single exchange to make sure we obtain as many \acp{pd} as possible. Inbefore doing that, we need to make a considerable assumption, that is, \acp{pd} pattern remain the same across markets. Otherwise, if it does not, we may run into trouble when training our model by having too few samples with various patterns. By training a model using data from all the market makes it general, allowing it to adapt to new markets as the exchange issues them. 
+To alleviate this problem, we collect data for all markets from a single exchange to make sure we obtain as many \ac{pd} events as possible. We assume the \ac{pd} pattern remain the same across markets. Otherwise, we may run into trouble when training our model by having too few samples with various patterns. Also, by training the model using data from all the markets generalizes the model, which makes the model compliant to other new markets who are excluded during training.
 
-The reason we are targeting a single exchange is that they have different \acp{api}, although the data they provide are mostly identical, in some way, each exchange does stand out by providing some unique data. Thus, we can utilize every piece of information we receive from an exchange without the concern of making it compatible with data existing on other exchanges.
+%The reason we are targeting a single exchange is that they have different \acp{api}, although the data they provide are mostly identical, in some way, each exchange does stand out by providing some unique data. Thus, we can utilize every piece of information we receive from an exchange without the concern of making it compatible with data existing on other exchanges.
 
 \subsubsection{Feature Description}
-From the \ac{pd} indicators described in \autoref{tab:pd_indicators}, we define a set of features described in \autoref{tab:features}, we believe that these features contains the necessary information for a model to detect \acp{pd}. We fetch all these features for each market.
+From the \ac{pd} indicators described in \autoref{tab:pd_indicators}, we define a set of features in \autoref{tab:features}. We believe that these features contains the necessary information for a model to detect \acp{pd}. We fetch all these features for each market.
 
 Some features like a coin's capitalization are available at \href{https://coinmarketcap.com/}{CoinMarketCap}, while trading data like order book and \ac{ohlcv} values are available at exchanges. A specific feature that is challenging to attain is aggregated \ac{ohlc} values from multiple exchanges, as this requires us to request multiple exchanges simultaneously and aggregate the data.
 
 \input{tables/feature_discription.tex}
 
-\newpage
+%\newpage
 \subsection{Preparing Data}\label{sec:prep}
-In practice, it has shown that data cleaning and preparation takes approximately $80\%$ of the total data engineering effort, as it requires solid domain knowledge of the subject. Data preparation is, therefore, an important research topic. Data preparation comprises those techniques concerned with analyzing raw data to yield quality data, mainly including data collecting, data integration, data transformation, data cleaning, data reduction, and data discretization~\cite{zhang2003data}.
+Data preparation is an important task. In practice, it has shown that data cleaning and preparation takes approximately $80\%$ of the total data engineering effort, as it requires solid domain knowledge of the subject. Data preparation comprises those techniques concerned with analyzing raw data to yield quality data. Some of the techniques are; data collecting, data integration, data transformation, data cleaning, data reduction, and data discretization~\cite{zhang2003data}.
 
-For the reason that we fetch data from multiple sources and markets to create a general model, we must prepare the data for it. Since markets are distinct, they surely have various numerical values, such as different trading price and volume, and making predictions with these numerical values that fluctuate from market to market is nonviable. E.g., assume a \ac{pd} occurs on a coin with a low cost, and the price is increasing with $300\%$. Despite the high increase and profit, the coin is still almost worthless compared to other expensive coins, and the model do not distinguish between markets, all markets are equally weighted. It looks at each feature as "more" or "less" of something. Thus, we must transform all these numerical values into some other values.
+For the reason that we fetch data from multiple markets to create a generalized model, we have to prepare the data and make it equally scaled. Markets are distinct and they have different trading price and volume. Making predictions with these raw numerical values that vary from market to market is nonviable, as the model looks at each feature as more or less of something. If a \ac{pd} occurs on a coin with a low cost, and the price is increasing with $300\%$. Despite the high increase and profit, the coin is still almost worthless compared to other expensive coins and the numerical price increase do not necessary need to be that high. On the other hand, if the price of an expensive coin increase with only $1\%$, the numerical value can still be high despite the low percentage increase. Since the model is generalized it's weighing each markets equally. So using e.g raw data like price is infeasible, as a low price change in an expensive market reflects a gigantic change in a cheap market. Thus, we must transform all these raw market specific values to that are general across markets.
 
 \subsubsection{Data Cleansing}
-Data cleaning, also called data \emph{cleansing} or \emph{scrubbing} deals with detecting and removing errors, inconsistencies, and unproductive features from data in order to improve the quality of data~\cite{data_cleaning}.
+Data cleaning, also called data \emph{cleansing} or \emph{scrubbing}, deals with detecting and removing errors, inconsistencies, and unproductive features from data in order to improve the quality of data~\cite{data_cleaning}. Fetched data from exchanges includes additional features not defined in \autoref{tab:features}. These features are removed as they adds nothing of value. Instead, they increase the number of dimensions and makes the data more complex.
 
-Fetched data from exchanges includes additional features not defined in \autoref{tab:features}. These features do we have to remove as they probably adds nothing of valuable knowledge. Instead, they increase the number of dimensions and makes the data more complex.
+Markets with little or no activity may have intervals containing \emph{zero-data}. For example, if no investors have bought or sold assets in a specific interval exchanges tend to set the trading values to zero. These zero-values create significant spikes in the trend which we must address; otherwise, they disrupt the data. Besides, having zero-data does not make any sense, if the price is recorded to be zero, it means that the coin is free which it is not.
 
-Markets with little or no activity may have intervals containing \emph{zero-data}, e.g., if no investors have bought or sold assets in a specific interval, exchanges tend to set the trading values to zero. These zero-values create significant jumps/spikes in the trend which we must fix; otherwise, they disrupt the data. Besides, having zero-data does not make any sense, if the price is recorded to be zero, then it means that coin is free which it is not.
-
-We substitute every value that is zero by linear interpolate each of them. Linear interpolation involves estimating a new value by connecting two adjacent known parameters with a straight line~\cite{interpolate}. These two known parameters are non-zero values that are adjacent on each side of the zero-value. Thus, we form the following \autoref{eq:interpolation} with the known parameters $(x_1, y_1)$ (previous non-zero value) and $(x_2, y_2)$ (next non-zero value), $y$ is the new value for some zero-value in point $x$.
+We substitute every value that is zero by linearly interpolating each of them. Linear interpolation involves estimating a new value by connecting two adjacent known parameters with a straight line~\cite{interpolate}. These two known parameters are non-zero values that are adjacent on each side of the zero-value. Thus, we form \autoref{eq:interpolation} with the known parameters $(x_1, y_1)$ (previous non-zero value) and $(x_2, y_2)$ (next non-zero value), $y$ is the new value for some zero-value in point $x$.
 
 \input{equations/interpolation.tex}
 
@@ -135,14 +83,14 @@ Feature engineering is the process of using domain knowledge of the data to crea
 \end{displayquote}
  
 \subsubsection{Processing Order Book}
-As previously mentioned in \autoref{sec:pump_groups}, \ac{pd} organizers invests in the market before the \ac{pd} without raising the price. We believe that the order book in said market oscillates in before the pump, and especially during the pump. Therefore, we calculate an imbalance between sell and bids order; this is a multidimensional problem considering an order book contains both a list with prices along with its volume as we saw in \autoref{tab:order_book}. \autoref{eq:imbalance} reduces this multidimensional problem to a single value with equal weight to price and volume. $p$ and $v$ is respectively the lists with prices and volumes, and the annotations $a$ and $b$ denotes asks and bids orders. If \autoref{eq:imbalance} yields a value between $(0,1)$, then it weigh more bidders, if it yields a value between $(1, \infty]$, then askers, and $1$, there is an equal weight of bidders and askers.
+As previously mentioned in \autoref{sec:pump_groups}, \ac{pd} organizers invest in the market before the \ac{pd} without raising the price. We believe that the order book in said market oscillates before the pump, and especially during the pump. Therefore, we calculate an imbalance between sell and bids order; this is a multidimensional problem considering an order book contains both a list with prices along with its volume, as we saw in \autoref{tab:order_book}. \autoref{eq:imbalance} reduces this multidimensional problem to a single value with equal weight to price and volume. $p$ and $v$ is respectively the lists with prices and volumes, and the annotations $a$ and $b$ denotes asks and bids orders. If \autoref{eq:imbalance} yields a value between $(0,1)$, it emphasize the bidders, if it yields a value between $(1, \infty]$, then askers, and $1$ they are equally worth.
 
 \input{equations/imbalance.tex}
 
 \subsubsection{Processing Trading Data}
-We process trading data such as price and volume by calculating the percentages of change, which makes each market comparable and eliminates the need for the model to adjust to prices. For example, if ETH is up \$$10$ from a starting value of \$$100$, and ADA is up \$$5$ from a starting value of \$$50$, then both coins are up $10$\%.
+We process trading data such as price and volume by calculating the percentage of change, which makes each market comparable, and eliminate the need for the model to adjust to prices. For example, if ETH increase \$$10$ from a starting value of \$$100$, and ADA increase \$$5$ from a starting value of \$$50$, then both coins increase by $10$\%.
 
-We define the function $pct$ to calculate the percentage of change. It calculates the percentage change in point $x$ concerning a previous value $v$ with a time lag $\gamma$. We consider $x$ and $v$ to be a single value like the price or volume, while $\gamma$ indicates moving backward in time from point $x$. We must be vigilant when using this technique, if the data contains values that are zero, we might perform a zero-division that can clutter with the data unpredictably. However, since we scrubbed the data first and removed this zero-values, this should not be a concern.
+We define the function $pct$ to calculate the percentage of change. It calculates the percentage change in point $x$ concerning a previous value $v$ with a time lag $\gamma$. We consider $x$ and $v$ to be a single value like the price or volume, while $\gamma$ indicates moving backward in time from point $x$. We must be vigilant when using this technique, if the data contains values that are zero, we might perform a zero-division that can clutter with the data unpredictably. However, since we scrubbed the data first and removed zero-values, this should not be a concern.
 
 \input{equations/pct.tex}
 
@@ -153,14 +101,14 @@ According to \cite{P&D_anatomy}, the time is essential when classifying \acp{pd}
 
 \input{equations/time.tex}
 
-Data retrieved from sources are getting timestamped, and we can take advantage of these timestamps to check whether data was generated at the hour or not. The function $x_\delta$ transforms a Unix\footnote{unix timestamp is a way to track time as a running total of seconds.} timestamp to a value in the interval $[0, 1)$. The closer $x_\delta$ is to the margins, the closer the time is at the hour, but since $0$ and $1$ symbolizes the same, we have to process it further before we can use it as a valuable feature.
+Data retrieved from sources are getting timestamped, and we can take advantage of these timestamps to check whether data was generated at the hour or not. The function $x_\delta$ transforms a Unix\footnote{unix timestamp is a way to track time as a running total of seconds.} timestamp to a value in the interval $[0, 1)$. The closer $x_\delta$ is to the margins, the closer the time is to the hour, but since $0$ and $1$ symbolizes the same, we have to process it further before we can use it as a valuable feature.
 
-We define a Gaussian distribution function $t$ with the parameters $\mu=0.5$ and $\sigma=0.1$ which creates the graph illustrated in \autoref{fig:unixtime}. The graph shows when given $t$ a $x_\delta$ close to $0$ or $1$ (6:00, 7:00, etc.), $t$ returns a value close to $0$, but when given $0.5$ (6:30, 7:30, etc.) it returns a value close to $4$. $t$ demonstrate that we can separate data by how close it was generated at the hour. Also, we can always tweak $\sigma$ to adjust the width of the wave. Adjusting the wave allows us to be more strict, the wider the curve, the more strict.
+We define a Gaussian distribution function $t$ with the parameters $\mu=0.5$ and $\sigma=0.1$ which creates the graph illustrated in \autoref{fig:unixtime}. The graph shows when given $t$ a $x_\delta$ close to $0$ or $1$ (6:00, 7:00, etc.), $t$ returns a value close to $0$, but when given $0.5$ (6:30, 7:30, etc.) it returns a value close to $4$. $t$ demonstrate that we can separate data by how close it was generated to the hour. Also, we can always tweak $\sigma$ to adjust the width of the wave. Adjusting the wave allows us to be more strict, the wider the curve, the more strict.
 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{time.pdf}
-    \caption{Gaussian distribution}
+    \caption[\project's time processing curve]{Gaussian distribution with the parameters $\sigma=0.1$ and $\mu=0.5$.}
     \label{fig:unixtime}
 \end{figure}
 
@@ -209,7 +157,7 @@ We can build a more complex network with multiple layers containing \ac{lstm} an
 \begin{figure}[ht]
     \centering
     \includegraphics{lstm.pdf}
-    \caption{Structure of the model}
+    \caption[\project's deep learning model]{Structure of the model}
     \label{fig:lstm}
 \end{figure}
 
@@ -221,7 +169,7 @@ As previously mentioned, \acp{pd} are anomalies, and that results in a significa
 \begin{figure}[ht]
     \centering
     \includegraphics{oversampling.pdf}
-    \caption{Oversampling (source\cite{tw_imbalance})}
+    \caption[Oversampling dataset]{Oversampling (source\cite{tw_imbalance})}
     \label{fig:oversampling}
 \end{figure}
 
@@ -243,6 +191,6 @@ The application needs to select a model that was generated during the training p
 \begin{figure}[h]
     \centering
     \includegraphics{pipe.pdf}
-    \caption{Deployment pipeline}
+    \caption[\project's deployment pipeline]{Deployment pipeline}
     \label{fig:pipe}
 \end{figure}

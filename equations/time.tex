@@ -1,6 +1,8 @@
-\begin{align*}
-    x_\delta(x_{\textbf{unix}}) &= \frac{x_\textbf{unix}\mod 3600}{3600}
-\end{align*}
+\begin{equation}\label{eq:unix_time}
+    x_\delta(x_{\textbf{unix}}) = \frac{x_\textbf{unix}\mod 3600}{3600}
+\end{equation}
+\myequations{UNIX timestamp scaling}
+
 \begin{align*}
     t(x_\delta, \mu, \sigma) &= \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{x_\delta-\mu}{2\sigma^2}}, \quad \text{where}
     \begin{cases}
@@ -8,3 +10,4 @@
     \sigma = 0.1 
     \end{cases}
 \end{align*}
+\myequations{Data preparation - Time}

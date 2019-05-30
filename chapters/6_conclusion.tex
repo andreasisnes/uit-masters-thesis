@@ -13,7 +13,7 @@ To train our \ac{lstm} network, we collected data over a period of $33$ days res
 \section{Contributions}
 We published two packages on PyPi,  \texttt{CoinMarketCapAPI} and \texttt{timeseries}, the former to extract data from the cryptocurrency tracking site CoinMarketCap, and the latter to work with time series data. Both modules can be easily installed with PyPi's package install pip. There is written uni tests for both modules, and integration tests for the CoinMarketCapAPI module as this module required multiple classes to cooperate. We use the module \texttt{pytest}, a testing framework in Python, to execute all the tests and calculate the percentage of code that was covered. In the timeseries package, we were able to cover $100\%$ of the module, while in the CoinMarketCapAPI, we were able to cover $86\%$. The following tables show code statistics regarding \project, CoinMarketCapAPI, and timeseries.
 
-The following tables shows lines of code of each project, and it was calculated by using a tool called \texttt{loc}. It seems like docstrings in Python is counted as a code line and not as a comment.
+The following tables shows lines of code in each project, and it was calculated by using a tool called \texttt{loc}. It seems like docstrings in Python is counted as a code line and not as a comment.
 
 \begin{table}[ht]
         \centering
@@ -25,7 +25,7 @@ The following tables shows lines of code of each project, and it was calculated 
         Text        & $\numprint{1}$    & $\numprint{3}$    & $\numprint{0}$    & $\numprint{0}$    & $\numprint{3}$    \\\hline
         Sum         & $\numprint{16}$   & $\numprint{2517}$ & $\numprint{420}$  & $\numprint{26}$   & $\numprint{2071}$ \\\hline
         \end{tabularx}
-        \caption{CoinMarketCapAPI - Lines of Code}
+        \caption{Lines of code - CoinMarketCap}
         \label{tab:cloc_coin}
 \end{table}
 
@@ -38,7 +38,7 @@ The following tables shows lines of code of each project, and it was calculated 
         Makefile    & $\numprint{1}$    & $\numprint{29}$   & $\numprint{8}$    & $\numprint{0}$    & $\numprint{21}$   \\\hline
         Sum         & $\numprint{7}$    & $\numprint{284}$  & $\numprint{69}$   & $\numprint{6}$    & $\numprint{209}$  \\\hline
         \end{tabularx}
-        \caption{timeseries - Lines of Code}
+        \caption{Lines of code - Timeseries}
         \label{tab:cloc_timeseries}
 \end{table}
 
@@ -53,7 +53,7 @@ The following tables shows lines of code of each project, and it was calculated 
         Markdown    & $\numprint{1}$    & $\numprint{1}$    & $\numprint{0}$    & $\numprint{0}$    & $\numprint{1}$    \\\hline
         Sum         & $\numprint{43}$   & $\numprint{2072}$ & $\numprint{386}$  & $\numprint{156}$  & $\numprint{1530}$ \\\hline
         \end{tabularx}
-        \caption{\project - Lines of Code}
+        \caption{Lines of code - \project}
         \label{tab:cloc_thesis}
 \end{table}
 
@@ -61,7 +61,7 @@ The following tables shows lines of code of each project, and it was calculated 
 We could not find any existing dataset containing data that was collected in real-time, nor a dataset with \acp{pd}. Therefore, we had to define our own dataset. The first of the two following datasets contains raw data that are directly extracted from Binance, CoinMarketCap, and aggregated data from multiple sources, and is available at \url{https://bit.ly/2Wpkfws}. The second dataset, the one we used to train our \ac{lstm} network and produce the presented results, is available at \url{https://bit.ly/2Ex0GYJ}.
 
 \section{Concluding Remark}
-Through designing, implementing and evaluating \project, we prove that it is achievable detect \ac{pd} in real-time using deep learning. In addition to \project, we implemented two other Python modules that we published on PyPI, a repository for publishing Python software. Finally, the results proves that it is possible to detect \ac{pd} with $97.82\%$ accuracy.
+Through designing, implementing, and evaluating \project, we prove that it is feasible to detect \acp{pd} in real-time using deep learning. With an accuracy of $97.82\%$ and precision of $0.2\%$, the model achieves high accuracy, but a low precision due to the imbalance of data. Besides creating \project, we implemented two other Python modules that we published on PyPI. Also, we published a dataset for further research in the detection of this fraudulent scheme.
 
 \section{Future Work}
 
