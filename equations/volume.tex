@@ -1,9 +1,11 @@
 \begin{align*}
     \mu_\gamma^v(x) &= \frac{\sum^x_{i=x-\gamma} x_{volume}}{\gamma}\\
+\end{align*}
+\begin{align}\label{eq:volume_anomaly}
     volume\_anomaly(x)&=
     \begin{cases}
         True  & \text{if $x_{volume} >    \epsilon_v \cdot \mu_\gamma^v(x)$}\\
         False & \text{otherwise}
     \end{cases}
-\end{align*}
+\end{align}
 \myequations{Anomaly - Volume}

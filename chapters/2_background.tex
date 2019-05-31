@@ -259,6 +259,8 @@ The hidden layer has no interaction with the outside of the network. Hence, the 
 
 The cells in the output layer take input from the last set of cells in the hidden layer. Their algorithmic structure is similar to the cells in the hidden layer, but their output is also the final prediction from the network.
 
+One can build a more complex network than in \autoref{fig:nn} by extending the number of hidden layers, where each hidden layer composes of even more cells. There is no limit in terms of layers and cell, but with a deeper network, then the time it takes to propagate input data through the network increases. And layers with too many cells suffer from the \emph{universal approximation} problem~\cite{hornik1989multilayer, hornik1993some}. So, determining the number of cells and layers actually boils down to multiple trial and error attempts.
+
 %\newpage
 \section{Related Work}\label{sec:related_work}
 % Stock Price Manipulation Detection Based on Mathematical Models
