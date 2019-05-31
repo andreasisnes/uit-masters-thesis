@@ -15,7 +15,7 @@ The term master/slave is through a quiet ongoing debate in the coding community~
 \begin{figure}[ht]
     \centering
     \includegraphics{ms_sa.pdf}
-    \caption[Architecture - master/slave]{Demonstrates a master/slave architecture, where the master assigns various task to the slaves. Soon as the slaves complete their task, they either send the result to the master, or the master gathers the result from them.}
+    \caption[Architecture - master/slave]{master/slave architecture. The master assigns tasks to the slaves. Soon as the slaves complete their task, they either send the result to the master, or the master gathers the result from them.}
     \label{fig:msa}
 \end{figure}
 
@@ -43,7 +43,7 @@ The \ac{pubsub} interaction paradigm provides subscribers with the ability to ex
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{pubsub.pdf}
-    \caption[Architecture - \acl{pubsub}]{Demonstrates a \acl{pubsub} architecture, where the publisher sends events/messages to the broker. The subscribers can expresses interest in specific events to the broker. The broker propagates publishers events to these subscribers that have previously expressed interest in said events.}
+    \caption[Architecture - \acl{pubsub}]{\acl{pubsub} architecture. The publisher sends events/messages to the broker. The subscribers can expresses interest in specific events to the broker. The broker propagates publishers events to these subscribers that have previously expressed interest in said events.}
     \label{fig:pubsub}
 \end{figure}
 \vspace{1.5cm}
@@ -80,7 +80,7 @@ The pipeline architecture has received considerable attention since 1960, and it
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{pipeline.pdf}
-    \caption[Architecture - Pipeline]{Demonstrates a pipeline architecture, where each stage output is the succeeding stage's input. Every stage executes in parallel.}
+    \caption[Architecture - Pipeline]{pipeline architecture, where each stage output is the succeeding stage's input. Every stage executes in parallel.}
     \label{fig:pipeline}
 \end{figure}
 
@@ -105,7 +105,7 @@ Traditional payment systems suffer from the inherent weakness of the trust based
 
 \begin{figure}[ht]
     \includegraphics[width=\textwidth]{cryptocurrency_model.pdf}
-    \caption[Bitcoin's privacy model]{shows the privacy model of Bitcoin. The transactions are public, as real-world identities are kept screened (source: \cite{bitcoin}).}
+    \caption[Bitcoin's privacy model]{privacy model of Bitcoin. The transactions are public, as real-world identities are kept screened (source: \cite{bitcoin}).}
     \label{fig:cryptocurrency_model}
 \end{figure}
 
@@ -116,7 +116,7 @@ A blockchain~\cite{bitcoin_book} is an ever growing list of blocks~\cite{bitcoin
 
 \begin{figure}[ht]
     \includegraphics[width=\textwidth]{blockchain.pdf}
-    \caption[Architecture - Blockchain]{demonstrates a blockchain architecture, where a block in the chain contains a reference to and a hash of its previous block.}
+    \caption[Architecture - Blockchain]{blockchain architecture. The blocks are structured like a list. A block in the chain contains a reference to and a hash of its previous block.}
     \label{fig:blockchain}
 \end{figure}
 
@@ -128,60 +128,50 @@ As the number of miners escalates, the longer propagation time of blocks, thus, 
 
 \newpage
 \subsection{Exchanges}\label{sec:exchanges}
-Cryptocurrency exchanges are centralized online platforms where traders can exchange cryptocurrency for another cryptocurrency or fiat\footnote{Money made by the government\cite{fiat}}. They are typically market makers that take \emph{bid-ask} spread~\cite{norton_rose}, which is the amount by which the ask price exceeds the bid price for an asset in the market. The bid-ask spread is essentially the difference between the highest price that a buyer is willing to pay for an asset and the lowest price that a seller is willing to accept~\cite{bidask}. Currently, these exchange lack regulation\footnote{Application of law by the government} which makes them not trustworthy and susceptible to price manipulation schemes and con artists~\cite{exchange_scammers, exchange_scammers_2}. There are over $200$ different cryptocurrency exchanges where some of the most appealing are Coinbase, Binance, Bittrex, and Poloniex~\cite{exchange_best_1, exchange_best_2}, where Binance alone has a monthly trading volume of more than \$$20$ billion~\cite{coinmarketcap_exchange}.
+Cryptocurrency exchanges are centralized online platforms where traders can exchange cryptocurrency for another cryptocurrency or fiat\footnote{Money made by the government\cite{fiat}}. They are market makers that lists coins over \emph{bid-ask} spreads~\cite{norton_rose}. A bid-ask spread is the amount by which the asking price exceeds the bid price for an asset in the market. The bid-ask spread is essentially the difference between the highest price that a buyer is willing to pay for an asset and the lowest price that a seller is willing to accept~\cite{bidask}. Currently, these exchange lack regulation\footnote{Application of law by the government} which makes them not trustworthy and susceptible to price manipulation schemes and con artists~\cite{exchange_scammers, exchange_scammers_2}. There are over $200$ different cryptocurrency exchanges where some of the most appealing are Coinbase, Binance, Bittrex, and Poloniex~\cite{exchange_best_1, exchange_best_2}, where Binance alone has a monthly trading volume of more than \$$20$ billion~\cite{coinmarketcap_exchange}.
 
-% trading pairs
 Cryptocurrency exchanges list various symbol pairs denoting a \emph{base} and \emph{quote}. The currency pairs compare the value of one currency to another - the base currency versus the quote. It indicates how much of the quote currency is needed to purchase one unit of the base currency~\cite{investopedia_cryptocurrency}. For example, to trade Ethereum (ETH) for Bitcoin (BTC), the symbol pair would be "ETH/BTC".
 
-% tokens
-Trades on cryptocurrency exchanges happens internally on exchanges, every coin is \emph{tokenized}. making trades to be off-blockchain~\cite{exchange_off_chain}, and in return, and there is no need for verification as trades happens instantly. However, traders seemingly prefer to use multiple exchanges simultaneously, and transaction between exchanges are registered on the cryptocurrency's blockchain, see \autoref{fig:exchanges}. Exchanges are contradictory to the incentive of decentralized cryptocurrencies, as they are centralized. However, $99\%$ of cryptocurrency trades still happen on exchanges~\cite{coinsutra}.
-%% NEED TO REWRITE
+Trades on cryptocurrency exchanges happens internally on exchanges; every coin is \emph{tokenized}. Making trades to be off-blockchain~\cite{exchange_off_chain}, and in return, and there is no need for verification as trades happens instantly. Traders seemingly prefer to use multiple exchanges simultaneously, and transaction between exchanges are registered on the cryptocurrency's blockchain, see \autoref{fig:exchanges}. Exchanges are contradictory to the incentive of decentralized cryptocurrencies, as they are centralized. However, $99\%$ of cryptocurrency trades still happen on exchanges~\cite{coinsutra}.
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{exchanges.pdf}
-    \caption[Ecosystem of cryptocurrencies and exchanges]{Cryptocurrency exchanges ecosystem}
+    \caption[Ecosystem of cryptocurrencies and exchanges]{illustrates that exchanges incorporate numerous cryptocurrencies into their platform and that investors trade assets with exchanges' tokens.}
 \label{fig:exchanges}
 \end{figure}
 
 \subsubsection{Market data}
-% rest api
-Before the internet, trading took place over the phone, and now in the post-internet age, trading takes effect over an exchange's \ac{api}~\cite{exchange_api} allowing any software to pull data and interact with the exchange. \Acp{api} are useful in terms of extracting data and do analytics on it and for traders who have algorithmic models that are fueled by live data and need to issue orders within milliseconds.
+Before the internet, trading took place over the phone, and now in the post-internet age, trading takes effect over an exchange's \ac{api}~\cite{exchange_api} allowing any software to pull data and interact with the exchange. \Acp{api} are useful in terms of extracting data and do analytics with it and for traders who have algorithmic models that are fueled by live data and need to issue orders within milliseconds.
 
 \subsubsection{OHLCV}
-Graphical illustrations of price movements for specific time intervals goes by the name \emph{kline} or \emph{candlestick} chart. Such graphs utilize a set of \acp{ohlcv} points, describing the trading trends in a time window. \autoref{tab:ohlcv} illustrates a candle in its crude form, and \autoref{fig:pd-gxsbtc} shows processed \acp{ohlcv} values making a candlestick chart. The top and bottom wicks represent the highest and lowest trade price respectively in the time interval, while the color portrays whether the closing price was higher or lower than the opening price~\cite{P&D_to_the_moon}. Candles can define trading trends in any time interval, but exchange’s \ac{api} mostly allows a discrete selection of timeframes that commonly range from one minute to several days.
+Graphical illustrations of price movements for specific time intervals goes by the name \emph{kline} or \emph{candlestick} chart. Such graphs utilize a set of \acp{ohlcv} points, describing the trading trends in a time window. \autoref{tab:ohlcv} illustrates a candle in its crude form, and \autoref{fig:pd-gxsbtc} shows processed \acp{ohlcv} values making a candlestick chart. A kline's top and bottom wicks represent the highest and lowest trade price in its time interval, while the color portrays whether the closing price was higher or lower than the opening price~\cite{P&D_to_the_moon}. Candles can define trading trends in any time interval, but exchange's \ac{api} mostly allows a discrete selection of timeframes that commonly range from one minute to several days.
+
 \input{tables/ohlcv.tex}
 
 \begin{figure}[ht]
     \includegraphics[width=\textwidth]{GXS-BTC.png}
     \centering
-    \caption[\Acf{pd} observation]{A real \ac{pd} organized by the group Crypto Pump Island on 2019-02-10 19:00. The target symbol was GXS/BTC on the exchange Binance.}
+    \caption[\Acl{pd} observation]{A real \ac{pd} organized by the group Crypto Pump Island on 2019-02-10 19:00. The target symbol was GXS/BTC on the exchange Binance.}
     \label{fig:pd-gxsbtc}
 \end{figure}
 
 \subsubsection{Order Book}
-% Order book
-% Level 1 & Level 2
-An order book, also called market depth, is an electronic list of buy and sell orders on an exchange for a specific symbol pair, see \autoref{tab:order_book}~\cite{investopedia_depth}. Sell orders are in an \emph{asks} list in a descending order while buy orders are arranged descendingly in a \emph{bids} list~\cite{invest_order_book, coincodex_order_book}. The order book is dynamic, and constantly change throughout the day as traders issue new orders. There are many ways to interpret the information in an order book; for example, a massive imbalance of buy orders versus sell orders may indicate a price increase due to buying pressure~\cite{invest_order_book}.
+An order book, also called market depth, is an electronic list of buy and sell orders on an exchange for a specific symbol pair, see \autoref{tab:order_book}~\cite{investopedia_depth}. Sell orders are in an \emph{asks} list in a descending order while buy orders are arranged descendingly in a \emph{bids} list~\cite{invest_order_book, coincodex_order_book}. The order book is dynamic and constantly change throughout the day as traders issue new orders. There are many ways to interpret the information in an order book; for example, a massive imbalance of buy orders versus sell orders may indicate a price increase due to buying pressure~\cite{invest_order_book}.
+
 \input{tables/order_book.tex}
 
 \subsection{Pump-and-Dump}\label{sec:pd}
 A \ac{pd} scheme is a type of fraud in which the offenders accumulate a commodity over a period. Then artificially inflate the price through means of spreading misinformation (pumping), before selling off what they bought to unsuspecting buyers at the higher price (dumping)\cite{P&D_to_the_moon}. After the emergence of cryptocurrency trading, \ac{pd} has become a popular legitimate price manipulation scheme among scammers, who leach assets from the misinformed. Two researchers at the Imperial College London revealed that on average, at least two \ac{pd} schemes are carried out daily, producing roughly \$$7$ million in daily trading volume~\cite{P&D_MIT_crypto}. Price increases of up to 950\% have been witnessed, demonstrating the amount of potential profit~\cite{P&D_cointelegraph}.
 
+On the modern stock market, \ac{pd} organizers focus on \emph{penny} or \emph{microcap} stocks, which are smaller companies that do not comply with the standards to being listed on the more comprehensive exchanges~\cite{stock_bouraoui, stock_temple, P&D_anatomy}. Microcap stock exchanges are not held to the same standard of regulation, which implies that there are usually not as much information about the companies that are listed, making them easier to manipulate. Misinformation about the stocks is usually spread through email spam, which has a net positive effect on the stock price~\cite{stock_bouraoui}. It is illegal to run price manipulation schemes on regulated markets, and there are multiple cases where participants in a \ac{pd} have been prosecuted~\cite{P&D_to_the_moon}.
 
-
-% stock market
-On the modern stock market, \ac{pd} organizers focus on \emph{penny} or \emph{microcap} stocks, which are smaller companies that do not comply with the standards to being listed on the larger exchanges~\cite{stock_bouraoui, stock_temple, P&D_anatomy}. Microcap stock exchanges are not held to the same standard of regulation, which implies that there are usually not as much information about the companies that are listed making them easier to manipulate~\cite{P&D_to_the_moon}. Misinformation about the stocks are usually spread through email spam which have a net positive effect on the stock price~\cite{stock_bouraoui}. It is illegal to run price manipulation schemes on regulated markets, and there are multiple cases where participants in a \ac{pd} have been prosecuted~\cite{P&D_to_the_moon}.
-
-% cryptocurrency market
 There is a slightly different approach for \acp{pd} on the cryptocurrency market. The pump is a coordinated, intentional, short-term increase in the demand of a symbol pair~\cite{P&D_anatomy}, organized by dedicated groups. These groups are often public channels in chat applications like Discord or Telegram and are joined by naive traders, who believe they will become wealthy in a short amount of time. There are designated web pages and forums that contains information and statistics regarding groups' \ac{pd} success, one of these pages are \href{https://pumpolymp.com/}{PumpOlymp}\footnote{https://pumpolymp.com/}. The number of members in some of the prominent groups have peaked at around $200,000$~\cite{P&D_the_outline}.
 
 \subsubsection{Pump Groups}\label{sec:pump_groups}
-% Group setup
-In the cryptocurrency market, \ac{pd} organizers create groups in encrypted chatting application such as Telegram and Discord. They advertise themselves through social media platforms and forums~\cite{P&D_scheme} as exciting groups that ensures profit with little or no risk of losing assets. The group admins start to organize \ac{pd} when the group typically consists of over $\numprint{1000}$ optimistic traders. Only the admins are allowed to post messages in the group restricting regular members to just see the messages posted by the admins; this functionality is enabled by the admins to avoid member interference~\cite{P&D_anatomy}.
+In the cryptocurrency market, \ac{pd} organizers create groups in an encrypted chatting application such as Telegram and Discord. They advertise themselves through social media platforms and forums~\cite{P&D_scheme} as intriguing groups that ensure profit with little or no risk of losing assets. The group admins start to organize \ac{pd} when the group typically consists of over $\numprint{1000}$ optimistic traders. Only the admins are allowed to post messages in the group restricting regular members to see the messages posted by the admins; this functionality is enabled by the admins to avoid member interference~\cite{P&D_anatomy}.
 
-% Accumulate
-Before a \ac{pd}, the group admins announce details regarding it a few days ahead. The information they provide is the exact time and date, the pairing coin which is more or less always Bitcoin, and the exchange. With the information, the member can buy sufficient funds on the targeted exchange in advance. The same day the \ac{pd} is scheduled, the admins purchase a commodity in the base coin over a period without raising the price. Then they send out countdowns and reminds the members of previous successfully \acp{pd} to motivate them to participate, and the rules during the upcoming \ac{pd}. According to \cite{P&D_anatomy}, the typical rules are.
+Before a \ac{pd}, the group admins announce details regarding it a few days ahead. The information they provide is the exact time and date, the pairing coin, which is more or less always Bitcoin, and the exchange. With the information, the member can buy sufficient funds on the targeted exchange in advance. The same day the \ac{pd} is scheduled, the admins purchase a commodity in the base coin over a period without raising the price. Then they send out countdowns and reminds the members of previous successfully \acp{pd} to motivate them to participate, and the rules during the upcoming \ac{pd}. According to \cite{P&D_anatomy}, the standard rules are.
 
 \begin{enumerate}
     \item Make sure to buy fast.
@@ -190,13 +180,12 @@ Before a \ac{pd}, the group admins announce details regarding it a few days ahea
     \item Sell in pieces at profit, not in chunks.
 \end{enumerate}
 
-% pump-and-dump
-When the admins announce the coin, each member tries to be the first to buy the published coin to ensure profit before the inevitable inflation. If they are to slow, they might buy at the peak and are unable to make a profit. The pressure of being the first is high because the coin peak within seconds to max ten minutes~\cite{P&D_the_outline}. After they have bought a significant amount of the coin, they shill, in an attempt to trick outsiders into buying it, allowing them to sell easier. The misinformation varies, but some common tactics include false news stories, non-existent projects, fake partnerships, or fake celebrity endorsements~\cite{P&D_the_outline}. Simultaneously, the admins encourage the members to hold while they sell off what they bought earlier on that day making them maximize their profit before the inevitable price dump. As soon as the first fall in price appears, the members start to panic-sell. If the price dips below the start price, the second wave of traders buys to bounce the price up to where it began allowing them to gain a small profit~\cite{P&D_anatomy}.
+When the admins announce the coin, each member tries to be the first to buy the published coin to ensure profit before the inevitable inflation. If they are to slow, they might buy at the peak and are unable to make a profit. The pressure of being the first is high because the coin peak within seconds to max ten minutes~\cite{P&D_the_outline}. After they have bought a significant amount of the coin, they shill, in an attempt to trick outsiders into buying it, allowing them to sell easier. The misinformation varies, but some common tactics include false news stories, non-existent projects, fake partnerships, or fake celebrity endorsements~\cite{P&D_the_outline}. Simultaneously, the admins encourage the members to hold while they sell off what they bought earlier on that day, making them maximize their profit before the inevitable price dump. As soon as the first fall in price appears, the members start to panic-sell. If the price dips below the start price, the second wave of traders buys to bounce the price up to where it began allowing them to gain a small profit~\cite{P&D_anatomy}.
 
-% post pump
-Minutes to hours later, when the coin recover its initial state. The admins publish results that showcases the members impact and the potential profit. \autoref{fig:chat_pump} shows real messages from \ac{pd} organized by the pump group \href{https://t.me/crypto_pump_island}{Crypto Pump Island}\footnote{\url{https://t.me/crypto_pump_island}}, and the \autoref{fig:pd-gxsbtc} shows the impact.
+Minutes to hours later, when the coin recover its initial state. The admins publish results that showcase the members' impact and the potential profit. \autoref{fig:chat_pump} shows real messages from \ac{pd} organized by the pump group \href{https://t.me/crypto_pump_island}{Crypto Pump Island}\footnote{\url{https://t.me/crypto_pump_island}}, and the \autoref{fig:pd-gxsbtc} shows the impact.
 
 Nevertheless, in the end, only the admins and a few members are profiting from a \ac{pd} while the majority are loosing. So why are there still people enthusiastic about partaking a \ac{pd}, given the risk of being ripped off by the admins? Because people believe that there are greater fools out there, who would buy the coins at an even higher price than their original purchase price~\cite{P&D_anatomy}. The greater fools theory is also what thrives many other price manipulation schemes~\cite{dissecting}.
+
 \begin{figure}[ht]
     \begin{leftbubbles}
     30 minutes left to pump on Binance. $\color{gray}_{\text{18:30}}$
@@ -218,12 +207,12 @@ Nevertheless, in the end, only the admins and a few members are profiting from a
     Hope everyone gets profit.
     Good holding $\color{gray}_{\text{19:05}}$
     \end{leftbubbles}
-    \caption[\Acf{pd} group insight]{Messages from the telegram group Crypto Pump Island on 10 February 2019.}
+    \caption[\Acl{pd} group insight]{messages from the telegram group Crypto Pump Island on 10 February 2019.}
     \label{fig:chat_pump}
 \end{figure}
 
 \subsubsection{Characteristics}
-Detection of \ac{pd} schemes requires insights in their operations to have the ability to identify patterns that occur during a \ac{pd}. \autoref{tab:pd_characteristics}, defined by two researchers at the University College London~\cite{P&D_anatomy}, summarizes some of the fundamental similarities and differences with respect to the target, tactic and timescale of traditional penny stock and cryptocurrency \ac{pd} schemes. It clearly shows that traditional and cryptocurrency \ac{pd} schemes target the same type of markets, but the tactic and timescale differ. The lack of trust among members in the pump groups can explain the short timescale of cryptocurrency \acp{pd}, as they all want their piece of the cake and sell as soon as they profit instead of holding. Spreading of misinformation must happen in real-time because of the short time pressure.
+Detection of \ac{pd} schemes requires insights in their operations to have the ability to identify patterns that occur during a \ac{pd}. \autoref{tab:pd_characteristics}, defined by two researchers at the University College London~\cite{P&D_anatomy}, summarizes some of the fundamental similarities and differences with respect to the target, tactic and timescale of traditional penny stock and cryptocurrency \ac{pd} schemes. It clearly shows that traditional and cryptocurrency \ac{pd} schemes target the same type of markets, but the tactic and timescale differ. The lack of trust among members in the pump groups can explain the short timescale of cryptocurrency \acp{pd}, as they all want their piece of the cake and sell as soon as they profit instead of holding. All the spreading of misinformation must happen in real-time because of the short time pressure.
 
 \input{tables/pd_characteristics.tex}
 
@@ -231,7 +220,7 @@ Using these characteristics, the same two researchers \cite{P&D_anatomy} formula
 
 \input{tables/pd_indicators.tex}
  
-%\newpage
+\newpage
 \section{Deep Learning}
 \Acf{ml} is a fast-growing field in computer science. It refers to the ability to make a computer recognize specific patterns in data using various complex algorithmic models. In the broader field of \ac{ml}, recent years have witnessed a proliferation of deep neural networks, with fantastic results across various application domains. Deep learning is a subset of \ac{ml} that achieves excellent performance and flexibility that surpasses conventional \ac{ml} algorithms~\cite{mike_voets, dl_anomaly}.
 
@@ -243,7 +232,7 @@ As \ac{ml} has become a buzzword and categorized as state of the art and "the so
 
 \begin{itemize}
     \item When tasks cannot be adequately solved using deterministic rule-based solutions. A considerable number of factors like features, patterns, correlated features, etc., can influence the answer. When rules depend on too many factors, and many of these rules overlap or need to be tuned very finely, it quickly becomes complicated to define these rules accurately.
-    \item When tasks do not scale, e.g., manual detection of spam mail which will be a tedious process if there are millions of emails. \ac{ml} solutions are effective at handling large-scale problems.
+    \item When tasks do not scale, e.g., manual detection of spam mail, which will be a tedious process if there are millions of emails. \ac{ml} solutions are effective at handling large-scale problems.
 \end{itemize}
 
 Algorithms in \Ac{ml} are commonly subdivided into two major paradigms, \emph{unsupervised} and \emph{supervised} learning. In supervised learning, the algorithms require data and prior knowledge of each sample, called \emph{labels} or \emph{ground truth}, while the algorithms in unsupervised learning only need data. There are two approaches under supervised learning, \emph{regression}, and \emph{classification}. Both share the same concept of using data to make a prediction. Classification problems refer to the ability to recognize a discrete set of classes, while a regression problem, estimates a value from input data.
@@ -258,7 +247,7 @@ A traditional \ac{ml} model do not have any perception of its previous predictio
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{nn.pdf}
-    \caption[Architecture - \Acf{ann}]{Structure of an artificial neural network}
+    \caption[Architecture - \Acl{ann}]{structures an artificial neural network. The passive cells in the input layer propagate their input data $x$ to the layer of cells in the hidden layer. From there on, the cell's output in each layer is the succeeding cell's input in the next layer until the output layer returns a prediction $y$.}
     \label{fig:nn}
 \end{figure}
 
@@ -273,7 +262,7 @@ The cells in the output layer take input from the last set of cells in the hidde
 %\newpage
 \section{Related Work}\label{sec:related_work}
 % Stock Price Manipulation Detection Based on Mathematical Models
-An article from International Conference on Advanced Computational Intelligence (ICACI) 2016, presented a model that detects \ac{pd} schemes on the stock market with $88\%$ accuracy~\cite{P&D_stock_price_manipulation}. The article describes how badly \ac{pd} schemes are executed and organized. And from the patterns a \ac{pd} scheme leaves behind, the article proposed mathematical definitions based on level $2$ order book data with a depth of $10$ to generate a training set consisting of buy and sell orders. The researchers implemented a feedforward neural network and trained it with the generated dataset, and achieved an accuracy of precisely $88.28\%$. 
+An article from International Conference on Advanced Computational Intelligence (ICACI) 2016, presented a model that detects \ac{pd} schemes on the stock market with $88\%$ accuracy~\cite{P&D_stock_price_manipulation}. The article describes how badly \ac{pd} schemes are executed and organized. And from the patterns a \ac{pd} scheme leaves behind, the article proposed mathematical definitions based on level $2$ order book data with a depth of $10$ to generate a training set consisting of buying and sell orders. The researchers implemented a feedforward neural network and trained it with the generated dataset, and achieved an accuracy of precisely $88.28\%$.
 
 % Cryptocurrency Pump Predictions: A novel approach to identifying Pump-and-Dump Scheme
 Two students from Standford Unversity recreated the stock market model~\cite{P&D_stock_price_manipulation} and made it compatible with cryptocurrency exchanges in 2017. In their work, they used level $1$ order book data to generate a training set to train a neural network and a \ac{svm}. They labeled the dataset by identifying \acp{pd} by comparing a market's price movement to BTC. The final test results of their models had an accuracy of $78.13\%$ with \ac{svm} and $82.5$\% with the neural network. Their research is interesting, they show that the order book alone is valuable, but they seem to ignore other relevant extractable data, also entirely ignore data preparation. As a result, we achieved significantly higher accuracy than them.
@@ -282,4 +271,4 @@ Two students from Standford Unversity recreated the stock market model~\cite{P&D
 Kleinberg and Kamps from the University College London~\cite{P&D_to_the_moon} defined specific patterns in \acp{pd} and how they differ from the stock market. Also, they proposed a novel anomaly detection approach based on a set of criteria for locating suspicious transaction patterns on cryptocurrency exchanges. The most balanced parameters for their algorithm resulted in about $1.6$ \acp{pd} per market per day, for a total of $2150$ \acp{pd} over $20$ days of data. Moreover, $75\%$ of the alleged \acp{pd} were found to have corresponding price dumps. They state in their conclusion; Ultimately, it is the hope that the information presented in this paper is useful for further research into the detection of this fraudulent scheme~\cite{P&D_to_the_moon}. For us, this article proved to be indeed helpful as we use their anomaly detection algorithm to find \acp{pd}. Also, the \ac{pd} patterns they define is essential in terms of the features we need to possess.
 
 % The Anatomy of a Cryptocurrency Pump-and-Dump Scheme
-Researchers from the Imperial College London wrote an article that analyzes features of pumped markets and market movement of coins before and after \acp{pd}~\cite{P&D_anatomy}. They implemented a predictive Random Forest model that gives the likelihood of each possible currency being pumped prior to the actual pump event. With a probability curve of slightly over $0.9$, the model exhibits high accuracy and is indicative of the probability of a coin being pumped. This article has actually received a lot of recognition and attention~\cite{P&D_MIT_crypto, P&D_cointelegraph, P&D_UTB} on media platforms that cover cryptocurrencies. Their research in terms of how the organizer tends to build up \acp{pd} was insightful when generating features. They also presented the importance of the features they used, and the most prominent feature is a coin's capitalization.
+Researchers from the Imperial College London wrote an article that analyzes features of pumped markets and market movement of coins before and after \acp{pd}~\cite{P&D_anatomy}. They implemented a predictive Random Forest model that gives the likelihood of each possible currency being pumped prior to the actual pump event. With a probability curve of slightly over $0.9$, the model exhibits high accuracy and is indicative of the probability of a coin being pumped. This article has actually received a lot of recognition and attention~\cite{P&D_MIT_crypto, P&D_cointelegraph, P&D_UTB} on media platforms that cover cryptocurrencies. Their research in terms of how the organizer tends to build up \acp{pd} was invaluable for us when generating features. They also presented their model's feature importance, and the most prominent feature is a coin's capitalization.

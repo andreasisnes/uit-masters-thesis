@@ -1,14 +1,13 @@
 \chapter{\project's Design}\label{ch:design}\glsresetall
-This chapter presents the design of \project. First, it briefly describes the system and all the components within it. Then, it goes further into details regarding every component in terms of their structure, function, and intent. Finally, it describes the two phases \project has.
+This chapter presents \project's design. First, it briefly describes the system and all the components within it. Then, it goes further into details regarding every component in terms of their structure, function, and intent. Finally, it describes the two phases \project has.
 
 \section{Overview}
-We are modeling \project as a \ac{ml} pipeline, but with some few extensions. \project is designed to extract raw data from different cryptocurrency sources and transform it into valuable features in order to classify \acp{pd}. The term \ac{ml} pipeline can be misleading as it implies a one-way flow of data when some elements in the pipeline are cyclical and iterative where every iteration intends to improve the accuracy of the model~\cite{ml_pipeline_3}. 
-%Some of the advantages a pipeline provides is~\cite{ml_pipeline_2};
+We are modeling \project as a \ac{ml} pipeline, but with some few extensions. \project is designed to extract raw data from numerous cryptocurrency sources and transform it into valuable features in order to classify \acp{pd}. The term \ac{ml} pipeline can be misleading as it implies a one-way flow of data when some elements in the pipeline are cyclical and iterative where every iteration intends to improve the accuracy of the model~\cite{ml_pipeline_3}. 
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{overview.pdf}
-    \caption[\project's architecture]{Architectural overview of \project}
+    \caption[\project's architecture]{\project's architecture. The first processing stage in the pipeline is the data retriever, and it pushes data to the feature engineering and data cleansing stage to prepare the data for \ac{ml}. Historical data that spans over the period where data is collected gets fetched and pushed through an anomaly detection algorithm that detects \acp{pd}. The labeled data gets first preprocessed, then either pushed to train a model or, if deployed, to straightly to a trained model that can make predictions.}
     \label{fig:overview}
 \end{figure}
 
