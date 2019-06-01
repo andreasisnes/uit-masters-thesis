@@ -6,14 +6,14 @@
 \chapter{Conclusion}\label{ch:conclusion}\glsresetall
 Since the emergence of cryptocurrencies, exchanges has and still plays a central role in the cryptocurrency ecosystem. With Over $99\%$ of all trades happens on these exchanges, one can say that they are an appealing platform for investors, despite that they are mostly unregulated. Unregulated investment platforms attract scammers who organize various price manipulation schemes like \acp{pd}, and this have become troublesome on exchanges as the scammers produce in total \$$7$ million in daily trading volume.
 
-Our objective in this thesis was to detect \acp{pd} in real-time by using deep learning, and we did so by defining the system \project. We modeled it like a \ac{ml} pipeline, where the first stage collected data from Binance, CoinMarketCap, and aggregated data from multiple exchanges. then, with the collected data we defined a new dataset by cleaning it and engineering new features of it. To label our dataset we used an anomaly detection algorithm to pinpoint potential \acp{pd}, and to reduce the occurrences of false \acp{pd} we manually removed them. With a labeled dataset, we normalized it, and trained a \ac{lstm} network.
+Our objective in this thesis was to detect \acp{pd} in real-time by using deep learning, and we did so by defining the system \project. We modeled it like a \ac{ml} pipeline, where the first stage collected data from Binance, CoinMarketCap, and aggregated data from multiple exchanges. then, with the collected data we defined a new dataset by cleaning it and engineering new features of it. To label our dataset we used an anomaly detection algorithm to pinpoint \acp{pd}, and to reduce the occurrences of false \acp{pd} we manually removed them. With a labeled dataset, we normalized it, and trained a \ac{lstm} network.
 
 To train our \ac{lstm} network, we collected data over a period of $33$ days resulting in total \SI{47}{\giga\byte} of data. The anomaly detection algorithm pinpointed $280$ anomalies over the period we collected data, and from these anomalies we removed $80$ false \acp{pd}. The \ac{lstm} network we trained has an accuracy of $97.82\%$ and an \ac{auc} of $0.979$.
 
 \section{Contributions}
 We published two packages on PyPi,  \texttt{CoinMarketCapAPI} and \texttt{timeseries}, the former to extract data from the cryptocurrency tracking site CoinMarketCap, and the latter to work with time series data. Both modules can be easily installed with PyPi's package install pip. There is written uni tests for both modules, and integration tests for the CoinMarketCapAPI module as this module required multiple classes to cooperate. We use the module \texttt{pytest}, a testing framework in Python, to execute all the tests and calculate the percentage of code that was covered. In the timeseries package, we were able to cover $100\%$ of the module, while in the CoinMarketCapAPI, we were able to cover $86\%$. The following tables show code statistics regarding \project, CoinMarketCapAPI, and timeseries.
 
-The following tables shows lines of code in each project, and it was calculated by using a tool called \texttt{loc}. It seems like docstrings in Python is counted as a code line and not as a comment.
+The following tables shows lines of code in each project, and it was calculated by using a tool called \texttt{loc}. Noticeably, docstrings in Python is counted as code lines and not as a comments.
 
 \begin{table}[ht]
         \centering
@@ -58,10 +58,10 @@ The following tables shows lines of code in each project, and it was calculated 
 \end{table}
 
 \subsubsection{Dataset}
-We could not find any existing dataset containing data that was collected in real-time, nor a dataset with \acp{pd}. Therefore, we had to define our own dataset. The first of the two following datasets contains raw data that are directly extracted from Binance, CoinMarketCap, and aggregated data from multiple sources, and is available at \url{https://bit.ly/2Wpkfws}. The second dataset, the one we used to train our \ac{lstm} network and produce the presented results, is available at \url{https://bit.ly/2Ex0GYJ}.
+The first of the two following datasets contains raw data that are directly extracted from Binance, CoinMarketCap, and aggregated data from multiple sources, and is available at \url{https://bit.ly/2Wpkfws}. The second dataset, the one we used to train our \ac{lstm} network and produce the presented results, is available at \url{https://bit.ly/2Ex0GYJ}. Hopefully, these two datasets becomes useful for researchers that also seeks to detect this fraudulent scheme.
 
 \section{Concluding Remark}
-Through designing, implementing, and evaluating \project, we prove that it is feasible to detect \acp{pd} in real-time using deep learning. With an accuracy of $97.82\%$ and precision of $0.2\%$, the model achieves high accuracy, but a low precision due to the imbalance of data. Besides creating \project, we implemented two other Python modules that we published on PyPI. Also, we published a dataset for further research in the detection of this fraudulent scheme.
+Through designing, implementing, and evaluating \project, we prove that it is feasible to detect \acp{pd} in real-time using deep learning. With an accuracy of $97.82\%$ and disappointing precision of $0.2\%$, the model achieves high accuracy, but a low precision due to the imbalance of data. Besides creating \project, we implemented two other Python modules that we published on PyPI, and shared two datasets that can be further used in the detection of \acp{pd}.
 
 \section{Future Work}
 

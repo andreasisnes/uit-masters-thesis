@@ -2,7 +2,7 @@
 This chapter presents \project's design. First, it briefly describes the system and all the components within it. Then, it goes further into details regarding every component in terms of their structure, function, and intent. Finally, it describes the two phases \project has.
 
 \section{Overview}
-We are modeling \project as a \ac{ml} pipeline, but with some few extensions. \project is designed to extract raw data from numerous cryptocurrency sources and transform it into valuable features in order to classify \acp{pd}. The term \ac{ml} pipeline can be misleading as it implies a one-way flow of data when some elements in the pipeline are cyclical and iterative where every iteration intends to improve the accuracy of the model~\cite{ml_pipeline_3}. 
+We are modeling \project as a \ac{ml} pipeline (\autoref{fig:overview}), but with some few extensions. \project is designed to extract raw data from numerous cryptocurrency sources and transform it into valuable features in order to classify \acp{pd}. The term \ac{ml} pipeline can be misleading as it implies a one-way flow of data when some elements in the pipeline are cyclical and iterative where every iteration intends to improve the accuracy of the model~\cite{ml_pipeline_3}.
 
 \begin{figure}[ht]
     \centering
@@ -38,7 +38,7 @@ We shape our data retriever like a master/slave model. \autoref{fig:ms} is an ex
 \begin{figure}[hbt!]
     \centering
     \includegraphics[width=0.8\textwidth]{ms.pdf}
-    \caption{\project's data retriever. The slaves are assigned a source. The master, in a fixed interval, broadcasts a pull signal to the slaves, and the slaves fetch data from their designated source. Soon as the slaves complete their task, the master gathers the result from them.}
+    \caption[\project's data retriever]{\project's data retriever. The slaves are assigned a source. The master, in a fixed interval, broadcasts a pull signal to the slaves, and the slaves fetch data from their designated source. Soon as the slaves complete their task, the master gathers the result from them.}
     \label{fig:ms}
 \end{figure}
 
@@ -82,12 +82,12 @@ We process trading data such as price and volume by calculating the percentage o
 We define the function $pct$ as in \autoref{eq:pct} to calculate the percentage of change. It calculates the percentage change in point $x$ concerning a previous value $v$ with a time lag $\gamma$. We consider $x$ and $v$ to be a single value like the price or volume, while $\gamma$ indicates moving backward in time from point $x$. We must be vigilant when using this technique, if the data contains values that are zero, we might perform a zero-division that can clutter with the data unpredictably. However, since we scrubbed the data first and removed zero-values, this should not be a concern.
 
 \subsubsection{Processing Time}
-According to \cite{P&D_anatomy}, the time is essential when classifying \acp{pd}, as they are typically executed at the hour (6:00, 7:00, etc.) because organizers usually does not choose a random time. Data retrieved from sources are getting timestamped, and we can take advantage of these timestamps to check whether data was generated at the hour or not. The function $x_\delta$ transforms a Unix\footnote{Unix timestamp is a way to track time as a running total of seconds since the Unix Epoch on January 1st, 1970.} timestamp to a value in the interval $[0, 1)$. The closer $x_\delta$ is to the margins, the closer the time is to the hour, but since $0$ and $1$ symbolizes the same, we have to process it further before we can use it as a valuable feature.
+According to \cite{P&D_anatomy}, the time is essential when classifying \acp{pd}, as they are typically executed at the hour (6:00, 7:00, etc.) because organizers usually does not choose a random time. Data retrieved from sources are getting timestamped, and we can take advantage of these timestamps to check whether data was generated at the hour or not. The function $x_\delta$ transforms a Unix\footnote{Unix timestamp is a way to track time as a running total of seconds since the Unix Epoch, January 1st, 1970.} timestamp to a value in the interval $[0, 1)$. The closer $x_\delta$ is to the margins, the closer the time is to the hour, but since $0$ and $1$ symbolizes the same, we have to process it further before we can use it as a valuable feature.
 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{time.pdf}
-    \caption[\project's time processing curve]{Gaussian distribution $t$ from \autoref{eq:gaus} with the parameters $\sigma=0.1$ and $\mu=0.5$. The curve describe how close a given time-parameter $x$ is on the hour (6:00, 7:00, etc.).}
+    \caption[\project's time curve]{Gaussian distribution $t$ from \autoref{eq:gaus} with the parameters $\sigma=0.1$ and $\mu=0.5$. The curve describe how close a given time-parameter $x$ is on the hour (6:00, 7:00, etc.).}
     \label{fig:unixtime}
 \end{figure}
 
