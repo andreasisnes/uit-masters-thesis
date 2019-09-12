@@ -4,14 +4,14 @@
 % future work (be very brief, explain what, but not much how)
 
 \chapter{Conclusion}\label{ch:conclusion}\glsresetall
-Since the emergence of cryptocurrencies, exchanges has and still plays a central role in the cryptocurrency ecosystem. With Over $99\%$ of all trades happens on these exchanges, one can say that they are an appealing platform for investors, despite that they are mostly unregulated. Unregulated investment platforms attract scammers who organize various price manipulation schemes like \acp{pd}, and this have become troublesome on exchanges as the scammers produce in total \$$7$ million in daily trading volume.
+Since the emergence of cryptocurrencies, exchanges have and still play a central role in the cryptocurrency ecosystem. With over $99\%$ of all trades happening on exchanges, one can say that they are an appealing platform for investors despite that they are mostly unregulated. Unregulated investment platforms attract scammers who organize various price manipulation schemes like \acp{pd}, and this have become troublesome on exchanges as the scammers produce in total \$$7$ million in daily trading volume.
 
-Our objective in this thesis was to detect \acp{pd} in real-time by using deep learning, and we did so by defining the system \project. We modeled it like a \ac{ml} pipeline, where the first stage collected data from Binance, CoinMarketCap, and aggregated data from multiple exchanges. then, with the collected data we defined a new dataset by cleaning it and engineering new features of it. To label our dataset we used an anomaly detection algorithm to pinpoint \acp{pd}, and to reduce the occurrences of false \acp{pd} we manually removed them. With a labeled dataset, we normalized it, and trained a \ac{lstm} network.
+Our thesis statement was to detect \acp{pd} in real-time by using deep learning, and we did so by designing and implementing \project. We modeled it like a \ac{ml} pipeline, where the first stage collected data from Binance, CoinMarketCap, and aggregated data from Ccxt. Then, with the collected data we defined a new dataset by cleaning and engineering new features of it. To label our dataset we used an anomaly detection algorithm to pinpoint \acp{pd}, and to reduce the occurrences of false \acp{pd} we manually removed them. With a labeled dataset, we normalized it, and trained a \ac{lstm} network.
 
 To train our \ac{lstm} network, we collected data over a period of $33$ days resulting in total \SI{47}{\giga\byte} of data. The anomaly detection algorithm pinpointed $280$ anomalies over the period we collected data, and from these anomalies we removed $80$ false \acp{pd}. The \ac{lstm} network we trained has an accuracy of $97.82\%$ and an \ac{auc} of $0.979$.
 
 \section{Contributions}
-We published two packages on PyPi,  \texttt{CoinMarketCapAPI} and \texttt{timeseries}, the former to extract data from the cryptocurrency tracking site CoinMarketCap, and the latter to work with time series data. Both modules can be easily installed with PyPi's package install pip. There is written uni tests for both modules, and integration tests for the CoinMarketCapAPI module as this module required multiple classes to cooperate. We use the module \texttt{pytest}, a testing framework in Python, to execute all the tests and calculate the percentage of code that was covered. In the timeseries package, we were able to cover $100\%$ of the module, while in the CoinMarketCapAPI, we were able to cover $86\%$. The following tables show code statistics regarding \project, CoinMarketCapAPI, and timeseries.
+We published two packages on PyPi, \texttt{CoinMarketCapAPI} and \texttt{timeseries}. The former extracts data from the cryptocurrency tracking site CoinMarketCap, and the latter works with time series data. Both modules can be easily installed with PyPi's package install pip. There are unit tests for both modules, and integration tests for the CoinMarketCapAPI module as this module have multiple dependencies. We used \texttt{pytest}, a testing framework in Python, to execute all the tests and calculate the percentage of code that was covered. In the timeseries package, we were able to cover $100\%$ of the module, while in the CoinMarketCapAPI, we were able to cover $86\%$. The following tables show code statistics regarding \project, CoinMarketCapAPI, and timeseries.
 
 The following tables shows lines of code in each project, and it was calculated by using a tool called \texttt{loc}. Noticeably, docstrings in Python is counted as code lines and not as a comments.
 
@@ -25,7 +25,7 @@ The following tables shows lines of code in each project, and it was calculated 
         Text        & $\numprint{1}$    & $\numprint{3}$    & $\numprint{0}$    & $\numprint{0}$    & $\numprint{3}$    \\\hline
         Sum         & $\numprint{16}$   & $\numprint{2517}$ & $\numprint{420}$  & $\numprint{26}$   & $\numprint{2071}$ \\\hline
         \end{tabularx}
-        \caption{Lines of code - CoinMarketCap}
+        \caption{Lines of code - CoinMarketCap module}
         \label{tab:cloc_coin}
 \end{table}
 
@@ -38,7 +38,7 @@ The following tables shows lines of code in each project, and it was calculated 
         Makefile    & $\numprint{1}$    & $\numprint{29}$   & $\numprint{8}$    & $\numprint{0}$    & $\numprint{21}$   \\\hline
         Sum         & $\numprint{7}$    & $\numprint{284}$  & $\numprint{69}$   & $\numprint{6}$    & $\numprint{209}$  \\\hline
         \end{tabularx}
-        \caption{Lines of code - Timeseries}
+        \caption{Lines of code - Timeseries module}
         \label{tab:cloc_timeseries}
 \end{table}
 
@@ -58,19 +58,23 @@ The following tables shows lines of code in each project, and it was calculated 
 \end{table}
 
 \subsubsection{Dataset}
-The first of the two following datasets contains raw data that are directly extracted from Binance, CoinMarketCap, and aggregated data from multiple sources, and is available at \url{https://bit.ly/2Wpkfws}. The second dataset, the one we used to train our \ac{lstm} network and produce the presented results, is available at \url{https://bit.ly/2Ex0GYJ}. Hopefully, these two datasets becomes useful for researchers that also seeks to detect this fraudulent scheme.
+Another notable contribution is the two datasets we have produced during the thesis. The first dataset contains raw data that are directly extracted from Binance, CoinMarketCap, and aggregated data from multiple sources, and is available at \url{https://bit.ly/2Wpkfws}. The second dataset, the one we used to train our \ac{lstm} network and produce the presented results, is available at \url{https://bit.ly/2Ex0GYJ}. Hopefully, these two datasets becomes useful for researchers that also seeks to detect \ac{pd} events.
 
 \section{Concluding Remark}
-Through designing, implementing, and evaluating \project, we prove that it is feasible to detect \acp{pd} in real-time using deep learning. With an accuracy of $97.82\%$ and disappointing precision of $0.2\%$, the model achieves high accuracy, but a low precision due to the imbalance of data. Besides creating \project, we implemented two other Python modules that we published on PyPI, and shared two datasets that can be further used in the detection of \acp{pd}.
+Through designing, implementing, and evaluating \project, we prove that it is feasible to detect \acp{pd} in real-time using deep learning. With an accuracy of almost $98\%$ the model achieves a very high accuracy. Unfortunately the imbalance in the datasets gives us a low precision of $0.2\%$, but the consequences of mispredicting is not necessarily negative.
+
+Besides creating \project, we implemented two other Python modules that we published on PyPI, and shared two datasets that can be further used in the detection of \acp{pd}.
 
 \section{Future Work}
 
 \subsubsection{Improvement Suggestions}
-Labeling \ac{pd} samples in the dataset, is and will remain problematic as long as we do not have any prior knowledge regarding whether a \ac{pd} actually happened or not. Optimally, knowing every \ac{pd} events that happen during the phase where \project collects data allows us to label the samples with a higher precision, which results in more accurate results. Hence, if some publish accurate and detailed \ac{pd} events, or if we improve the anomaly detection such that we get more accurate measures, then we can also be more precise when labeling samples.
+Labeling \ac{pd} samples in the dataset, is and will remain problematic as long as we do not have any prior knowledge regarding whether a \ac{pd} actually happened or not. Optimally, knowing every \ac{pd} event that happen during the phase where \project collects data allows us to label the samples with a higher precision, which results in more accurate results. Hence, if some publish accurate and detailed \ac{pd} events, or if we improve the anomaly detection such that we get more accurate measures, then we can also be more precise when labeling samples.
 
-In this thesis, \project only uses a few features among tens from CoinMarketCap. We only used those features we genuinely believe is useful in detecting \ac{pd}, but since this is not a problem that can be easily solved, so with more features may improve the performance of the model. Thus, we can utilize more data from CoinMarketCap in the future. The same terms can we apply to the cryptocurrency source that aggregate data from multiple sources, we can probably extract way more data from it, then just \ac{ohlc} values.
+In this thesis, \project only uses a few features from CoinMarketCap. We only used those features we genuinely believed is useful in detecting \ac{pd}. Since this is not a problem that can be easily solved, more features may improve the performance of the model. Thus, we can utilize more data from CoinMarketCap in the future. The same can be applied to the cryptocurrency source that aggregate data from multiple sources, we can probably extract more data from it than just \ac{ohlc} values.
 
-A typical preprocessing stage is to reduce the number of dimensions in the data, but because of the huge class imbalance and that samples are timeseries data, we have to be careful when reducing dimensions. A method that we believe is optimal when reducing dimensions is a method called backward selection.
+A typical preprocessing stage is to reduce the number of dimensions in the data. Because of the huge class imbalance and that samples are timeseries data, we have to be careful when reducing dimensions. A method that we believe is optimal when reducing dimensions is a method called backward selection.
 
 \subsubsection{Applications}
-We see a crossroad when it comes to usage of \project, either be ethical or unethical. Exchanges can be ethical in terms of preventing \acp{pd} by allowing \project to detect them in real-time and punish or blacklist those investors that participate them. Such that their investors are buying and selling assets on the same terms. Instead of a few investors deceive others and profit well. Investors can both be ethical or unethical. They can decide to participate in \acp{pd} by buying assets early in the \ac{pd} and sell when the coin peak, however, this requires \project to detect them very early in order to profit from this technique. Investors can also use \project ethically by preventing investing when a \ac{pd} occurs, such that they do not lose any assets, but not profiting from it either.
+We see a crossroad when it comes to usage of \project, either be ethical or unethical. Exchanges can be ethical in terms of preventing \acp{pd} by allowing \project to detect them in real-time and punish or blacklist those investors that participate them. Such that their investors are buying and selling assets on the same terms, instead of a few investors deceiving others and profit from them. 
+
+Investors can both be ethical or unethical. They can decide to participate in \acp{pd} by buying assets early in the \ac{pd} and sell when the coin peak, however, this requires \project to detect them very early in order to profit from this technique. Investors can also use \project ethically by preventing investing when a \ac{pd} occurs, such that they do not lose any assets, but not profiting from it either.
